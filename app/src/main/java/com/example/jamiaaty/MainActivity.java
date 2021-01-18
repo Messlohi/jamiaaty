@@ -21,20 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button LogOut_btn;
-    FirebaseAuth mAuth;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -46,29 +34,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LogOut_btn = findViewById(R.id.buttonLogout);
-        mAuth = FirebaseAuth.getInstance();
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNav);
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Fragment1()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Fragment4()).commit();
 
-        LogOut_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(isNetworkAvailable()){
-                    mAuth.signOut();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    Toast.makeText(MainActivity.this,"Connection error",Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
 
     }
 

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.jamiaaty"
-        minSdkVersion 27
+        minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.0.1'
     implementation 'com.google.firebase:firebase-storage:19.2.1'
     implementation 'com.google.firebase:firebase-database:19.6.0'
+    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.10.8'
+
 
     //noinspection GradleCompatible
     implementation 'com.android.support:cardview-v7:28.0.0'

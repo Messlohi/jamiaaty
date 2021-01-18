@@ -74,7 +74,8 @@
                     android:id="@+id/iv_f1"
                     android:background="@drawable/ic_baseline_person_24"
                     android:clickable="true"
-                    android:scaleType="fitCenter"/>
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
 
             </androidx.cardview.widget.CardView>
 
