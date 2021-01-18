@@ -88,6 +88,7 @@ public class CreateProfile extends AppCompatActivity {
             }
         });
 
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,69 +115,85 @@ public class CreateProfile extends AppCompatActivity {
         }
     }
 
+
     private  String getFileExtention(Uri uri){
+            if( uri == null) return  "";
             ContentResolver contentResolver = getContentResolver();
             MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
             return  mimeTypeMap.getExtensionFromMimeType((contentResolver.getType(uri)));
     }
 
+
     private void uploadData() {
+
         String name = etname.getText().toString();
         String bio = etBio.getText().toString();
         String email = etEmail.getText().toString();
         String prof = etProfession.getText().toString();
         String web = etWeb.getText().toString();
+
         if(!TextUtils.isEmpty(name) ||!TextUtils.isEmpty(bio) ||!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(prof) ||!TextUtils.isEmpty(web) ){
             progressBar.setVisibility(View.VISIBLE);
-            final StorageReference reference = storageReference.child(System.currentTimeMillis()+"."+getFileExtention(imageUri));
-            uploadTask = reference.putFile(imageUri);
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if(!task.isSuccessful()){
-                        throw  task.getException();
-                    }
-                    return reference.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()){
-                        Uri dowloadUri = task.getResult();
-                        Map<String,String> profile  = new HashMap<>();
-                        profile.put("name",name);
-                        profile.put("prof",prof);
-                        profile.put("email",email);
-                        profile.put("uid",currentUserId);
-                        profile.put("web",web);
-                        profile.put("bio",bio);
-                        profile.put("url",dowloadUri.toString());
-                        profile.put("privacy","Public");
+            Map<String, String> profile = new HashMap<>();
+            if(imageUri != null) {
+                final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(imageUri));
+                uploadTask = reference.putFile(imageUri);
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
 
-                        member.setName(name);
-                        member.setProf(prof);
-                        member.setUid(currentUserId);
-                        member.setUrl(dowloadUri.toString());
-
-                        databaseReference.child(currentUserId).setValue(member);
-                        documentReference.set(profile)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(CreateProfile.this,"Profile Created", Toast.LENGTH_SHORT).show();
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                       finish();
-                                    }
-                                },2000);
-                            }
-                        });
+                            throw task.getException();
+                        }
+                        return reference.getDownloadUrl();
                     }
-                }
-            });
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri dowloadUri = task.getResult();
+                            member.setUrl(dowloadUri.toString());
+                            profile.put("url", dowloadUri.toString());
+
+
+                        }
+                    }
+                });
+            }else {
+                profile.put("url", "https://firebasestorage.googleapis.com/v0/b/jamiaaty-d198e.appspot.com/o/person.png?alt=media&token=3401f2b7-2ad9-4dde-9831-4e1d89ba0b78");
+                member.setUrl("https://firebasestorage.googleapis.com/v0/b/jamiaaty-d198e.appspot.com/o/person.png?alt=media&token=3401f2b7-2ad9-4dde-9831-4e1d89ba0b78");
+            }
+
+            profile.put("name", name);
+            profile.put("prof", prof);
+            profile.put("email", email);
+            profile.put("uid", currentUserId);
+            profile.put("web", web);
+            profile.put("bio", bio);
+            profile.put("privacy", "Public");
+
+
+            member.setName(name);
+            member.setProf(prof);
+            member.setUid(currentUserId);
+
+
+            databaseReference.child(currentUserId).setValue(member);
+            documentReference.set(profile)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 2000);
+                        }
+                    });
 
         }else{
             Toast.makeText(getApplicationContext(), "Please fill all Fields", Toast.LENGTH_SHORT).show();
