@@ -75,6 +75,7 @@ public class frag_ModuleList extends Fragment {
         btnBookmarks=root.findViewById(R.id.btnBookmarks);
         rv=root.findViewById(R.id.coursRV);
         swipeContainer = root.findViewById(R.id.swipe_container);
+        Toast.makeText(root.getContext(), "frag_ModuleList called", Toast.LENGTH_SHORT).show();
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -110,6 +111,7 @@ public class frag_ModuleList extends Fragment {
         startActivity(intent);
     }
     public void refrechData() {
+        Toast.makeText(root.getContext(), "frag_ModuleList fetching...", Toast.LENGTH_SHORT).show();
         if (!isNetworkAvailable() ) {
             errormsg.setVisibility(View.VISIBLE);
             // rv.setBackgroundColor(Color.rgb(247, 247, 247));
@@ -125,6 +127,8 @@ public class frag_ModuleList extends Fragment {
         }
         try {
             myRef = database.getReference("Modules");
+
+            Toast.makeText(root.getContext(), "frag_ModuleList fetching..."+myRef.getKey(), Toast.LENGTH_SHORT).show();
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) { //Log.i("moduleeee","size:  "+ dataSnapshot.child("0").child("name").getValue());

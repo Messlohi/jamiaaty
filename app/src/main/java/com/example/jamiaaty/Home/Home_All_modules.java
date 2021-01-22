@@ -89,7 +89,6 @@ public class Home_All_modules extends AppCompatActivity /*implements SwipeRefres
             rv.setVisibility(View.VISIBLE);
         }
         try {
-
             myRef = database.getReference("Modules");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -98,7 +97,7 @@ public class Home_All_modules extends AppCompatActivity /*implements SwipeRefres
                     for (DataSnapshot elem: dataSnapshot.getChildren()) {
                         Module module=elem.getValue(Module.class);
                         modules.add(module);
-                        // Log.i("moduleeee","\nsize:  "+ module.name+"\n "+module.description+"\n "+module.key+"\n "+module.imgLink);
+                         Log.i("moduleeee","\nsize:  "+ module.name+"\n "+module.description+"\n "+module.key+"\n "+module.imgLink);
                     }loading.dismiss();
                     RecyclerView recyclerView = findViewById(R.id.coursRV);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
