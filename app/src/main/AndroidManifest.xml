@@ -15,6 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jamiaaty">
+        <activity android:name="com.example.jamiaaty.Home.Module_pack.ac_downloaded_modules"></activity>
+        <activity android:name="com.example.jamiaaty.Home.Module_pack.bookmarks_Modules" />
+        <activity android:name=".Home.Support_pack.view_pdf_support" />
+        <activity
+            android:name="com.example.jamiaaty.Home.Module_pack.module_supports"
+            android:label="@string/title_activity_module"
+            android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
             android:name=".ChatActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
