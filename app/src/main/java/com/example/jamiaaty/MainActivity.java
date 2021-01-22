@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.jamiaaty.Home.module_fragments.frag_ModuleList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     selected = new Fragment4();
                     break;
                 case  R.id.support_bottom :
-                    selected = new SupportFragment();
+                    selected = new frag_ModuleList();
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selected).commit();

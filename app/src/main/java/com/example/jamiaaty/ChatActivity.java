@@ -2,6 +2,8 @@ package com.example.jamiaaty;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -22,7 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -37,6 +41,9 @@ public class ChatActivity extends AppCompatActivity {
     String receiverId,receiverName,receiverUrl,senderName,senderUrl;
     DatabaseReference conversationRef,AllUserRef,chatRef;
     String chatKey = "";
+    messageChatAdapter chatAdapter;
+    List<chatMessageModel> listMessages = new ArrayList<>();
+    List<Boolean> isSenderList = new ArrayList<>();
 
 
     @Override
@@ -56,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
         AllUserRef = database.getReference("All Users");
         chatRef = database.getReference("chat");
 
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
 
         AllUserRef.child(currentUser).addValueEventListener(new ValueEventListener() {
             @Override
@@ -65,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
                     senderName = memeber.getName();
                     senderUrl = memeber.getUrl();
                 }
-                if(senderUrl != ""){
+                if(!senderUrl.equals("")){
                     Picasso.get().load(senderUrl).into(senderIV);
                 }
                 nameReceiverrTV.setText(receiverName);
@@ -89,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
             return;
         }
 
-        if(receiverUrl !=""){
+        if(!receiverUrl.equals("")){
             Picasso.get().load(receiverUrl).into(receiverIV);
         }
 
@@ -98,23 +108,48 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chatMessageModel model = new chatMessageModel();
-                Calendar cdate = Calendar.getInstance();
-                SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
-                final  String savedate = currentdate.format(cdate.getTime());
+
 
                 Calendar ctime = Calendar.getInstance();
                 SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
                 final String savetime = currenttime.format(ctime.getTime());
 
-                final String time = savedate +":"+ savetime;
-                if(!sendMessageET.getText().toString().trim().equals("")){
+                final String time =  savetime;
+                if(!sendMessageET.getText().toString().equals("")){
                     model.setMessage(sendMessageET.getText().toString().trim());
                     model.setIdReceivevr(receiverId);
                     model.setIdSender(currentUser);
                     model.setTime(time);
-                    sendMessageET.setText("");
                     chatRef.child(chatKey).push().setValue(model);
                 }
+                sendMessageET.setText("");
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()+1);
+
+            }
+        });
+
+        chatRef.child(chatKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    listMessages.clear();
+                    isSenderList.clear();
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        chatMessageModel model = item.getValue(chatMessageModel.class);
+                        if(currentUser.equals(model.getIdSender())){
+                            isSenderList.add(true);
+                        }else {
+                            isSenderList.add(false);
+                        }
+                        listMessages.add(model);
+                    }
+                    chatAdapter = new messageChatAdapter(getApplicationContext(),listMessages,isSenderList);
+                    recyclerView.setAdapter(chatAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

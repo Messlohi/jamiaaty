@@ -188,7 +188,7 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 
 
         public  void  setUser(String name, String prof, String uid, String url){
-            if(url !=""){
+            if(!url.equals("")){
                 Picasso.get().load(url).into(imageViewProfile);
             }
             tv_prof.setText(prof);
