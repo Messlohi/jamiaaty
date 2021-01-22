@@ -7,30 +7,31 @@
         app:showAsAction="always"
         android:id="@+id/home_bottom"
         />
-
-    <item android:title="Profile"
-        android:icon="@drawable/ic_baseline_person_24"
+    <item android:title="Télecahrgement"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="always"
-        android:id="@+id/profile_bottom"
-        />
-    <item android:title="Ask"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_rate_review_24"
+        android:icon="@drawable/ic_arrow_down"
         android:id="@+id/ask_bottom"
         />
+
     <item android:title="Request"
         android:icon="@drawable/ic_baseline_queue_24"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="always"
         android:id="@+id/queue_bottom"
         />
+
     <item android:title="Support"
         android:icon="@drawable/ic_baseline_queue_24"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="always"
         android:id="@+id/support_bottom"
+        />
+    <item android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="always"
+        android:id="@+id/profile_bottom"
         />
 
 </menu>

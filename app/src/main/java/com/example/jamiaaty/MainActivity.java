@@ -47,12 +47,15 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.profile_bottom:
                     selected = new Fragment1();
                     break;
+                //Fragment For donwloads
                 case R.id.ask_bottom:
-                    selected = new Fragment2();
+                    selected = new Fragment1();
                     break;
+                //-------------
                 case R.id.queue_bottom:
                     selected = new Fragment3();
                     break;
+
                 case R.id.home_bottom:
                     selected = new Fragment4();
                     break;
