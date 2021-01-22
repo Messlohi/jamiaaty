@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginVertical="1dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="0sp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/module_card"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginBottom="1dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_marginBottom="660dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <TextView
+                android:id="@+id/module_name"
+                android:layout_width="235dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="59dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto"
+                android:text="Physique 1"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="59dp" />
+
+            <ImageView
+                android:id="@+id/module_img"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/immmg" />
+
+            <TextView
+                android:id="@+id/module_size"
+                android:layout_width="178dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="60dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:lines="1"
+                android:text="3 cours, 5 TDs, 4 TPs , 4 Examens"
+                android:textSize="12sp" />
+
+            <ImageButton
+                android:id="@+id/BtnBookmark"
+                android:layout_width="36dp"
+                android:layout_height="33dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="-3dp"
+                android:backgroundTint="#00000000"
+                app:srcCompat="@drawable/ic_bookmark_unchecked" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

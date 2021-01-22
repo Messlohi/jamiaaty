@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginVertical="1dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="0sp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/support_card"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="660dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageButton
+                android:id="@+id/btnViewPdf"
+                android:layout_width="39dp"
+                android:layout_height="36dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="#00000000"
+                app:srcCompat="@drawable/ic_preview" />
+
+            <TextView
+                android:id="@+id/support_name"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Physique 1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="59dp" />
+
+            <ImageView
+                android:id="@+id/support_img"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/immmg"
+                app:srcCompat="@drawable/ic_baseline_picture_as_pdf_24" />
+
+            <TextView
+                android:id="@+id/support_size"
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="51dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="1.5 MB"
+                android:textSize="11sp" />
+
+            <ImageButton
+                android:id="@+id/BtnDownload"
+                android:layout_width="39dp"
+                android:layout_height="36dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="0dp"
+                android:backgroundTint="#00000000"
+                app:srcCompat="@drawable/ic_download" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

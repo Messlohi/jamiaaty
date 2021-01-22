@@ -129,15 +129,13 @@ public class ChatActivity extends AppCompatActivity {
                 if(!snapshot.hasChild(chatKey)){
                     chatRef.child(chatKey).setValue(true);
                 }else {
-                    /*
                     chatMessageModel model = snapshot.getValue(chatMessageModel.class);
-                    if(model != null){
-                        AllUserRef.child(currentUser).child("chatkeys").addValueEventListener(new ValueEventListener() {
+                        AllUserRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(!snapshot.hasChild(chatKey)){
-                                    AllUserRef.child(currentUser).child("chatKeys").push().setValue(chatKey);
-                                    AllUserRef.child(receiverId).child("chatKeys").push().setValue(chatKey);
+                                    AllUserRef.child(currentUser).child("chatKeys").child(chatKey).setValue(true);
+                                    AllUserRef.child(receiverId).child("chatKeys").child(chatKey).setValue(true);
                                 }
                             }
                             @Override
@@ -145,12 +143,7 @@ public class ChatActivity extends AppCompatActivity {
 
                             }
                         });
-
-                    }
-
-                     */
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
