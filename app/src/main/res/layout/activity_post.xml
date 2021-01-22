@@ -4,71 +4,312 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+
+    android:background="@android:color/white"
     tools:context=".PostActivity">
 
-    <VideoView
-        android:id="@+id/vv_post"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:visibility="visible"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/iv_post"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <Button
-        android:id="@+id/btn_choosefile_post"
-        android:layout_width="200dp"
-        android:layout_height="35dp"
-        android:background="@drawable/button_back"
-        android:text="choose any file"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/et_desc_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vv_post" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white">
 
-    <EditText
-        android:id="@+id/et_desc_post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/red"
-        android:hint="Description"
-        android:paddingStart="10dp"
-        android:textColor="@color/red"
-        android:textColorHint="@color/red"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_uploadfile_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_choosefile_post" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_uploadfile_post"
-        android:layout_width="159dp"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/button_back"
-        android:text="UPLOAD"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/pb_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_desc_post"
-        app:layout_constraintVertical_bias="0.831" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardCornerRadius="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:elevation="8dp"
+                    app:cardElevation="10dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contextClickable="true"
+                        android:id="@+id/iv_userProfile_Createpost_item"
+                        android:background="@drawable/ic_baseline_person_24"
+                        android:clickable="true"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"/>
+
+                </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:hint="name"
+                        android:textSize="15sp"
+                        android:id="@+id/tv_name_Creatpost"
+                        android:paddingStart="5dp"/>
+
+
+
+
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/btn_uploadfile_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Publier"
+                        android:background="@drawable/button_back"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.912"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_mainBody_post"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:visibility="visible">
+
+
+            <VideoView
+                android:id="@+id/vv_post"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints" />
+
+
+            <ImageView
+                android:id="@+id/iv_post"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints" />
+
+
+            <ImageButton
+                android:id="@+id/ib_closeImage_createProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_close_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.021"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/et_postBody_cretePost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:gravity="start"
+                android:hint="Que Voulez-vous publier ?"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_uplodSuport_post_item"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <EditText
+                android:id="@+id/et_titre_uploadSupport_post"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:hint="title"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+
+            <EditText
+                android:id="@+id/et_body_uploadSupport_post"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:hint="Description"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center_vertical"
+                            app:cardPreventCornerOverlap="false">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/ic_file"
+                                android:clickable="true"
+                                android:scaleType="fitXY" />
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_closeSupport_createProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:background="@drawable/ic_baseline_close_24"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.021" />
+
+                        <TextView
+                            android:id="@+id/tv_name_uplodSuport_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="titre"
+                            android:paddingStart="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dp"
+                            android:gravity="center_vertical|right"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_desc_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btn_uploadfile_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_choosefile_post" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_media"
+                android:text="Photo/Vidéo"
+                android:clickable="true"
+                android:id="@+id/btn_choosefile_post"
+                android:drawablePadding="10dp"
+                android:padding="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_file"
+                android:text="Support(pdf,docx,pptx,txt)"
+                android:id="@+id/btn_chooseSupport_post"
+                android:clickable="true"
+                android:drawablePadding="10dp"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_post"
@@ -81,4 +322,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.926" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

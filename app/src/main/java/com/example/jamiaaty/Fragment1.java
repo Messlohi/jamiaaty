@@ -53,7 +53,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         imageButtonMenu = getActivity().findViewById(R.id.ib_menu_f1);
 
 
-        imageButtonMenu.setOnClickListener(this);
+       imageButtonMenu.setOnClickListener(this);
         imageButtonEdit.setOnClickListener(this);
         imageView.setOnClickListener(this);
         webEt.setOnClickListener(this);
@@ -115,7 +115,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 String webResult = task.getResult().getString("web");
                                 String privacyResult = task.getResult().getString("privacy");
                                 String urlResult = task.getResult().getString("url");
-                                if(urlResult !=null || urlResult!=""){
+                                if(urlResult != ""){
                                     Picasso.get().load(urlResult).into(imageView);
                                 }
                                 nameEt.setText(nameResult);
@@ -131,6 +131,9 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             }
                         }
                     });
+        }else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
         }
 
     }

@@ -7,6 +7,25 @@
     android:padding="10dp"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_search_post"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_searchbar_backgtound"
+            android:hint="Chercher ici..."
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingStart="10dp" />
+
+
+
+    </LinearLayout>
+
 
     <Button
         android:layout_width="150dp"
@@ -20,12 +39,13 @@
         android:layout_margin="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_posts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="3dp"
-        android:id="@+id/rv_posts">
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:layout_margin="3dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-
 </LinearLayout>
+

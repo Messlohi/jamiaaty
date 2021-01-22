@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +37,9 @@ import com.squareup.picasso.Picasso;
 
 import android.os.Bundle;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class ReplyActivity extends AppCompatActivity {
 
 
@@ -47,6 +53,7 @@ public class ReplyActivity extends AppCompatActivity {
     DatabaseReference Allquetions,voteRef;
     String currentuid="";
     Boolean voted = false;
+    String url, name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,7 @@ public class ReplyActivity extends AppCompatActivity {
             Allquetions = database.getReference("All Questions").child(post_key).child("Answer");
             voteRef = database.getReference("votes").child(post_key);
 
+
             reference = db.collection("user").document(uid);
             reference2 = db.collection("user").document(currentuid);
 
@@ -87,20 +95,61 @@ public class ReplyActivity extends AppCompatActivity {
 
 
 
-
         tvreply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReplyActivity.this,AnswerPost.class);
-                intent.putExtra("uid",uid);
-                intent.putExtra("q",question);
-                intent.putExtra("postkey",post_key);
-                // intent.putExtra("key",privacy);
-                startActivity(intent);
-            }
+
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ReplyActivity.this,R.style.BottomSheetTheme);
+                View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_comment_post,(ViewGroup) findViewById(R.id.ll_bottomsheet_commentPost));
+
+                EditText comment = sheetView.findViewById(R.id.commentFeild_for_post);
+                ImageButton submitMessage = sheetView.findViewById((R.id.ib_send_commentFeild_for_post));
+                submitMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AnswerMember member = new AnswerMember();
+                        if(comment.getText().toString().trim().equals("")){
+                            return;
+                        }
+                        if(!comment.getText().toString().trim().equals("")){
+                            Calendar cdate = Calendar.getInstance();
+                            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                            final String savedate = currentDate.format(cdate.getTime());
+
+                            Calendar ctime = Calendar.getInstance();
+                            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+                            final String savetime = currentTime.format(ctime.getTime());
+
+                            String time = savedate +":"+ savetime;
+                            member.setTime(time);
+                            member.setName(name);
+                            member.setUid(uid);
+                            member.setAnswer(comment.getText().toString());
+                            member.setUrl(url);
+
+
+                            String id = Allquetions.push().getKey();
+                            Allquetions.child(id).setValue(member);
+                            submitMessage.setEnabled(false);
+                            Toast.makeText(ReplyActivity.this, "Submitted !" , Toast.LENGTH_SHORT).show();
+                            bottomSheetDialog.dismiss();
+
+                        }else {
+                            Toast.makeText(ReplyActivity.this, "Write an answer First !" , Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+                bottomSheetDialog.setContentView(sheetView);
+                bottomSheetDialog.show();
+
+             }
         });
 
     }
+
+
 
     @Override
     protected void onStart() {
@@ -114,8 +163,8 @@ public class ReplyActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             try {
                                 if(task.getResult().exists()){
-                                    String url = task.getResult().getString("url");
-                                    String name = task.getResult().getString("name");
+                                  String   url = task.getResult().getString("url");
+                                  String  name = task.getResult().getString("name");
                                     Picasso.get().load(url).into(imageViewQue);
                                     questiontv.setText(question);
                                     nametv.setText(name);
@@ -137,7 +186,8 @@ public class ReplyActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         try {
                             if(task.getResult().exists()){
-                                String url = task.getResult().getString("url");
+                                url = task.getResult().getString("url");
+                                name = task.getResult().getString("name");
                                 Picasso.get().load(url).into(imageViewUser);
                             }
                         }
@@ -165,7 +215,7 @@ public class ReplyActivity extends AppCompatActivity {
 
                         @Override
                         protected void onBindViewHolder(@NonNull AnswerViewHolder holder, int position, @NonNull AnswerMember model) {
-                            holder.setAnswer(getApplication(),model.getAnswer(),model.getName(),model.getUid(),model.getTime(),model.getUrl());
+                            holder.setAnswer(getApplication(),model.getName(),model.getAnswer().trim(),model.getUid(),model.getTime(),model.getUrl());
                             final String replyKey = getRef(position).getKey();
                             holder.UpvoteChecker(post_key,replyKey);
                             holder.upvoteTv.setOnClickListener(new View.OnClickListener() {

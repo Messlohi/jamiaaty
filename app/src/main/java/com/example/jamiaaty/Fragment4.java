@@ -1,5 +1,6 @@
 package com.example.jamiaaty;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.ClipData;
@@ -7,18 +8,28 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,29 +37,43 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Fragment4 extends Fragment {
 
     Button btn_createPost;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference,likeRef,db1,db2;
+    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef;
+    EditText searchFeild;
+    String textToSearch ="";
     Boolean likecheker = false;
     String currentUser ="";
+    Boolean fvrtChekcker = false;
+    View itemview;
+    FirebaseRecyclerOptions<PostMember> options;
+    FirebaseRecyclerAdapter<PostMember, PostViewHolder> firebaseRecyclerAdapter;
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment4,container,false);
+        this.itemview = view;
         return  view;
     }
 
@@ -57,10 +82,14 @@ public class Fragment4 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null){
-            currentUser =user.getUid();
+        if (user != null) {
+            currentUser = user.getUid();
+        }else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
         }
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
+        searchFeild = getActivity().findViewById(R.id.et_search_post);
 
         reference = database.getReference("All posts");
         likeRef = database.getReference("post likes");
@@ -70,26 +99,23 @@ public class Fragment4 extends Fragment {
 
         db1 = database.getReference("All images").child(currentUser);
         db2 = database.getReference("All videos").child(currentUser);
-
-
-
-        btn_createPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),PostActivity.class);
-                startActivity(intent);
-            }
-        });
+        db4 = database.getReference("All TextPosts").child(currentUser);
+        fvrtref = database.getReference("favourites_in_poste");
+        //Stocking the actual featured question
+        fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
 
         FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
-                .setQuery(reference,PostMember.class)
+                .setQuery(reference, PostMember.class)
                 .build();
-        FirebaseRecyclerAdapter<PostMember, PostViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<PostMember, PostViewHolder>(options){
+        firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<PostMember, PostViewHolder>(options) {
+
                     @NonNull
                     @Override
                     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout,parent,false);
+
+
+                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout, parent, false);
                         return new PostViewHolder(view);
 
                     }
@@ -98,10 +124,10 @@ public class Fragment4 extends Fragment {
                     protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull PostMember model) {
 
                         final String postKey = getRef(position).getKey();
-                        holder.setPost(getActivity(),model.getName(),model.getUrl(),model.getPostUri(),model.getTime(),model.getUid(),model.getType(),model.getDescription());
+                        holder.setPost(getActivity(), model.getName(), model.getUrl(), model.getPostUri(), model.getTime(), model.getUid(), model.getType(), model.getDescription(), model.getTitre());
 
 
-                        //String description = getItem(position).getDescription();
+                        String description = getItem(position).getDescription();
                         String type = getItem(position).getType();
                         String name = getItem(position).getName();
                         String url = getItem(position).getUrl();
@@ -110,14 +136,50 @@ public class Fragment4 extends Fragment {
                         String userid = getItem(position).getUid();
 
 
+                        holder.dowlnloadSupport.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    DownloadManager mgr = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                                    Uri downloadUri = Uri.parse(postUri);
+                                    DownloadManager.Request request = new DownloadManager.Request(
+                                            downloadUri);
+                                    request.setAllowedNetworkTypes(
+                                            DownloadManager.Request.NETWORK_WIFI
+                                                    | DownloadManager.Request.NETWORK_MOBILE)
+                                            .setAllowedOverRoaming(true).setTitle(model.getTitre())
+                                            .setDescription("Téléchargement de Support")
+                                            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, model.getTitre());
+                                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                    mgr.enqueue(request);
+                                    Toast.makeText(getActivity(), "Téléchargé avec succés ", Toast.LENGTH_SHORT).show();
 
+                                } catch (Exception e) {
+                                    Toast.makeText(getActivity(), "Donner la pérmission de stockage ", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+                        holder.commentbtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(),ReplyActivity.class);
+                                intent.putExtra("uid",userid);
+                                intent.putExtra("q",description);
+                                intent.putExtra("postkey",postKey);
+                                // intent.putExtra("key",privacy);
+                                startActivity(intent);
+                            }
+                        });
                         holder.menuoptions.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showDialog(name,url,time,userid,type,postUri,postKey);
+                                showDialog(name, url, time, userid, type, postUri, postKey,description);
                             }
                         });
+
                         holder.likeschecker(postKey);
+
                         holder.likebtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -126,10 +188,10 @@ public class Fragment4 extends Fragment {
                                 likeRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(likecheker.equals(true)){
-                                            if(snapshot.child(postKey).hasChild(currentUser)){
+                                        if (likecheker.equals(true)) {
+                                            if (snapshot.child(postKey).hasChild(currentUser)) {
                                                 likeRef.child(postKey).child(currentUser).removeValue();
-                                            }else {
+                                            } else {
                                                 likeRef.child(postKey).child(currentUser).setValue(true);
                                             }
                                             likecheker = false;
@@ -146,14 +208,159 @@ public class Fragment4 extends Fragment {
 
                             }
                         });
+
+                        holder.favouriteCheker(postKey);
+                        holder.favorie.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // this "fvrtCheker" to not enter in a loop(of onDataChange)
+                                fvrtChekcker = true;
+                                fvrtref.addValueEventListener(new ValueEventListener() {
+                                    PostMember postMember = new PostMember();
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (fvrtChekcker.equals(true)) {
+                                            if (snapshot.child(postKey).hasChild(currentUser)) {
+                                                fvrtref.child(postKey).child(currentUser).removeValue();
+                                                delete(time);
+                                                fvrtChekcker = false;
+                                            } else {
+                                                fvrtref.child(postKey).child(currentUser).setValue(true);
+
+                                                postMember.setTitre("");
+                                                postMember.setUrl(url);
+                                                postMember.setPostUri(postUri);
+                                                postMember.setName(name);
+                                                postMember.setType(type);
+                                                postMember.setDescription(description);
+                                                postMember.setTime(time);
+                                                postMember.setUid(userid);
+
+                                                fvrt_listRef.child(postKey).setValue(postMember);
+                                                fvrtChekcker = false;
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+
+
                     }
                 };
 
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
+
+        searchFeild.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+
+                }else {
+
+                }
+            }
+        });
+
+      searchFeild.addTextChangedListener(new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+          }
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(searchFeild.getText().toString().equals("")){
+                    FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
+                            .setQuery(reference, PostMember.class)
+                            .build();
+                    firebaseRecyclerAdapter.updateOptions(options);
+                    firebaseRecyclerAdapter.startListening();
+                    firebaseRecyclerAdapter.notifyDataSetChanged();
+                }
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {
+
+          }
+      });
+
+        searchFeild.setOnKeyListener(new View.OnKeyListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    textToSearch = searchFeild.getText().toString();
+                    firebaseSearchInPost();
+                   hideKeyboardFrom(getContext(),itemview);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+        btn_createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
-    private void showDialog(String name, String url, String time, String userid,String type,String postUri,String postKey) {
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+    }
+
+    private void firebaseSearchInPost(){
+
+        //+"\uf8ff")
+        if(!textToSearch.trim().equals("")){
+            Query refToSearch = reference.orderByChild("description").startAt(textToSearch.trim());
+            FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
+                    .setQuery(refToSearch, PostMember.class)
+                    .build();
+            firebaseRecyclerAdapter.updateOptions(options);
+            firebaseRecyclerAdapter.startListening();
+            firebaseRecyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void delete(String time) {
+        Query query = fvrt_listRef.orderByChild("time").equalTo(time);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    dataSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void showDialog(String name, String url, String time, String userid,String type,String postUri,String postKey,String description) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.post_options,null);
         TextView download = view.findViewById(R.id.dowload_tv_post);
@@ -172,38 +379,65 @@ public class Fragment4 extends Fragment {
         }else {
             delete.setVisibility(View.GONE);
         }
+        if(type.equals("text") || type.equals("support")){
+            download.setVisibility(View.GONE);
+        }else {
+            download.setVisibility(View.VISIBLE);
+        }
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Query query = db1;
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(postKey)){
-                            db1.child(postKey).removeValue();
+                if(type.equals("iv")){
+                    Query query = db1;
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild(postKey)){
+                                db1.child(postKey).removeValue();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-                Query query1 = db2;
-                query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(postKey)){
-                            db2.child(postKey).removeValue();
                         }
-                    }
+                    });
+                }
+                if(type.equals("vv")){
+                    Query query1 = db2;
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild(postKey)){
+                                db2.child(postKey).removeValue();
+                            }
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
+
+                if(type.equals("text")){
+                    Query query4 = db4;
+                    query4.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild(postKey)){
+                                db4.child(postKey).removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
                 Query query2 = reference;
                 query2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -218,6 +452,7 @@ public class Fragment4 extends Fragment {
 
                     }
                 });
+
                 Query query3 = likeRef;
                 query3.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -232,6 +467,16 @@ public class Fragment4 extends Fragment {
 
                     }
                 });
+                if(postUri != ""){
+                    StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(postUri);
+                    ref.delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getActivity(),"Post Supprimer",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
                 alertDialog.dismiss();
             }
         });
@@ -290,7 +535,12 @@ public class Fragment4 extends Fragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String sharetext = name +"\n"+ "\n" +url;
+                String sharetext ="";
+                if(type.equals("text")){
+                    sharetext = description +"\n"+ "\n" +"Post de:"+name+"\n"+"Photo de profile :"+url;
+                }else  {
+                    sharetext = "Contenu de post (Media):"+postUri +"\n" +"Post de:"+name+"\n"+"\n"+"Photo de profile :"+url;
+                }
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setType("text/plain");
@@ -315,14 +565,9 @@ public class Fragment4 extends Fragment {
             }
         });
 
-
-
-
-
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+
 }
+
+

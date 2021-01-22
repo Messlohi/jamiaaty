@@ -77,6 +77,9 @@ public class Fragment2 extends Fragment implements  View.OnClickListener {
             fvrtref = database.getReference("favourites_in_poste");
             //Stocking the actual featured question
             fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
+        }else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
         }
 
         fb.setOnClickListener(this);
@@ -184,8 +187,6 @@ public class Fragment2 extends Fragment implements  View.OnClickListener {
 
             }
         });
-
-
     }
 
 

@@ -5,4 +5,6 @@
     <string name="time">time</string>
     <string name="name">name</string>
     <string name="questions">questions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReplyActivity">
+    tools:context=".ChatActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -16,7 +16,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white">
+            app:cardBackgroundColor="@android:color/holo_red_light">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                         app:cardPreventCornerOverlap="false">
 
                         <ImageView
-                            android:id="@+id/iv_que_user"
+                            android:id="@+id/iv_receiver_chat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/ic_baseline_person_24"
@@ -58,12 +58,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/name_reply_tv"
+                        android:id="@+id/name_recevier_chat_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="name"
                         android:paddingStart="5dp"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@android:color/black"
 
                         android:textSize="10sp" />
 
@@ -106,35 +106,44 @@
             app:cardPreventCornerOverlap="false">
 
             <ImageView
-                android:id="@+id/iv_reply_user"
+                android:id="@+id/iv_currentUser_chat"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:background="@drawable/ic_baseline_person_24"
                 android:clickable="true"
-                android:adjustViewBounds="true"
                 android:scaleType="fitXY" />
 
         </androidx.cardview.widget.CardView>
 
 
-        <TextView
-            android:id="@+id/answer_tv"
+        <EditText
+            android:id="@+id/answer_disscussion_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_custom_reply"
             android:clickable="true"
             android:padding="7dp"
+            android:layout_weight="2"
             android:paddingStart="20dp"
-            android:text="Ajouter un commentaire.."
-            android:textColor="@android:color/darker_gray"
+            android:hint="Envoyer un message.."
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_send"
+            android:id="@+id/ib_send_message_chat"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_ans"
+        android:id="@+id/rv_disscussion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"

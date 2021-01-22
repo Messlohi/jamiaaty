@@ -146,14 +146,17 @@ public class BottomSheetMen extends BottomSheetDialogFragment implements  View.O
                                                 }
                                             });
                                             //Delete the Profile image from storage
-                                            StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-                                            ref.delete()
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            Toast.makeText(getActivity(),"Profile Succefuly delted",Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
+                                            if(url != ""){
+                                                StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                                                ref.delete()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(getActivity(),"Profile Succefuly delted",Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }
+
                                         }
                                     });
                     }

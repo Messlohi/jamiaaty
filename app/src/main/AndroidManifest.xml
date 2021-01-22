@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jamiaaty">
+
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,8 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jamiaaty">
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".AnswerPost" />
+        <activity
+            android:name=".ChatActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+            android:name=".PostActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".AnswerPost"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".ReplyActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
@@ -59,4 +67,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

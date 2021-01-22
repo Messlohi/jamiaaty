@@ -1,9 +1,9 @@
 package com.example.jamiaaty;
 
 public class PostMember {
-    String name, url ,postUri,time,uid,type,description,key_post;
+    String name, url ,postUri,time,uid,type,description,key_post,titre,dscLower,userToLower,titreToLower;
 
-    public PostMember(String name, String url, String postUri, String time, String uid, String type, String description) {
+    public PostMember(String name, String url, String postUri, String time, String uid, String type, String description,String titre,String dscLower) {
         this.name = name;
         this.url = url;
         this.postUri = postUri;
@@ -11,6 +11,40 @@ public class PostMember {
         this.uid = uid;
         this.type = type;
         this.description = description;
+        this.titre = titre;
+        this.dscLower = dscLower;
+    }
+
+    public String getUserToLower() {
+        return userToLower;
+    }
+
+    public void setUserToLower(String userToLower) {
+        this.userToLower = userToLower;
+    }
+
+    public String getTitreToLower() {
+        return titreToLower;
+    }
+
+    public void setTitreToLower(String titreToLower) {
+        this.titreToLower = titreToLower;
+    }
+
+    public String getDscLower() {
+        return dscLower;
+    }
+
+    public void setDscLower(String dscLower) {
+        this.dscLower = dscLower;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public String getKey_post() {

@@ -41,8 +41,9 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         replyToPoste = itemView.findViewById(R.id.reply_item_que);
 
 
-
-        Picasso.get().load(url).into(imageView);
+        if(url != ""){
+            Picasso.get().load(url).into(imageView);
+        }
         time_result.setText(time);
         name_result.setText(name);
         quesiton_result.setText(question);
@@ -82,7 +83,10 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         TextView questionRelated = itemView.findViewById(R.id.related_que_item_tv);
         replyBtn = itemView.findViewById(R.id.related_reply_item_que);
 
-        Picasso.get().load(url).into(imageViewRelated);
+        if(url != ""){
+            Picasso.get().load(url).into(imageViewRelated);
+
+        }
         timeRrelated.setText(time);
         nameRelated.setText(name);
         questionRelated.setText(question);
@@ -96,8 +100,9 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         TextView questionRelated = itemView.findViewById(R.id.userQuestions_que_item_tv);
         delteButton = itemView.findViewById(R.id.userQuestions_item_que);
 
-
-        Picasso.get().load(url).into(imageViewRelated);
+        if(url != ""){
+            Picasso.get().load(url).into(imageViewRelated);
+        }
         timeRrelated.setText(time);
         nameRelated.setText(name);
         questionRelated.setText(question);

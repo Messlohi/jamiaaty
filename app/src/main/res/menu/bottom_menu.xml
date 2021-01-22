@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="always"
+        android:id="@+id/home_bottom"
+        />
+
     <item android:title="Profile"
         android:icon="@drawable/ic_baseline_person_24"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,12 +26,11 @@
         app:showAsAction="always"
         android:id="@+id/queue_bottom"
         />
-    <item android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"
+    <item android:title="Support"
+        android:icon="@drawable/ic_baseline_queue_24"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="always"
-        android:id="@+id/home_bottom"
+        android:id="@+id/support_bottom"
         />
-
 
 </menu>

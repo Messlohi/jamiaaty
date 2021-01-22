@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.home_bottom:
                     selected = new Fragment4();
                     break;
+                case  R.id.support_bottom :
+                    selected = new SupportFragment();
+                    break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selected).commit();
             return true;

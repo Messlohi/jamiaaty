@@ -44,7 +44,7 @@ public class CreateProfile extends AppCompatActivity {
     ImageView imageView;
     ProgressBar progressBar;
 
-    Uri imageUri;
+    Uri imageUri = null;
     UploadTask uploadTask;
     StorageReference storageReference;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -123,6 +123,9 @@ public class CreateProfile extends AppCompatActivity {
             return  mimeTypeMap.getExtensionFromMimeType((contentResolver.getType(uri)));
     }
 
+    private  void saveObjectTofireBase(){
+
+    }
 
     private void uploadData() {
 
@@ -154,46 +157,76 @@ public class CreateProfile extends AppCompatActivity {
                             Uri dowloadUri = task.getResult();
                             member.setUrl(dowloadUri.toString());
                             profile.put("url", dowloadUri.toString());
+                            profile.put("name", name);
+                            profile.put("prof", prof);
+                            profile.put("email", email);
+                            profile.put("uid", currentUserId);
+                            profile.put("web", web);
+                            profile.put("bio", bio);
+                            profile.put("privacy", "Public");
 
+
+                            member.setName(name);
+                            member.setProf(prof);
+                            member.setUid(currentUserId);
+
+
+                            databaseReference.child(currentUserId).setValue(member);
+                            documentReference.set(profile)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            progressBar.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
+                                            Handler handler = new Handler();
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    finish();
+                                                }
+                                            }, 2000);
+                                        }
+                                    });
 
                         }
                     }
                 });
             }else {
-                profile.put("url", "https://firebasestorage.googleapis.com/v0/b/jamiaaty-d198e.appspot.com/o/person.png?alt=media&token=3401f2b7-2ad9-4dde-9831-4e1d89ba0b78");
-                member.setUrl("https://firebasestorage.googleapis.com/v0/b/jamiaaty-d198e.appspot.com/o/person.png?alt=media&token=3401f2b7-2ad9-4dde-9831-4e1d89ba0b78");
+                profile.put("url", "");
+                member.setUrl("");
+                profile.put("name", name);
+                profile.put("prof", prof);
+                profile.put("email", email);
+                profile.put("uid", currentUserId);
+                profile.put("web", web);
+                profile.put("bio", bio);
+                profile.put("privacy", "Public");
+
+
+                member.setName(name);
+                member.setProf(prof);
+                member.setUid(currentUserId);
+
+
+                databaseReference.child(currentUserId).setValue(member);
+                documentReference.set(profile)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                }, 2000);
+                            }
+                        });
             }
 
-            profile.put("name", name);
-            profile.put("prof", prof);
-            profile.put("email", email);
-            profile.put("uid", currentUserId);
-            profile.put("web", web);
-            profile.put("bio", bio);
-            profile.put("privacy", "Public");
 
-
-            member.setName(name);
-            member.setProf(prof);
-            member.setUid(currentUserId);
-
-
-            databaseReference.child(currentUserId).setValue(member);
-            documentReference.set(profile)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    finish();
-                                }
-                            }, 2000);
-                        }
-                    });
 
         }else{
             Toast.makeText(getApplicationContext(), "Please fill all Fields", Toast.LENGTH_SHORT).show();
