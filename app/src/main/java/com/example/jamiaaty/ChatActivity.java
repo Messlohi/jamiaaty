@@ -123,7 +123,6 @@ public class ChatActivity extends AppCompatActivity {
                     chatRef.child(chatKey).push().setValue(model);
                 }
                 sendMessageET.setText("");
-                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()+1);
 
             }
         });
@@ -144,6 +143,10 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     chatAdapter = new messageChatAdapter(getApplicationContext(),listMessages,isSenderList);
                     recyclerView.setAdapter(chatAdapter);
+                    if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
+                        recyclerView.smoothScrollToPosition(listMessages.size()-1);
+                    }
+
 
             }
 
