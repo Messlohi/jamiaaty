@@ -80,6 +80,7 @@
                 android:background="@drawable/custom_searchbar_backgtound"
                 android:hint="Chercher ici..."
                 android:lines="1"
+                android:layout_marginTop="5dp"
                 android:maxLines="1"
                 android:layout_weight="2"
                 android:paddingStart="10dp" />

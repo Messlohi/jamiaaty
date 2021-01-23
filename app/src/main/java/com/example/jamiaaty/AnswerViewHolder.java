@@ -42,7 +42,7 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
         timeTv = itemView.findViewById(R.id.tv_time_ans);
         ansTv = itemView.findViewById(R.id.tv_ans);
 
-        if(url != ""){
+        if(!url.equals("")){
             Picasso.get().load(url).into(imageProfile);
         }
         nameTv.setText(name);

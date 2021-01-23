@@ -347,7 +347,6 @@ public class Fragment4 extends Fragment {
         AllUsersRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final int[] count = {0};
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Log.d("key",ds.getKey()+"");
 
@@ -357,12 +356,11 @@ public class Fragment4 extends Fragment {
                             for(DataSnapshot dsa : snapshot.getChildren()){
                                 chatMessageModel  model = dsa.getValue(chatMessageModel.class);
                                 Log.d("model",model.getVu()+"");
-                                Toast.makeText(getActivity(),model.getVu()+"",Toast.LENGTH_LONG).show();
+
                                 if(model.getVu() == false){
-                                    count[0]++;
+
                                 }
                             }
-                            nonLuTv.setText(count[0] +"");
                         }
 
                         @Override
