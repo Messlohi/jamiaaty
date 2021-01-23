@@ -61,12 +61,13 @@
 
                 <TextView
                     android:id="@+id/tv_time_post"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="time"
                     android:paddingStart="5dp"
-                    android:textColor="@color/red"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
             </LinearLayout>
             <LinearLayout
@@ -74,13 +75,15 @@
                 android:layout_height="match_parent"
                 android:gravity="right"
                 android:orientation="horizontal">
+
                 <ImageButton
+                    android:id="@+id/morebutton_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:background="@android:color/transparent"
-                    android:id="@+id/fvrt_post_item"
-                    android:src="@drawable/ic_baseline_turned_in_not_24"
-                    android:padding="2dp"/>
+                    android:padding="5dp"
+                    android:src="@drawable/ic_moreoptions_post" />
             </LinearLayout>
         </LinearLayout>
 
@@ -238,24 +241,19 @@
                 android:padding="5dp"
                 android:src="@drawable/ic_comment" />
 
-            <ImageButton
-                android:id="@+id/morebutton_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"
-                android:padding="5dp"
-                android:src="@drawable/ic_moreoptions" />
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="end"
                 android:orientation="horizontal">
-
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/fvrt_post_item"
+                    android:src="@drawable/ic_baseline_turned_in_not_24"
+                    android:padding="2dp"/>
             </LinearLayout>
-
 
 
 
@@ -269,15 +267,24 @@
             android:hint="Likes"
             android:textColor="@color/black"
             android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_comment_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Comments"
+                android:paddingStart="5dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_comment_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Comments"
-            android:paddingStart="5dp"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="15sp" />
+
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
