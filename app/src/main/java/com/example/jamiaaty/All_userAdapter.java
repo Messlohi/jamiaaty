@@ -72,22 +72,17 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
     public void onBindViewHolder(@NonNull All_userViewHolder holder, int position) {
 
         All_UserMemeber model = listUser.get(position);
+        holder.checkFollow(model.getUid());
         holder.setUser(model.getName(),model.getProf(),model.getUid(),model.getUrl());
 
         String chatKey ="";
         holder.tv_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,ChatActivity.class);
-                intent.putExtra("rName",model.getName());
-                intent.putExtra("rUrl",model.getUrl());
-                intent.putExtra("rId",model.getUid());
-                intent.putExtra("chatKey",getChatKey(currentUserId,model.getUid()));
-                context.startActivity(intent);
+
             }
         });
         FollowMeList = database.getReference("All Users").child(model.getUid()).child("FollowMeList");
-        holder.checkFollow(model.getUid());
         holder.addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +94,17 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
             public void onClick(View v) {
                 handelFollow(model.getUid());
 
+            }
+        });
+        holder.messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ChatActivity.class);
+                intent.putExtra("rName",model.getName());
+                intent.putExtra("rUrl",model.getUrl());
+                intent.putExtra("rId",model.getUid());
+                intent.putExtra("chatKey",getChatKey(currentUserId,model.getUid()));
+                context.startActivity(intent);
             }
         });
     }
@@ -176,6 +182,7 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
         TextView tv_name,tv_prof;
         ImageButton addUser;
         TextView requestString;
+       ImageButton messageButton;
 
 
         public All_userViewHolder(@NonNull View itemView) {
@@ -185,6 +192,7 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
             imageViewProfile = itemView.findViewById(R.id.iv_imageProfile_usercard);
             addUser = itemView.findViewById(R.id.addFreind_userCard);
             requestString = itemView.findViewById(R.id.tv_relation_usercard);
+            messageButton = itemView.findViewById(R.id.messageTo_userCard);
         }
 
 
@@ -193,10 +201,10 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                 Picasso.get().load(url).into(imageViewProfile);
             }
 
-            Toast.makeText(context, url,Toast.LENGTH_LONG).show();
             tv_prof.setText(prof);
             tv_name.setText(name);
         }
+
 
         public  void checkFollow(String uid){
             IFollowRef.addValueEventListener(new ValueEventListener() {
@@ -204,9 +212,11 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.hasChild(uid)){
                         requestString.setText("Suivi");
+                        messageButton.setVisibility(View.VISIBLE);
                         addUser.setImageResource(R.drawable.ic_baseline_close_red);
                     }else{
                         requestString.setText("Suivre");
+                        messageButton.setVisibility(View.GONE);
                         addUser.setImageResource(R.drawable.ic_baseline_add_24);
 
                     }

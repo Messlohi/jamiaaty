@@ -1,5 +1,6 @@
 package com.example.jamiaaty;
 
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;

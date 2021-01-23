@@ -71,6 +71,16 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical|right">
 
+                <ImageButton
+                    android:id="@+id/messageTo_userCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@android:color/transparent"
+                    android:padding="2dp"
+                    android:src="@drawable/messager"
+                    android:visibility="gone" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

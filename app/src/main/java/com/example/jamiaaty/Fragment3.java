@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +37,7 @@ public class Fragment3 extends Fragment {
     All_userAdapter adapter;
     List<All_UserMemeber> listeUsers = new ArrayList<>();
     SearchView searchView;
+    ImageButton messageButton;
 
 
 
@@ -86,7 +87,7 @@ public class Fragment3 extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.trim().equals("")){
+                if(newText.isEmpty()){
                     fetchAllUsers();
                 }
                 return false;
@@ -94,6 +95,13 @@ public class Fragment3 extends Fragment {
         });
 
         return  view;
+    }
+
+    private  void showNoting(){
+        listeUsers.clear();
+        adapter = new All_userAdapter(getContext(),listeUsers);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     private  void fetchAllUsers(){
@@ -121,7 +129,7 @@ public class Fragment3 extends Fragment {
     }
 
     private  void searchUsers(String name){
-        allUserRef.orderByChild("nameTolower").startAt(name).addValueEventListener(new ValueEventListener() {
+        allUserRef.orderByChild("nameTolower").startAt(name).endAt(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listeUsers.clear();

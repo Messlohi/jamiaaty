@@ -18,8 +18,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
-
             <SearchView
                 android:id="@+id/et_search_post"
                 android:layout_width="250dp"
