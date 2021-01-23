@@ -113,9 +113,7 @@ public class Home_All_modules extends AppCompatActivity /*implements SwipeRefres
                         }
                         @Override
                         public boolean onQueryTextChange(String newText) {
-//              if (searchView.isExpanded() && TextUtils.isEmpty(newText)) {
                             callSearch(newText);
-//              }
                             return true;
                         }
 
@@ -124,7 +122,6 @@ public class Home_All_modules extends AppCompatActivity /*implements SwipeRefres
                             if(modules.size()<1) return;
                             adapter.search(query,modules);
                         }
-
                     });
                 }
                 @Override

@@ -146,7 +146,7 @@ public class BottomSheetMen extends BottomSheetDialogFragment implements  View.O
                                                 }
                                             });
                                             //Delete the Profile image from storage
-                                            if(url != ""){
+                                            if(!url.equals("")){
                                                 StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
                                                 ref.delete()
                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {

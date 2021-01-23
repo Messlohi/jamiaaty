@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bottomsheet_commentPost"
     android:background="@drawable/bottomsheet_commentpost_background"
     android:orientation="vertical"

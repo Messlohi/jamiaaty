@@ -1,9 +1,7 @@
 package com.example.jamiaaty;
 
-import android.app.Activity;
 import android.app.Application;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +39,7 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         replyToPoste = itemView.findViewById(R.id.reply_item_que);
 
 
-        if(url != ""){
+        if(!url.equals("")){
             Picasso.get().load(url).into(imageView);
         }
         time_result.setText(time);
@@ -83,7 +81,7 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         TextView questionRelated = itemView.findViewById(R.id.related_que_item_tv);
         replyBtn = itemView.findViewById(R.id.related_reply_item_que);
 
-        if(url != ""){
+        if(!url.equals("")){
             Picasso.get().load(url).into(imageViewRelated);
 
         }
@@ -100,7 +98,7 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         TextView questionRelated = itemView.findViewById(R.id.userQuestions_que_item_tv);
         delteButton = itemView.findViewById(R.id.userQuestions_item_que);
 
-        if(url != ""){
+        if(!url.equals("")){
             Picasso.get().load(url).into(imageViewRelated);
         }
         timeRrelated.setText(time);

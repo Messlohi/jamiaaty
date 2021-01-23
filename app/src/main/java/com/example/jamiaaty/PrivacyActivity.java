@@ -3,7 +3,6 @@ package com.example.jamiaaty;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,7 +94,7 @@ public class PrivacyActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onStart() {
         super.onStart();
-        if(currentUser != ""){
+        if(!currentUser.equals("")){
             reference.get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -121,10 +120,10 @@ public class PrivacyActivity extends AppCompatActivity implements AdapterView.On
 
         final String value = spinner.getSelectedItem().toString();
 
-        if(value == "Chose any one"){
+        if(value.equals("Chose any one")){
             Toast.makeText(getApplicationContext(),"Please Select a value",Toast.LENGTH_SHORT).show();
         }else {
-            if(currentUser !=""){
+            if(currentUser.equals("")){
 
                 db.runTransaction(new Transaction.Function<Void>() {
                     @Override

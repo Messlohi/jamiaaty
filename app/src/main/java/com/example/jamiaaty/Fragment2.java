@@ -192,7 +192,7 @@ public class Fragment2 extends Fragment implements  View.OnClickListener {
     public void onStart() {
         super.onStart();
 
-        if(currentUser != ""){
+        if(!currentUser.equals("")){
             reference.get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override

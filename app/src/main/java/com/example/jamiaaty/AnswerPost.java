@@ -70,7 +70,7 @@ public class AnswerPost extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(currentUser != "") {
+        if(currentUser.equals("")) {
             FirebaseFirestore  db = FirebaseFirestore.getInstance();
             DocumentReference reference ;
             reference = db.collection("user").document(currentUser);

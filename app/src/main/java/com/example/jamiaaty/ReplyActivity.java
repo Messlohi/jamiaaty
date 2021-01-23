@@ -153,7 +153,7 @@ public class ReplyActivity extends AppCompatActivity {
         super.onStart();
 
         //question user reference
-        if(currentuid != ""){
+        if(!currentuid.equals("")){
             reference.get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -196,7 +196,7 @@ public class ReplyActivity extends AppCompatActivity {
 
 
 
-        if(currentuid != ""){
+        if(!currentuid.equals("")){
             FirebaseRecyclerOptions<AnswerMember> options = new FirebaseRecyclerOptions.Builder<AnswerMember>()
                     .setQuery(Allquetions,AnswerMember.class)
                     .build();

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +44,8 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
         ansTv = itemView.findViewById(R.id.tv_ans);
 
         if(!url.equals("")){
-            Picasso.get().load(url).into(imageProfile);
+//            Picasso.get().load(url).into(imageProfile);
+            Glide.with(application).load(url).into(imageProfile);
         }
         nameTv.setText(name);
         timeTv.setText(time);

@@ -115,7 +115,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 String webResult = task.getResult().getString("web");
                                 String privacyResult = task.getResult().getString("privacy");
                                 String urlResult = task.getResult().getString("url");
-                                if(urlResult != ""){
+                                if(!urlResult.equals("")){
                                     Picasso.get().load(urlResult).into(imageView);
                                 }
                                 nameEt.setText(nameResult);
