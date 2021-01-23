@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +36,7 @@ public class Fragment3 extends Fragment {
     String currentUserId = "";
     All_userAdapter adapter;
     List<All_UserMemeber> listeUsers = new ArrayList<>();
+    SearchView searchView;
 
 
 
@@ -45,7 +48,7 @@ public class Fragment3 extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment3,container,false);
 
-
+        searchView = view.findViewById(R.id.et_search_users);
         recyclerView =view.findViewById(R.id.rv_usercards);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -74,7 +77,70 @@ public class Fragment3 extends Fragment {
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchUsers(query.toLowerCase());
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.trim().equals("")){
+                    fetchAllUsers();
+                }
+                return false;
+            }
+        });
+
         return  view;
+    }
+
+    private  void fetchAllUsers(){
+        allUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listeUsers.clear();
+                for(DataSnapshot item : snapshot.getChildren()){
+                    All_UserMemeber memeber = item.getValue(All_UserMemeber.class);
+                    if(!currentUserId.equals(memeber.getUid())){
+                        listeUsers.add(memeber);
+                    }
+                }
+                adapter = new All_userAdapter(getContext(),listeUsers);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private  void searchUsers(String name){
+        allUserRef.orderByChild("nameTolower").startAt(name).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listeUsers.clear();
+                for(DataSnapshot item : snapshot.getChildren()){
+                    All_UserMemeber memeber = item.getValue(All_UserMemeber.class);
+                    if(!currentUserId.equals(memeber.getUid())){
+                        listeUsers.add(memeber);
+                    }
+                }
+                adapter = new All_userAdapter(getContext(),listeUsers);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

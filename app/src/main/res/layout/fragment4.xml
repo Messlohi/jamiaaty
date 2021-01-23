@@ -18,38 +18,31 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:cardCornerRadius="20dp"
-                app:cardPreventCornerOverlap="false">
 
-                <ImageView
-                    android:id="@+id/iv_userProfile_fragment_post"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_baseline_person_24"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.cardview.widget.CardView>
+            <SearchView
+                android:id="@+id/et_search_post"
+                android:layout_width="250dp"
+                android:minWidth="200dp"
+                android:layout_height="38dp"
+                android:iconifiedByDefault="false"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="2"
+                android:layout_marginTop="5dp"
+                android:theme="@style/SearchViewStyle"
+                android:background="@drawable/back_tabs"
+                android:focusable="false"
+                android:queryHint="Chercher dans postes"
+                android:paddingEnd="5dp"
+                />
+
+
 
             <RelativeLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="0"
                 android:layout_gravity="right|center_vertical"
+                android:layout_weight="1"
                 android:layout_marginRight="15dp"
                 >
 
@@ -102,22 +95,16 @@
             </RelativeLayout>
 
 
-
-            <SearchView
-                android:id="@+id/et_search_post"
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                android:iconifiedByDefault="false"
-                android:layout_marginLeft="0dp"
-                android:layout_weight="2"
-                android:layout_marginTop="5dp"
-                android:theme="@style/SearchViewStyle"
-                android:background="@drawable/back_tabs"
-                android:focusable="false"
-                android:queryHint="Chercher matière"
-                android:paddingEnd="5dp"
-                />
-
+            <ImageButton
+                android:id="@+id/related_posts_ib"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_turned_in_green_24" />
             <ImageButton
                 android:id="@+id/createpost_f4"
                 android:layout_width="30dp"

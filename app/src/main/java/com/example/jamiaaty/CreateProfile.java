@@ -167,9 +167,10 @@ public class CreateProfile extends AppCompatActivity {
                             profile.put("privacy", "Public");
 
 
-                            member.setName(name);
-                            member.setProf(prof);
+                            member.setName(name.trim());
+                            member.setProf(prof.trim());
                             member.setUid(currentUserId);
+                            member.setNameTolower(name.toLowerCase().trim());
 
 
                             databaseReference.child(currentUserId).setValue(member);
@@ -194,19 +195,21 @@ public class CreateProfile extends AppCompatActivity {
                 });
             }else {
                 profile.put("url", "");
-                member.setUrl("");
-                profile.put("name", name);
-                profile.put("prof", prof);
-                profile.put("email", email);
+                profile.put("name", name.trim());
+                profile.put("prof", prof.trim());
+                profile.put("email", email.trim());
                 profile.put("uid", currentUserId);
                 profile.put("web", web);
                 profile.put("bio", bio);
                 profile.put("privacy", "Public");
 
 
-                member.setName(name);
-                member.setProf(prof);
+                member.setName(name.trim());
+                member.setProf(prof.trim());
                 member.setUid(currentUserId);
+                member.setNameTolower(name.toLowerCase().trim());
+                member.setUrl("");
+
 
 
                 databaseReference.child(currentUserId).setValue(member);

@@ -1,5 +1,6 @@
 package com.example.jamiaaty;
 
+import android.app.Application;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageButton;
@@ -134,6 +135,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                     if(!memeber.getUrl().equals("")){
                         Picasso.get().load(memeber.getUrl()).into(imageViewprofile);
                     }
+
                 }else{
                     tv_nameprofile.setText(name);
                     if(!url.equals("")){

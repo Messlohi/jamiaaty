@@ -103,10 +103,11 @@ public class UpdateProfile extends AppCompatActivity {
 
 
         HashMap<String, Object> result = new HashMap<>();
-        result.put("name", name);
-        result.put("prof", prof);
+        result.put("name", name.trim());
+        result.put("prof", prof.trim());
         result.put("uid", currentuid);
         result.put("url", urlResult);
+        result.put("nameTolower",name.toLowerCase().trim());
         reference.updateChildren(result);
         final DocumentReference sDoc = db.collection("user").document(currentuid);
         db.runTransaction(new Transaction.Function<Void>() {
@@ -114,11 +115,11 @@ public class UpdateProfile extends AppCompatActivity {
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 DocumentSnapshot snapshot = transaction.get(sDoc);
 
-                transaction.update(sDoc, "name",name );
-                transaction.update(sDoc,"prof",prof);
-                transaction.update(sDoc,"email",email);
-                transaction.update(sDoc,"web",web);
-                transaction.update(sDoc,"bio",bio);
+                transaction.update(sDoc, "name",name.trim() );
+                transaction.update(sDoc,"prof",prof.trim());
+                transaction.update(sDoc,"email",email.trim());
+                transaction.update(sDoc,"web",web.trim());
+                transaction.update(sDoc,"bio",bio.trim());
 
                 // Success
                 return null;

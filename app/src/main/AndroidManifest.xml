@@ -41,7 +41,7 @@
             android:name=".UserQuestionsActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:name=".RelatedQuestionsActivity"
+            android:name=".RelatedPostsActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".AskActivity"

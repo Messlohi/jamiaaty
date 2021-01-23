@@ -46,7 +46,7 @@ import com.squareup.picasso.Picasso;
 
 public class Fragment4 extends Fragment {
 
-    ImageButton btn_createPost;
+    ImageButton btn_createPost,related_posts_btn;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef;
@@ -57,7 +57,6 @@ public class Fragment4 extends Fragment {
     Boolean fvrtChekcker = false;
     View itemview;
     TextView nonLuTv;
-    ImageView userPosfileIv;
     FirebaseRecyclerOptions<PostMember> options;
     FirebaseRecyclerAdapter<PostMember, PostViewHolder> firebaseRecyclerAdapter;
 
@@ -80,8 +79,8 @@ public class Fragment4 extends Fragment {
         if (user != null) {
             currentUser = user.getUid();
         }
+        related_posts_btn   = getActivity().findViewById(R.id.related_posts_ib);
         nonLuTv = getActivity().findViewById(R.id.non_lu_message_tv);
-        userPosfileIv = getActivity().findViewById(R.id.iv_userProfile_fragment_post);
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
         searchFeild = getActivity().findViewById(R.id.et_search_post);
 
@@ -256,6 +255,13 @@ public class Fragment4 extends Fragment {
 
 
 
+        related_posts_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),RelatedPostsActivity.class);
+                startActivity(intent);
+            }
+        });
         searchFeild.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -280,47 +286,7 @@ public class Fragment4 extends Fragment {
             }
         });
 
-/*
-      searchFeild.addTextChangedListener(new TextWatcher() {
-          @Override
-          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-          }
-
-          @Override
-          public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(searchFeild.getText().toString().equals("")){
-                    FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
-                            .setQuery(reference, PostMember.class)
-                            .build();
-                    firebaseRecyclerAdapter.updateOptions(options);
-                    firebaseRecyclerAdapter.startListening();
-                    firebaseRecyclerAdapter.notifyDataSetChanged();
-                }
-          }
-
-          @Override
-          public void afterTextChanged(Editable s) {
-
-          }
-      });
-
-        searchFeild.setOnKeyListener(new View.OnKeyListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    firebaseSearchInPost();
-                   hideKeyboardFrom(getContext(),itemview);
-                    return true;
-                }
-
-                return false;
-            }
-        });
-*/
         btn_createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,21 +302,6 @@ public class Fragment4 extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        AllUsersRef.child(currentUser).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                if(memeber !=null){
-                    if(!memeber.getUrl().equals("")) Picasso.get().load(memeber.getUrl()).into(userPosfileIv);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         AllUsersRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
             final int[] count = {0};

@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -190,6 +192,8 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
             if(!url.equals("")){
                 Picasso.get().load(url).into(imageViewProfile);
             }
+
+            Toast.makeText(context, url,Toast.LENGTH_LONG).show();
             tv_prof.setText(prof);
             tv_name.setText(name);
         }

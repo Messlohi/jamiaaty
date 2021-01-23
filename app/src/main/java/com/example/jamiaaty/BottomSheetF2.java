@@ -29,7 +29,7 @@ public class BottomSheetF2 extends BottomSheetDialogFragment {
         feturedQuestions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), RelatedQuestionsActivity.class));
+                startActivity(new Intent(getActivity(), RelatedPostsActivity.class));
             }
         });
 
