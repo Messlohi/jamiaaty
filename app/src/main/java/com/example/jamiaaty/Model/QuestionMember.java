@@ -1,4 +1,4 @@
-package com.example.jamiaaty;
+package com.example.jamiaaty.Model;
 
 public class QuestionMember {
     String name,url, userid,key,question,privacy,time;

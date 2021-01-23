@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jamiaaty.Model.QuestionMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,9 +78,6 @@ public class Fragment2 extends Fragment implements  View.OnClickListener {
             fvrtref = database.getReference("favourites_in_poste");
             //Stocking the actual featured question
             fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
-        }else {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
         }
 
         fb.setOnClickListener(this);

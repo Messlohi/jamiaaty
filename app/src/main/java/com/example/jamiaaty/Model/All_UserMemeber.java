@@ -1,4 +1,4 @@
-package com.example.jamiaaty;
+package com.example.jamiaaty.Model;
 
 public class All_UserMemeber {
     String name  , uid , prof, url;

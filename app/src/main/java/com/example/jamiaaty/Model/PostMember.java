@@ -1,4 +1,4 @@
-package com.example.jamiaaty;
+package com.example.jamiaaty.Model;
 
 public class PostMember {
     String name, url ,postUri,time,uid,type,description,key_post,titre,dscLower,userToLower,titreToLower;

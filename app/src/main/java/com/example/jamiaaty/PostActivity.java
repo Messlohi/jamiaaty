@@ -8,20 +8,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,15 +23,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.jamiaaty.Model.PostMember;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,8 +46,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -336,13 +327,10 @@ public class PostActivity extends AppCompatActivity {
         postmember = new PostMember();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String currentuid = user.getUid();
-
         final String desc = etdesc.getText().toString();
-
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
         final  String savedate = currentdate.format(cdate.getTime());
-
         Calendar ctime = Calendar.getInstance();
         SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
         final String savetime = currenttime.format(ctime.getTime());
@@ -354,6 +342,7 @@ public class PostActivity extends AppCompatActivity {
             if(titreSupport.getText().toString().equals("")){
                 Toast.makeText(PostActivity.this, "Sasie un titre", Toast.LENGTH_SHORT).show();
                 btnuploadfile.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
                 return;
             }
             StorageReference ref =  FirebaseStorage.getInstance().getReference("Support Users");

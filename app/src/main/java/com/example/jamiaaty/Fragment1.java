@@ -131,10 +131,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             }
                         }
                     });
-        }else {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
         }
-
     }
 }

@@ -16,14 +16,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,17 +30,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jamiaaty.Model.All_UserMemeber;
+import com.example.jamiaaty.Model.PostMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,19 +49,22 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class Fragment4 extends Fragment {
 
-    Button btn_createPost;
+    ImageButton btn_createPost;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef;
+    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef;
     EditText searchFeild;
     String textToSearch ="";
     Boolean likecheker = false;
     String currentUser ="";
     Boolean fvrtChekcker = false;
     View itemview;
+    TextView nonLuTv;
+    ImageView userPosfileIv;
     FirebaseRecyclerOptions<PostMember> options;
     FirebaseRecyclerAdapter<PostMember, PostViewHolder> firebaseRecyclerAdapter;
 
@@ -84,10 +86,9 @@ public class Fragment4 extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             currentUser = user.getUid();
-        }else {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
         }
+        nonLuTv = getActivity().findViewById(R.id.non_lu_message_tv);
+        userPosfileIv = getActivity().findViewById(R.id.iv_userProfile_fragment_post);
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
         searchFeild = getActivity().findViewById(R.id.et_search_post);
 
@@ -101,6 +102,8 @@ public class Fragment4 extends Fragment {
         db2 = database.getReference("All videos").child(currentUser);
         db4 = database.getReference("All TextPosts").child(currentUser);
         fvrtref = database.getReference("favourites_in_poste");
+        AllUsersRef = database.getReference("All Users");
+        chatRef = database.getReference("chat");
         //Stocking the actual featured question
         fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
 
@@ -322,6 +325,67 @@ public class Fragment4 extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        AllUsersRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                if(memeber !=null){
+                    if(!memeber.getUrl().equals("")) Picasso.get().load(memeber.getUrl()).into(userPosfileIv);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        AllUsersRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final int[] count = {0};
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Log.d("key",ds.getKey()+"");
+
+                    chatRef.child(ds.getKey()).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dsa : snapshot.getChildren()){
+                                chatMessageModel  model = dsa.getValue(chatMessageModel.class);
+                                Log.d("model",model.getVu()+"");
+                                Toast.makeText(getActivity(),model.getVu()+"",Toast.LENGTH_LONG).show();
+                                if(model.getVu() == false){
+                                    count[0]++;
+                                }
+                            }
+                            nonLuTv.setText(count[0] +"");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
 
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);

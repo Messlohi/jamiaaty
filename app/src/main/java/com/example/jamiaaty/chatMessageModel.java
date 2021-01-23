@@ -3,6 +3,7 @@ package com.example.jamiaaty;
 public class chatMessageModel {
 
     String time,idReceivevr,idSender,message;
+    Boolean vu = false;
 
     public chatMessageModel(String time, String idReceivevr, String idSender, String message) {
         this.time = time;
@@ -12,6 +13,14 @@ public class chatMessageModel {
     }
 
     public chatMessageModel() {
+    }
+
+    public Boolean getVu() {
+        return vu;
+    }
+
+    public void setVu(Boolean vu) {
+        this.vu = vu;
     }
 
     public String getTime() {

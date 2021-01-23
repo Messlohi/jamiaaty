@@ -2,7 +2,6 @@ package com.example.jamiaaty;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -146,6 +146,23 @@ public class ChatActivity extends AppCompatActivity {
                     if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
                         recyclerView.smoothScrollToPosition(listMessages.size()-1);
                     }
+                //For vu state---------------------------------------------
+                if(listMessages.size()!=0 && !listMessages.get(listMessages.size()-1).getIdSender().equals(currentUser)){
+                    chatRef.child(chatKey).orderByChild("vu").startAt(false).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot ds : snapshot.getChildren()){
+                                chatRef.child(chatKey).child(ds.getKey()).child("vu").setValue(true);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
 
 
             }
@@ -167,7 +184,7 @@ public class ChatActivity extends AppCompatActivity {
                 if(!snapshot.hasChild(chatKey)){
                     chatRef.child(chatKey).setValue(true);
                 }else {
-                    chatMessageModel model = snapshot.getValue(chatMessageModel.class);
+                     chatMessageModel model = snapshot.getValue(chatMessageModel.class);
                         AllUserRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,4 +1,4 @@
-package com.example.jamiaaty;
+package com.example.jamiaaty.Model;
 
 public class AnswerMember {
     String name,answer,uid,time,url;

@@ -69,7 +69,19 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/fvrt_post_item"
+                    android:src="@drawable/ic_baseline_turned_in_not_24"
+                    android:padding="2dp"/>
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -241,13 +253,7 @@
                 android:layout_height="match_parent"
                 android:gravity="end"
                 android:orientation="horizontal">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:id="@+id/fvrt_post_item"
-                    android:src="@drawable/ic_baseline_turned_in_not_24"
-                    android:padding="2dp"/>
+
             </LinearLayout>
 
 
