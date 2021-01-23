@@ -32,7 +32,6 @@ import java.util.Iterator;
  * create an instance of this fragment.
  */
 public class frag_td extends Fragment {
-    RecyclerView recyclerView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,6 +42,7 @@ public class frag_td extends Fragment {
     private String mParam2;
     public static SupportCardAdapter adapter;
     public static ArrayList<Support> supports;
+    RecyclerView recyclerView;
     View root=null;
     public Boolean isInDownloads=false;
     String moduleKey;
