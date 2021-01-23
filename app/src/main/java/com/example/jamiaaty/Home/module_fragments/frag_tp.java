@@ -46,6 +46,7 @@ public class frag_tp extends Fragment {
     View root=null;
     public Boolean isInDownloads=false;
     String moduleKey;
+    RecyclerView recyclerView;
     public frag_tp() {
         // Required empty public constructor
     }
@@ -83,7 +84,10 @@ public class frag_tp extends Fragment {
         root=inflater.inflate(R.layout.frag_cours, container, false);
         supports=new ArrayList<>();
         String moduleKey= getActivity().getIntent().getExtras().getString("Cours_key");
-
+        recyclerView = root.findViewById(R.id.supportRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), DividerItemDecoration.VERTICAL));
 
         moduleKey= getActivity().getIntent().getExtras().getString("Cours_key");
         if(moduleKey.contains("/")){//it s a file path in storage
@@ -94,13 +98,6 @@ public class frag_tp extends Fragment {
             fetchFilesFromDb();
             Log.i("debuuug", "fetchFilesFromDb key:"+moduleKey);
         }
-
-        RecyclerView recyclerView = root.findViewById(R.id.supportRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), DividerItemDecoration.VERTICAL));
-        adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"TP");
-        recyclerView.setAdapter(adapter);
         return root;
         }
         public void fetchFilesFromDb(){
@@ -120,6 +117,8 @@ public class frag_tp extends Fragment {
                                 supports.add(support);
                             }
                         }
+                        adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"TP");
+                        recyclerView.setAdapter(adapter);
                     }
                     @Override
                     public void onCancelled(DatabaseError error) {
@@ -145,6 +144,8 @@ public class frag_tp extends Fragment {
                             //Log.i("test",s.Name+" "+s.FileLink+" "+String.format("%.2f",fileSize));
                         }
                     }
+                    adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"TP");
+                    recyclerView.setAdapter(adapter);
                 }
             }catch (Exception e){
                 Toast.makeText(root.getContext(), "error while fitching supports"+e.getMessage(), Toast.LENGTH_SHORT).show();

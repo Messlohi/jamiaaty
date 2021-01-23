@@ -17,10 +17,10 @@
         <RelativeLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:layout_marginTop="0dp"
             android:orientation="horizontal"
-            android:background="#2D525353"
+            android:background="@color/white"
             android:paddingBottom="1dp"
             android:layout_marginHorizontal="0dp"
             >
@@ -28,12 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="4dp"
-                android:background="@color/appcolor"
+                android:background="@color/white"
                 android:focusable="auto"
                 android:minHeight="?attr/actionBarSize"
                 android:title="search"
                 android:layout_weight="1"
-                local:subtitleTextColor="#FFFFFF"
+
+                local:subtitleTextColor="#112233"
                 tools:theme="@style/ActionBarThemeOverlay" >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -44,24 +45,26 @@
                     <SearchView
                         android:id="@+id/SearchView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="38dp"
                         android:iconifiedByDefault="false"
-                        android:layout_marginLeft="-23dp"
+                        android:layout_marginLeft="0dp"
                         android:layout_weight="1"
-                        android:background="@color/appcolor"
+                        android:theme="@style/SearchViewStyle"
+                        android:background="@drawable/back_tabs"
                         android:focusable="false"
                         android:queryHint="Chercher matière"
+                        android:paddingEnd="5dp"
                         />
                     <ImageButton
                         android:id="@+id/btnBookmarks"
                         android:layout_width="match_parent"
-                        android:background="@color/appcolor"
+                        android:background="@color/white"
                         android:layout_height="match_parent"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="0dp"
+                        android:layout_marginTop="2dp"
                         android:layout_weight="7"
-                        android:backgroundTint="@color/appcolor"
+                        android:backgroundTint="@color/white"
                         android:src="@drawable/ic_all_bookmarks" />
                 </LinearLayout>
 

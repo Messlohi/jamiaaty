@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.jamiaaty.Home.Module_pack.frag_downloads;
 import com.example.jamiaaty.Home.module_fragments.frag_ModuleList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -50,14 +51,13 @@ public class MainActivity extends AppCompatActivity {
                     selected = new Fragment1();
                     break;
                 //Fragment For donwloads
-                case R.id.ask_bottom:
-                    selected = new Fragment1();
+                case R.id.downloads_bottom:
+                    selected = new frag_downloads();
                     break;
                 //-------------
                 case R.id.queue_bottom:
                     selected = new Fragment3();
                     break;
-
                 case R.id.home_bottom:
                     selected = new Fragment4();
                     break;

@@ -28,11 +28,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link frag_cours#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class frag_cours extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -45,23 +41,11 @@ public class frag_cours extends Fragment {
     View root=null;
     public Boolean isInDownloads=false;
     String moduleKey;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    RecyclerView recyclerView;
     public frag_cours() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment frag_cours.
-     */
-    // TODO: Rename and change types and number of parameters
     public static frag_cours newInstance(String param1, String param2) {
         frag_cours fragment = new frag_cours();
         Bundle args = new Bundle();
@@ -75,8 +59,9 @@ public class frag_cours extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+            Log.i("debuug"," super.onCreate(savedInstanceState);");
         }
 
     }
@@ -87,6 +72,10 @@ public class frag_cours extends Fragment {
         // Inflate the layout for this fragment
         root=inflater.inflate(R.layout.frag_cours, container, false);
         supports=new ArrayList<>();
+         recyclerView = root.findViewById(R.id.supportRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), DividerItemDecoration.VERTICAL));
 
         moduleKey= getActivity().getIntent().getExtras().getString("Cours_key");
         if(moduleKey.contains("/")){//it s a file path in storage
@@ -98,12 +87,6 @@ public class frag_cours extends Fragment {
             Log.i("debuuug", "fetchFilesFromDb key:"+moduleKey);
         }
 
-        RecyclerView recyclerView = root.findViewById(R.id.supportRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), DividerItemDecoration.VERTICAL));
-        adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"Cours");
-        recyclerView.setAdapter(adapter);
         return root;
     }
     public void fetchFilesFromDb(){
@@ -123,6 +106,8 @@ public class frag_cours extends Fragment {
                             supports.add(support);
                         }
                     }
+                    adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"Cours");
+                    recyclerView.setAdapter(adapter);
                 }
                 @Override
                 public void onCancelled(DatabaseError error) {
@@ -148,6 +133,8 @@ public class frag_cours extends Fragment {
                         //Log.i("test",s.Name+" "+s.FileLink+" "+String.format("%.2f",fileSize));
                     }
                 }
+                adapter = new SupportCardAdapter(root.getContext(),supports, getActivity().getIntent().getExtras().getString("Cours_name"), isInDownloads,"Cours");
+                recyclerView.setAdapter(adapter);
             }
         }catch (Exception e){
             Toast.makeText(root.getContext(), "error while fitching supports"+e.getMessage(), Toast.LENGTH_SHORT).show();

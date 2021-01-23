@@ -11,7 +11,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="always"
         android:icon="@drawable/ic_arrow_down"
-        android:id="@+id/ask_bottom"
+        android:id="@+id/downloads_bottom"
         />
 
     <item android:title="Request"

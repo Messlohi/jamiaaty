@@ -531,7 +531,7 @@ public class Fragment4 extends Fragment {
 
                     }
                 });
-                if(postUri != ""){
+                if(postUri.equals("")){
                     StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(postUri);
                     ref.delete()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

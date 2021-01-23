@@ -15,7 +15,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.jamiaaty.Home.Module_pack.Module;
 import com.example.jamiaaty.Home.Module_pack.ModuleCardAdapter;
-import com.example.jamiaaty.Home.Module_pack.ac_downloaded_modules;
+import com.example.jamiaaty.Home.Module_pack.frag_downloads;
 import com.example.jamiaaty.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Home_All_modules extends AppCompatActivity /*implements SwipeRefreshLayout.OnRefreshListener*/{
-
     public static ModuleCardAdapter adapter;
     public static ArrayList<Module> modules;
     FirebaseDatabase database;
@@ -68,10 +67,9 @@ public class Home_All_modules extends AppCompatActivity /*implements SwipeRefres
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
     public void openBookmarks(View view) {
         //  Intent intent=new Intent(this, bookmarks_Modules.class);
-            Intent intent=new Intent(this, ac_downloaded_modules.class);
+            Intent intent=new Intent(this, frag_downloads.class);
         startActivity(intent);
     }
     public void refrechData() {
