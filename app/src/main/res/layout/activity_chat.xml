@@ -62,18 +62,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="name"
-                        android:paddingStart="5dp"
+                        android:paddingStart="2dp"
                         android:textColor="@android:color/black"
-
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/que_reply_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
@@ -90,12 +81,13 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="2dp"
         android:orientation="horizontal"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.cardview.widget.CardView
@@ -121,23 +113,23 @@
             android:id="@+id/answer_disscussion_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:background="@drawable/background_custom_reply"
             android:clickable="true"
-            android:padding="7dp"
-            android:layout_weight="2"
-            android:paddingStart="20dp"
             android:hint="Envoyer un message.."
-            android:textColorHint="@android:color/darker_gray"
+            android:padding="7dp"
+            android:paddingStart="20dp"
             android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <ImageButton
+            android:id="@+id/ib_send_message_chat"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_send"
-            android:id="@+id/ib_send_message_chat"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/ic_send" />
 
 
     </LinearLayout>

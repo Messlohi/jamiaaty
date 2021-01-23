@@ -303,7 +303,7 @@ public class Fragment4 extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
-                    textToSearch = searchFeild.getText().toString();
+                    textToSearch = searchFeild.getText().toString().toLowerCase();
                     firebaseSearchInPost();
                    hideKeyboardFrom(getContext(),itemview);
                     return true;
@@ -345,24 +345,22 @@ public class Fragment4 extends Fragment {
         });
 
         AllUsersRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
+            final int[] count = {0};
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final int[] count = {0};
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Log.d("key",ds.getKey()+"");
-
                     chatRef.child(ds.getKey()).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dsa : snapshot.getChildren()){
                                 chatMessageModel  model = dsa.getValue(chatMessageModel.class);
                                 Log.d("model",model.getVu()+"");
-                                Toast.makeText(getActivity(),model.getVu()+"",Toast.LENGTH_LONG).show();
                                 if(model.getVu() == false){
                                     count[0]++;
                                 }
+                                nonLuTv.setText(count[0] +"");
                             }
-                            nonLuTv.setText(count[0] +"");
                         }
 
                         @Override
@@ -397,7 +395,7 @@ public class Fragment4 extends Fragment {
 
         //+"\uf8ff")
         if(!textToSearch.trim().equals("")){
-            Query refToSearch = reference.orderByChild("description").startAt(textToSearch.trim());
+            Query refToSearch = reference.orderByChild("dscLower").startAt(textToSearch.trim());
             FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
                     .setQuery(refToSearch, PostMember.class)
                     .build();

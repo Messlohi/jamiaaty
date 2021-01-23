@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:gravity="center_vertical"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
@@ -17,47 +18,76 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:visibility="gone"
                 app:cardCornerRadius="20dp"
                 app:cardPreventCornerOverlap="false">
 
+                <ImageView
+                    android:id="@+id/iv_userProfile_fragment_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_baseline_person_24"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="15dp"
+                >
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    >
 
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        android:background="@android:color/transparent"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        android:outlineAmbientShadowColor="@android:color/transparent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.826"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0">
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/red"
-                            android:text="0"
                             android:id="@+id/non_lu_message_tv"
-                            android:textColor="@color/white"
-                            />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@android:color/holo_red_light" />
 
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
-                        android:id="@+id/iv_userProfile_fragment_post"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:adjustViewBounds="true"
-                        android:background="@drawable/ic_baseline_person_24"
+                        android:background="@drawable/ic_baseline_email_24"
                         android:clickable="true"
                         android:scaleType="fitXY"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,16 +100,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
 
             <EditText
                 android:id="@+id/et_search_post"
                 android:layout_width="280dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:background="@drawable/custom_searchbar_backgtound"
                 android:hint="Chercher ici..."
                 android:lines="1"
+                android:layout_marginTop="5dp"
                 android:maxLines="1"
                 android:focusable="false"
                 android:layout_weight="2"
@@ -89,13 +120,12 @@
                 android:id="@+id/createpost_f4"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:src="@drawable/ic_baseline_add_24" />
-
 
         </LinearLayout>
 
