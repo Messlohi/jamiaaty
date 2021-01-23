@@ -133,7 +133,7 @@ public class frag_ModuleList extends Fragment {
                         Module module=elem.getValue(Module.class);
                         modules.add(module);
                     }
-                    rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+                    rv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     rv.setHasFixedSize(true);
                     rv.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), DividerItemDecoration.VERTICAL));
                     adapter = new ModuleCardAdapter(getActivity(),modules );

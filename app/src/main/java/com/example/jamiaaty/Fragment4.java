@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class Fragment4 extends Fragment {
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef;
-    EditText searchFeild;
+    SearchView searchFeild;
     String textToSearch ="";
     Boolean likecheker = false;
     String currentUser ="";
@@ -261,17 +262,33 @@ public class Fragment4 extends Fragment {
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
 
-        searchFeild.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+
+        searchFeild.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+            public boolean onQueryTextSubmit(String query) {
+                textToSearch = query.toLowerCase();
+                firebaseSearchInPost();
+                hideKeyboardFrom(getContext(),itemview);
+                return true;
+            }
 
-                }else {
-
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                textToSearch = newText.toLowerCase();
+                if(textToSearch.equals("")){
+                    FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
+                            .setQuery(reference, PostMember.class)
+                            .build();
+                    firebaseRecyclerAdapter.updateOptions(options);
+                    firebaseRecyclerAdapter.startListening();
+                    firebaseRecyclerAdapter.notifyDataSetChanged();
                 }
+                return false;
             }
         });
 
+/*
       searchFeild.addTextChangedListener(new TextWatcher() {
           @Override
           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -303,7 +320,6 @@ public class Fragment4 extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
-                    textToSearch = searchFeild.getText().toString().toLowerCase();
                     firebaseSearchInPost();
                    hideKeyboardFrom(getContext(),itemview);
                     return true;
@@ -312,7 +328,7 @@ public class Fragment4 extends Fragment {
                 return false;
             }
         });
-
+*/
         btn_createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -349,14 +365,13 @@ public class Fragment4 extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    Log.d("key",ds.getKey()+"");
                     chatRef.child(ds.getKey()).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dsa : snapshot.getChildren()){
                                 chatMessageModel  model = dsa.getValue(chatMessageModel.class);
-                                Log.d("model",model.getVu()+"");
                                 if(model.getVu() == false){
+                                    Log.d("model",model.getVu()+"");
                                     count[0]++;
                                 }
                                 nonLuTv.setText(count[0] +"");

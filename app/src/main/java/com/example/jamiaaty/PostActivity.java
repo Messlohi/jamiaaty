@@ -345,6 +345,11 @@ public class PostActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 return;
             }
+            if(type.equals("text") && postBody.getText().toString().trim().equals("")) {
+                Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             StorageReference ref =  FirebaseStorage.getInstance().getReference("Support Users");
             final StorageReference reference = ref.child(System.currentTimeMillis() + "." + getFileExtention(supportUri));
             UploadTask uploadTask2 = reference.putFile(supportUri);
@@ -395,10 +400,7 @@ public class PostActivity extends AppCompatActivity {
             });
         }
 
-        if(type.equals("text") && postBody.getText().toString().trim().equals("")) {
-            Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         if ( selectedUri != null && (type.equals("iv") || type.equals("vv"))){
             progressBar.setVisibility(View.VISIBLE);
             btnuploadfile.setEnabled(false);
@@ -424,7 +426,7 @@ public class PostActivity extends AppCompatActivity {
                             postmember.setDescription(desc);
                             postmember.setTitre("");
                             postmember.setTitreToLower("");
-                            postmember.setDscLower(desccriptionSupport.getText().toString().toLowerCase());
+                            postmember.setDscLower(desc.toLowerCase());
                             postmember.setUserToLower(name.toLowerCase());
                             postmember.setName(name);
                             postmember.setPostUri(downloadUri.toString());
@@ -448,7 +450,7 @@ public class PostActivity extends AppCompatActivity {
                             postmember.setDescription(desc);
                             postmember.setName(name);
                             postmember.setTitre("");
-                            postmember.setDscLower(desccriptionSupport.getText().toString().toLowerCase());
+                            postmember.setDscLower(desc.toLowerCase());
                             postmember.setUserToLower(name.toLowerCase());
                             postmember.setPostUri(downloadUri.toString());
                             postmember.setTime(time);
@@ -490,7 +492,7 @@ public class PostActivity extends AppCompatActivity {
             postmember.setDescription(postBody.getText().toString());
             postmember.setName(name);
             postmember.setTitre("");
-            postmember.setDscLower(desccriptionSupport.getText().toString().toLowerCase());
+            postmember.setDscLower(postBody.getText().toString().toLowerCase());
             postmember.setUserToLower(name.toLowerCase());
             postmember.setTime(time);
             postmember.setPostUri("");

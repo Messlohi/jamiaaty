@@ -103,18 +103,21 @@
             </RelativeLayout>
 
 
-            <EditText
+
+            <SearchView
                 android:id="@+id/et_search_post"
-                android:layout_width="280dp"
-                android:layout_height="30dp"
-                android:background="@drawable/custom_searchbar_backgtound"
-                android:hint="Chercher ici..."
-                android:lines="1"
-                android:layout_marginTop="5dp"
-                android:maxLines="1"
-                android:focusable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:iconifiedByDefault="false"
+                android:layout_marginLeft="0dp"
                 android:layout_weight="2"
-                android:paddingStart="10dp" />
+                android:layout_marginTop="5dp"
+                android:theme="@style/SearchViewStyle"
+                android:background="@drawable/back_tabs"
+                android:focusable="false"
+                android:queryHint="Chercher matière"
+                android:paddingEnd="5dp"
+                />
 
             <ImageButton
                 android:id="@+id/createpost_f4"
