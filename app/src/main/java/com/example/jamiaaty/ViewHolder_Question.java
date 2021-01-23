@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class ViewHolder_Question extends RecyclerView.ViewHolder {
 
@@ -40,7 +41,8 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
 
 
         if(!url.equals("")){
-            Picasso.get().load(url).into(imageView);
+//            Picasso.get().load(url).into(imageView);
+            Glide.with(activity).load(url).into(imageView);
         }
         time_result.setText(time);
         name_result.setText(name);
@@ -82,7 +84,8 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         replyBtn = itemView.findViewById(R.id.related_reply_item_que);
 
         if(!url.equals("")){
-            Picasso.get().load(url).into(imageViewRelated);
+//            Picasso.get().load(url).into(imageViewRelated);
+            Glide.with(activity).load(url).into(imageViewRelated);
 
         }
         timeRrelated.setText(time);
@@ -99,7 +102,8 @@ public class ViewHolder_Question extends RecyclerView.ViewHolder {
         delteButton = itemView.findViewById(R.id.userQuestions_item_que);
 
         if(!url.equals("")){
-            Picasso.get().load(url).into(imageViewRelated);
+//            Picasso.get().load(url).into(imageViewRelated);
+            Glide.with(activity).load(url).into(imageViewRelated);
         }
         timeRrelated.setText(time);
         nameRelated.setText(name);

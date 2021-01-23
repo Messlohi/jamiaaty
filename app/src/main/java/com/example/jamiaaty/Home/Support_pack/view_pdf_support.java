@@ -1,8 +1,13 @@
 package com.example.jamiaaty.Home.Support_pack;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +45,12 @@ public class view_pdf_support extends AppCompatActivity {
             if(isFromDownload.equals("false"))
                 new displayPdf().execute(); //after getting pdf from firebase
             else{
+                ActivityCompat.requestPermissions(view_pdf_support.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                ActivityCompat.requestPermissions((Activity) view_pdf_support.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
                 File f = new File(support_link);
                 if(f.exists()){
                     //Toast.makeText(this, "opening file from sd", Toast.LENGTH_LONG).show();
@@ -90,6 +101,18 @@ public class view_pdf_support extends AppCompatActivity {
             return inputStream;
         }
     }
- //   GetImage gi = new GetImage();
-       // gi.execute(id);
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Toast.makeText(this, "Veuillez donner les permissions de stackage pour que l'app puis accéder aux fichiers téléchargé", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 }

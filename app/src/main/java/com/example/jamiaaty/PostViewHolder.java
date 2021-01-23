@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -35,7 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
@@ -80,7 +81,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
 
             if(type.equals("iv")){
-                Picasso.get().load(postUri).into(iv_post);
+//                Picasso.get().load(postUri).into(iv_post);
+                Glide.with(activity).load(postUri).into(iv_post);
                 tv_desc.setText(description);
                 tv_time.setText(time);
                 playerView.setVisibility(View.GONE);
@@ -133,13 +135,15 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 if(memeber != null){
                     tv_nameprofile.setText(memeber.getName());
                     if(!memeber.getUrl().equals("")){
-                        Picasso.get().load(memeber.getUrl()).into(imageViewprofile);
+//                        Picasso.get().load(memeber.getUrl()).into(imageViewprofile);
+                        Glide.with(activity).load(memeber.getUrl()).into(imageViewprofile);
                     }
 
                 }else{
                     tv_nameprofile.setText(name);
                     if(!url.equals("")){
-                        Picasso.get().load(url).into(imageViewprofile);
+//                        Picasso.get().load(url).into(imageViewprofile);
+                        Glide.with(activity).load(url).into(imageViewprofile);
                     }
 
                 }

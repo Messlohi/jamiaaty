@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -198,7 +198,8 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 
         public  void  setUser(String name, String prof, String uid, String url){
             if(!url.equals("")){
-                Picasso.get().load(url).into(imageViewProfile);
+//                Picasso.get().load(url).into(imageViewProfile);
+                Glide.with(context).load(url).into(imageViewProfile);
             }
 
             tv_prof.setText(prof);

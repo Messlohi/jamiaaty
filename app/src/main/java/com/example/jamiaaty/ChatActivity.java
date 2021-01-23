@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,7 +77,8 @@ public class ChatActivity extends AppCompatActivity {
                     senderUrl = memeber.getUrl();
                 }
                 if(!senderUrl.equals("")){
-                    Picasso.get().load(senderUrl).into(senderIV);
+//                    Picasso.get().load(senderUrl).into(senderIV);
+                    Glide.with(getApplicationContext()).load(senderUrl).into(senderIV);
                 }
                 nameReceiverrTV.setText(receiverName);
 
@@ -100,7 +102,8 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         if(!receiverUrl.equals("")){
-            Picasso.get().load(receiverUrl).into(receiverIV);
+//            Picasso.get().load(receiverUrl).into(receiverIV);
+            Glide.with(getApplicationContext()).load(receiverUrl).into(receiverIV);
         }
 
 
@@ -111,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 Calendar ctime = Calendar.getInstance();
-                SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+                SimpleDateFormat currenttime = new SimpleDateFormat("dd:mm:yyyy 'à' HH:mm:ss");
                 final String savetime = currenttime.format(ctime.getTime());
 
                 final String time =  savetime;

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.PostMember;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,7 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -232,7 +233,8 @@ public class PostActivity extends AppCompatActivity {
 
 
             if (selectedUri.toString().contains("images")){
-                Picasso.get().load(selectedUri).into(imageView);
+//                Picasso.get().load(selectedUri).into(imageView);
+                Glide.with(getApplicationContext()).load(selectedUri).into(imageView);
                 imageView.setVisibility(View.VISIBLE);
                 videoView.setVisibility(View.GONE);
                 postBody.setVisibility(View.GONE);
@@ -301,7 +303,8 @@ public class PostActivity extends AppCompatActivity {
                             url = task.getResult().getString("url");
                             tv_nameUser.setText(name);
                             if(!url.equals("")){
-                                Picasso.get().load(url).into(iv_userProfile);
+//                                Picasso.get().load(url).into(iv_userProfile);
+                                Glide.with(getApplicationContext()).load(url).into(iv_userProfile);
                             }
 
                         } else {

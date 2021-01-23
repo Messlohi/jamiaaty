@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -60,7 +61,8 @@ public class ImageActivity extends AppCompatActivity {
                                     String name =task.getResult().getString("name");
                                     url = task.getResult().getString("url");
                                     textView.setText(name);
-                                    Picasso.get().load(url).into(imageView);
+//                                    Picasso.get().load(url).into(imageView);
+                                    Glide.with(getApplicationContext()).load(url).into(imageView);
                                 }else {
                                     Toast.makeText(ImageActivity.this, "No profile Image !",Toast.LENGTH_SHORT).show();
                                 }

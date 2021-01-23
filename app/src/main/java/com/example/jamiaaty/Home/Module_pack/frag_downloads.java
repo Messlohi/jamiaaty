@@ -1,7 +1,11 @@
 package com.example.jamiaaty.Home.Module_pack;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +15,9 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.jamiaaty.Home.Support_pack.view_pdf_support;
 import com.example.jamiaaty.R;
 
 import java.io.File;
@@ -56,6 +62,13 @@ public class frag_downloads extends Fragment {
                              Bundle savedInstanceState) {
         root= inflater.inflate(R.layout.frag_downloads, container, false);
         modules=new ArrayList<>();
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
         File dir = new File(Environment.getExternalStorageDirectory().getPath()+"/Download/jami3aty");
         if(dir.exists()) {
             File[] dirs = dir.listFiles();
@@ -77,5 +90,20 @@ public class frag_downloads extends Fragment {
     }
     public void backbtn(View view) {
         getActivity().finish();
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Toast.makeText(getContext(), "Veuillez donner les permissions de stackage pour que l'app puis accéder aux fichiers téléchargé", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }

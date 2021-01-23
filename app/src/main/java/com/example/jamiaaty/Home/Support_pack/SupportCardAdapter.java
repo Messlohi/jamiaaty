@@ -1,8 +1,11 @@
 package com.example.jamiaaty.Home.Support_pack;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -14,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.jamiaaty.MainActivity;
 import com.example.jamiaaty.R;
 import java.io.File;
 import java.util.ArrayList;
@@ -96,8 +102,15 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
         holder.BtnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
                 try {
+                    ActivityCompat.requestPermissions((Activity) contextAdap,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                    ActivityCompat.requestPermissions((Activity) contextAdap,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+//                    Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
+
 
                     file_download(supports.get(position).FileLink,supports.get(position).Name);
                 }catch (Exception e){
@@ -107,8 +120,14 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
 
         });
     }
+
     public void file_download(String uRl,String fileName) {
         //https://www.codota.com/code/java/methods/android.app.DownloadManager/enqueue
+        File isAlreadyDownloaded = new File(Environment.DIRECTORY_DOWNLOADS + "/jami3aty/"+ModuleName+"/"+supportType+"/"+fileName+".pdf");
+        if(isAlreadyDownloaded.exists()) {
+            Toast.makeText(contextAdap, "Support déja Téléchargé (Voir Download/jami3aty/" + supportType + "/" + ModuleName + "/" + fileName + ".pdf )", Toast.LENGTH_LONG).show();
+            return;
+        }
         File direct = new File(Environment.DIRECTORY_DOWNLOADS + "/jami3aty/"+ModuleName+"/"+supportType);
         if (!direct.exists()) {
             direct.mkdirs();

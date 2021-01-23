@@ -99,26 +99,28 @@
             android:id="@+id/cl_main_ShowPostBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
             android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_post_item"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
+                android:minHeight="250dp"
                 android:adjustViewBounds="true"
+
                 android:background="@android:color/white"
                 android:clickable="true"
                 android:contextClickable="true"
-                android:scaleType="fitXY"
                 android:visibility="visible"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/exoplayer_item_post"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:resize_mode="fill"
                 app:show_timeout="1000"
                 app:use_controller="true"
                 tools:ignore="MissingConstraints" />

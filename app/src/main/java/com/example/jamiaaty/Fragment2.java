@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.QuestionMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -31,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class Fragment2 extends Fragment implements  View.OnClickListener {
 
@@ -200,7 +201,8 @@ public class Fragment2 extends Fragment implements  View.OnClickListener {
                             try {
                                 if(task.getResult().exists()){
                                     String url = task.getResult().getString("url");
-                                    Picasso.get().load(url).into(imageView);
+//                                    Picasso.get().load(url).into(imageView);
+                                    Glide.with(getContext()).load(url).into(imageView);
                                 }
                             }
                             catch (Exception e){

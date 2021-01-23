@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.AnswerMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -32,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -162,7 +163,8 @@ public class ReplyActivity extends AppCompatActivity {
                                 if(task.getResult().exists()){
                                   String   url = task.getResult().getString("url");
                                   String  name = task.getResult().getString("name");
-                                    Picasso.get().load(url).into(imageViewQue);
+//                                    Picasso.get().load(url).into(imageViewQue);
+                                    Glide.with(getApplicationContext()).load(url).into(imageViewQue);
                                     questiontv.setText(question);
                                     nametv.setText(name);
 
@@ -185,7 +187,8 @@ public class ReplyActivity extends AppCompatActivity {
                             if(task.getResult().exists()){
                                 url = task.getResult().getString("url");
                                 name = task.getResult().getString("name");
-                                Picasso.get().load(url).into(imageViewUser);
+//                                Picasso.get().load(url).into(imageViewUser);
+                                Glide.with(getApplicationContext()).load(url).into(imageViewUser);
                             }
                         }
                         catch (Exception e){

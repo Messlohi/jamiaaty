@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
@@ -116,7 +117,8 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 String privacyResult = task.getResult().getString("privacy");
                                 String urlResult = task.getResult().getString("url");
                                 if(!urlResult.equals("")){
-                                    Picasso.get().load(urlResult).into(imageView);
+//                                    Picasso.get().load(urlResult).into(imageView);
+                                    Glide.with(getContext()).load(urlResult).into(imageView);
                                 }
                                 nameEt.setText(nameResult);
                                 bioEt.setText(bioResult);
