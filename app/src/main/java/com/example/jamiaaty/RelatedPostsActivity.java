@@ -86,6 +86,7 @@ public class RelatedPostsActivity extends AppCompatActivity {
                         protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull PostMember model) {
 
                             final String postKey = getRef(position).getKey();
+
                             holder.setPost(RelatedPostsActivity.this, model.getName(), model.getUrl(), model.getPostUri(), model.getTime(), model.getUid(), model.getType(), model.getDescription(), model.getTitre());
 
                             String description = getItem(position).getDescription();

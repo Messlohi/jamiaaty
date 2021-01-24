@@ -81,11 +81,13 @@ public class MainActivity extends AppCompatActivity {
                             manager.createNotificationChannel(channel);
                         }
                         String message = model.message.trim().length()>60?model.message.trim().substring(0,60):model.message.trim();
+                        message += "...";
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,"My Notif")
                                 .setSmallIcon(R.drawable.ic_baseline_email_24)
                                 .setContentTitle(model.getFromName() +" :")
-                                .setContentText(message+"...")
+                                .setContentText(message)
                                 .setAutoCancel(true);
+
 
                         Intent intent1 = new Intent(MainActivity.this,MainActivity.class);
                         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this,0,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!ChatActivity.activityRuning){
                             notificationManager.notify(0,builder.build());
                         }
+
                         database.getReference("All Users").child(currentUser).child("notification").removeValue();
                     }
 

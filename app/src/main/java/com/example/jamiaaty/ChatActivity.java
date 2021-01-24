@@ -165,9 +165,8 @@ public class ChatActivity extends AppCompatActivity {
                         notifmodel.setMessage(sendMessageET.getText().toString().trim());
                         notifmodel.setFromId(currentUser);
                         notifmodel.setFromName(senderName);
-
-                        AllUserRef.child(currentUser).child("notification").setValue(notifmodel);
-                    }
+                        AllUserRef.child(receiverId).child("notification").setValue(notifmodel);
+                        }
                     }
 
                 sendMessageET.setText("");

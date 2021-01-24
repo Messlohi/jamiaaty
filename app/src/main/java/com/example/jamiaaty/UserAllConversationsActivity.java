@@ -52,6 +52,7 @@ public class UserAllConversationsActivity extends AppCompatActivity {
         allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listeUsers.clear();
                 for(DataSnapshot ds : snapshot.getChildren()){
                     allUserRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override

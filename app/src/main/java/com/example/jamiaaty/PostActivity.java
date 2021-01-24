@@ -328,7 +328,7 @@ public class PostActivity extends AppCompatActivity {
         final String desc = etdesc.getText().toString();
 
         Calendar ctime = Calendar.getInstance();
-        SimpleDateFormat currenttime = new SimpleDateFormat("dd-MMMM-yyyy 'à' HH:mm:ss");
+        SimpleDateFormat currenttime = new SimpleDateFormat("dd-MMMM-yyyy' à 'HH:mm:ss");
         final String savetime = currenttime.format(ctime.getTime());
 
         final String time = savetime;

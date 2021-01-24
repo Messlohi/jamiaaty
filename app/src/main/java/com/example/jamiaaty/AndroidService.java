@@ -64,10 +64,11 @@ public class AndroidService extends Service {
                             manager.createNotificationChannel(channel);
                         }
                         String message = model.message.trim().length()>60?model.message.trim().substring(0,60):model.message.trim();
+                        message += "...";
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplication(),"My Notif")
                                 .setSmallIcon(R.drawable.ic_baseline_email_24)
                                 .setContentTitle(model.getFromName() +" :")
-                                .setContentText(message+"...")
+                                .setContentText(message)
                                 .setAutoCancel(true);
 
                         Intent intent1 = new Intent(getApplication(),MainActivity.class);
@@ -77,9 +78,7 @@ public class AndroidService extends Service {
                         NotificationManager notificationManager =  (NotificationManager)getSystemService(
                                 Context.NOTIFICATION_SERVICE
                         );
-                        if(!ChatActivity.activityRuning){
                             notificationManager.notify(0,builder.build());
-                        }
                         database.getReference("All Users").child(currentUser).child("notification").removeValue();
                     }
 

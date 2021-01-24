@@ -40,6 +40,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 //import com.squareup.picasso.Picasso;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
@@ -66,6 +70,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
 
     public void setPost(FragmentActivity activity , String name, String url, String postUri, String time, String uid, String type, String description,String titre){
+
 
             SimpleExoPlayer exoPlayer;
             favorie = itemView.findViewById(R.id.fvrt_post_item);
