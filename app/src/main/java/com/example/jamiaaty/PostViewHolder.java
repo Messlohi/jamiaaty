@@ -91,7 +91,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             tv_time = itemView.findViewById(R.id.tv_time_post);
             tv_nameprofile = itemView.findViewById(R.id.tv_name_post);
             playerView = itemView.findViewById(R.id.exoplayer_item_post);
-//          playerView.setRepeatToggleModes(Player.REPEAT_MODE_OFF);
+            playerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
 //          playerView.playerView.(true);
             supportLayout.setVisibility(View.GONE);
 
@@ -279,5 +279,10 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
         });
 
+    }
+    public void playVideo(){
+//        playerView.setPlaybackPreparer(PlayerView.);
+//        playerView.setPlayer(Player);
+        playerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
     }
 }
