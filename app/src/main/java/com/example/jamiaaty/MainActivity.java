@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Fragment4()).commit();
 
 
-        if(user != null) {
+        if(user != null){
             currentUser = user.getUid();
-        }
+            }
 
 
 

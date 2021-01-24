@@ -6,10 +6,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -133,6 +135,11 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 sendMessageET.setText("");
                 if(currentUser.equals(receiverId)){
+                    if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+                        NotificationChannel channel = new NotificationChannel("My Notif","My Notif", NotificationManager.IMPORTANCE_DEFAULT);
+                        NotificationManager manager = getSystemService(NotificationManager.class);
+                        manager.createNotificationChannel(channel);
+                    }
                     String message = sendMessageET.getText().toString().trim().length()>60?sendMessageET.getText().toString().trim().substring(0,60):sendMessageET.getText().toString().trim();
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this,"My Notif")
                             .setSmallIcon(R.drawable.exo_notification_small_icon)

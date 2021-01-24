@@ -303,11 +303,7 @@ public class Fragment4 extends Fragment {
             }
         });
 
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("My Notif","My Notif", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
+
 
 
         btn_createPost.setOnClickListener(new View.OnClickListener() {
