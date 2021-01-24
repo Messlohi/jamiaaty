@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.example.jamiaaty.Model.PostMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -84,30 +85,19 @@ public class Fragment4 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            currentUser = user.getUid();
-        }
+
         conversationsIb = getActivity().findViewById(R.id.allConversation_iv_posts);
         related_posts_btn   = getActivity().findViewById(R.id.related_posts_ib);
         nonLuTv = getActivity().findViewById(R.id.non_lu_message_tv);
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
         searchFeild = getActivity().findViewById(R.id.et_search_post);
-
-        reference = database.getReference("All posts");
-        likeRef = database.getReference("post likes");
         recyclerView = getActivity().findViewById(R.id.rv_posts);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        db1 = database.getReference("All images").child(currentUser);
-        db2 = database.getReference("All videos").child(currentUser);
-        db4 = database.getReference("All TextPosts").child(currentUser);
-        fvrtref = database.getReference("favourites_in_poste");
-        AllUsersRef = database.getReference("All Users");
-        chatRef = database.getReference("chat");
-        //Stocking the actual featured question
-        fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
+
+        databaseRefs();
+
 
         FirebaseRecyclerOptions<PostMember> options = new FirebaseRecyclerOptions.Builder<PostMember>()
                 .setQuery(reference, PostMember.class)
@@ -129,9 +119,6 @@ public class Fragment4 extends Fragment {
                     protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull PostMember model) {
 
                         final String postKey = getRef(position).getKey();
-                        holder.setPost(getActivity(), model.getName(), model.getUrl(), model.getPostUri(), model.getTime(), model.getUid(), model.getType(), model.getDescription(), model.getTitre());
-
-
                         String description = getItem(position).getDescription();
                         String type = getItem(position).getType();
                         String name = getItem(position).getName();
@@ -139,6 +126,14 @@ public class Fragment4 extends Fragment {
                         String postUri = getItem(position).getPostUri();
                         String time = getItem(position).getTime();
                         String userid = getItem(position).getUid();
+
+
+                        holder.setPost(getActivity(), model.getName(), model.getUrl(), model.getPostUri(), model.getTime(), model.getUid(), model.getType(), model.getDescription(), model.getTitre());
+
+
+
+
+
 
 
                         holder.dowlnloadSupport.setOnClickListener(new View.OnClickListener() {
@@ -318,6 +313,23 @@ public class Fragment4 extends Fragment {
 
 
 
+    }
+
+    private void databaseRefs(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            currentUser = user.getUid();
+        }
+        reference = database.getReference("All posts");
+        likeRef = database.getReference("post likes");
+        db1 = database.getReference("All images").child(currentUser);
+        db2 = database.getReference("All videos").child(currentUser);
+        db4 = database.getReference("All TextPosts").child(currentUser);
+        fvrtref = database.getReference("favourites_in_poste");
+        AllUsersRef = database.getReference("All Users");
+        chatRef = database.getReference("chat");
+        //Stocking the actual featured question
+        fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
     }
 
     @Override

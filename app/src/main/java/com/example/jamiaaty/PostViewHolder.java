@@ -24,11 +24,15 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +50,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     DatabaseReference likesref,Allusers,favouriteref;
     ConstraintLayout mainBody ;
     CardView supportLayout;
+    PlayerView playerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     String uid ="";
 
@@ -66,8 +71,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             favorie = itemView.findViewById(R.id.fvrt_post_item);
             dowlnloadSupport = itemView.findViewById(R.id.ib_dowload_uplodSuport_post);
             mainBody = itemView.findViewById(R.id.cl_main_ShowPostBody);
-        nameSuppot = itemView.findViewById(R.id.tv_name_showPost_post);
-        supportLayout = itemView.findViewById(R.id.cv_support_showPost);
+            nameSuppot = itemView.findViewById(R.id.tv_name_showPost_post);
+            supportLayout = itemView.findViewById(R.id.cv_support_showPost);
             imageViewprofile = itemView.findViewById(R.id.iv_userProfile_post_item);
             iv_post = itemView.findViewById(R.id.iv_post_item);
             //    tv_comment = itemView.findViewById(R.id.commentbutton_posts);
@@ -78,29 +83,78 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             menuoptions = itemView.findViewById(R.id.morebutton_post);
             tv_time = itemView.findViewById(R.id.tv_time_post);
             tv_nameprofile = itemView.findViewById(R.id.tv_name_post);
-            PlayerView playerView = itemView.findViewById(R.id.exoplayer_item_post);
+            playerView = itemView.findViewById(R.id.exoplayer_item_post);
             supportLayout.setVisibility(View.GONE);
 
 
 
-
-
-            if(type.equals("iv")){
-//                Picasso.get().load(postUri).into(iv_post);
-                Glide.with(activity).load(postUri).into(iv_post);
-                tv_desc.setText(description);
-                tv_time.setText(time);
-                playerView.setVisibility(View.GONE);
-                iv_post.setVisibility(View.VISIBLE);
-                supportLayout.setVisibility(View.GONE);
-            }else if(type.equals("vv")){
-                playerView.setVisibility(View.VISIBLE);
-                iv_post.setVisibility(View.GONE);
-                tv_desc.setText(description);
-                tv_time.setText(time);
-
+        //If the user delete the profile the name will appear is that
+        tv_nameprofile.setText(name);
+        try {
+            Glide.with(activity).load(url).into(imageViewprofile);
+        }catch (Exception e){}
+        tv_desc.setText(description);
+        tv_time.setText(time);
+        //Otherwise
+        Allusers = database.getReference("All Users").child(uid);
+        Allusers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
+                    All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                    if(memeber != null){
+                        tv_nameprofile.setText(memeber.getName());
+                        if(!memeber.getUrl().equals("")){
+//                        Picasso.get().load(memeber.getUrl()).into(imageViewprofile);
+                            Glide.with(activity).load(memeber.getUrl()).into(imageViewprofile);
+                        }
+                    }
 
+                }catch (Exception e){}
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        if(type.equals("iv")){
+            //For image Post
+            Glide.with(activity.getApplicationContext()).load(postUri).into(iv_post);
+            tv_desc.setText(description);
+            tv_time.setText(time);
+            iv_post.setVisibility(View.VISIBLE);
+            playerView.setVisibility(View.GONE);
+            supportLayout.setVisibility(View.GONE);
+        }else if(type.equals("vv")) {
+            //For Video Post
+            playerView.setVisibility(View.VISIBLE);
+            iv_post.setVisibility(View.GONE);
+        }else if(type.equals("text")){
+            playerView.setVisibility(View.GONE);
+            iv_post.setVisibility(View.GONE);
+            supportLayout.setVisibility(View.GONE);
+        }else if(type.equals("support")){
+            playerView.setVisibility(View.GONE);
+            iv_post.setVisibility(View.GONE);
+            supportLayout.setVisibility(View.VISIBLE);
+            if(titre.trim().equals("")){
+                nameSuppot.setText("support");
+            }else{
+                nameSuppot.setText(titre);
+            }
+        }
+
+
+
+
+
+          if(type.equals("vv")){
+              /*
+                try {
                     BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(activity).build();
                     TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
                     exoPlayer = (SimpleExoPlayer) ExoPlayerFactory.newSimpleInstance(activity);
@@ -115,51 +169,44 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 }catch(Exception e){
                     Toast.makeText(activity, "Error"+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+*/
 
-            }else if(type.equals("text")){
-                playerView.setVisibility(View.GONE);
-                iv_post.setVisibility(View.GONE);
-                tv_desc.setText(description);
-                tv_time.setText(time);
-            }else if(type.equals("support")){
-                mainBody.setVisibility(View.GONE);
-                supportLayout.setVisibility(View.VISIBLE);
-                if(titre.trim().equals("")){
-                    nameSuppot.setText("support");
-                }else{
-                    nameSuppot.setText(titre);
-                }
-                tv_desc.setText(description);
-                tv_time.setText(time);
-            }
-        Allusers = database.getReference("All Users").child(uid);
-        Allusers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                if(memeber != null){
-                    tv_nameprofile.setText(memeber.getName());
-                    if(!memeber.getUrl().equals("")){
-//                        Picasso.get().load(memeber.getUrl()).into(imageViewprofile);
-                        Glide.with(activity).load(memeber.getUrl()).into(imageViewprofile);
-                    }
+                try{
 
-                }else{
-                    tv_nameprofile.setText(name);
-                    if(!url.equals("")){
-//                        Picasso.get().load(url).into(imageViewprofile);
-                        Glide.with(activity).load(url).into(imageViewprofile);
-                    }
+                    // Create a default TrackSelector
+                    BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                    TrackSelection.Factory videoTrackSelectionFactory =
+                            new AdaptiveTrackSelection.Factory(bandwidthMeter);
+                    TrackSelector trackSelector =
+                            new DefaultTrackSelector(videoTrackSelectionFactory);
 
-                }
+//Initialize the player
+                    exoPlayer = ExoPlayerFactory.newSimpleInstance(activity.getApplicationContext(), trackSelector);
+                    playerView.setPlayer(exoPlayer);
 
+//Initialize simpleExoPlayerView
+
+// Produces DataSource instances through which media data is loaded.
+                    DataSource.Factory dataSourceFactory =
+                            new DefaultDataSourceFactory(activity.getApplicationContext(), Util.getUserAgent(activity.getApplicationContext(), "CloudinaryExoplayer"));
+
+// Produces Extractor instances for parsing the media data.
+                    ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+// This is the MediaSource representing the media to be played.
+                    Uri videoUri = Uri.parse(postUri);
+                    MediaSource videoSource = new ExtractorMediaSource(videoUri,
+                            dataSourceFactory, extractorsFactory, null, null);
+
+// Prepare the player with the source.
+                    exoPlayer.prepare(videoSource);
+                    playerView.setVisibility(View.VISIBLE);
+
+                }catch (Exception e){}
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+
 
 
     }

@@ -56,9 +56,12 @@ public class UserAllConversationsActivity extends AppCompatActivity {
                     allUserRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                            listeUsers.add(memeber);
-                                Log.d("size",listeUsers.size()+"");
+                            try {
+                                All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                                listeUsers.add(memeber);
+                            }catch (Exception e){
+
+                            }
                             adapter = new All_userAdapter(getApplication().getApplicationContext(),listeUsers,true);
                             recyclerView.setAdapter(adapter);
 

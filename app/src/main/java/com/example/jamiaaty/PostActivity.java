@@ -195,7 +195,8 @@ public class PostActivity extends AppCompatActivity {
 
 
     }
-        private void unshowMediaFucntion(){
+
+    private void unshowMediaFucntion(){
             postBody.setText(etdesc.getText().toString());
             etdesc.setVisibility(View.GONE);
             postBody.setVisibility(View.VISIBLE);
@@ -256,6 +257,7 @@ public class PostActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, "Aucun fichier sélectioner", Toast.LENGTH_SHORT).show();
         }
+
         if(requestCode != PICK_FILE){
             if (requestCode == PICK_SUPPORT || resultCode == RESULT_OK ||
 
@@ -277,12 +279,6 @@ public class PostActivity extends AppCompatActivity {
 
 
     }
-    private String getFileExt(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType((contentResolver.getType(uri)));
-
-    }
 
     @Override
     protected void onStart() {
@@ -292,7 +288,6 @@ public class PostActivity extends AppCompatActivity {
         String currentuid = user.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("user").document(currentuid);
-
         documentReference.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -332,15 +327,11 @@ public class PostActivity extends AppCompatActivity {
         final String currentuid = user.getUid();
         final String desc = etdesc.getText().toString();
 
-        Calendar cdate = Calendar.getInstance();
-        SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
-        final  String savedate = currentdate.format(cdate.getTime());
-
         Calendar ctime = Calendar.getInstance();
-        SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat currenttime = new SimpleDateFormat("dd-MMMM-yyyy 'à' HH:mm:ss");
         final String savetime = currenttime.format(ctime.getTime());
 
-        final String time = savedate +":"+ savetime;
+        final String time = savetime;
 
         if(type.equals("support")){
             progressBar.setVisibility(View.VISIBLE);
@@ -410,7 +401,7 @@ public class PostActivity extends AppCompatActivity {
         if ( selectedUri != null && (type.equals("iv") || type.equals("vv"))){
             progressBar.setVisibility(View.VISIBLE);
             btnuploadfile.setEnabled(false);
-            final StorageReference reference = storageReference.child(System.currentTimeMillis()+ "."+getFileExt(selectedUri));
+            final StorageReference reference = storageReference.child(System.currentTimeMillis()+ "."+getFileExtention(selectedUri));
             uploadTask = reference.putFile(selectedUri);
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -515,7 +506,7 @@ public class PostActivity extends AppCompatActivity {
             db3.child(postKey).setValue(postmember);
 
             progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(PostActivity.this, "Post Uploaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostActivity.this, "Post téléversé", Toast.LENGTH_SHORT).show();
             finish();
 
         }

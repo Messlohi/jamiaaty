@@ -102,6 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
                 tools:ignore="MissingConstraints" />
 
 
