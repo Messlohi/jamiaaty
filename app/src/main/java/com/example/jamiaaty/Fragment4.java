@@ -349,21 +349,19 @@ public class Fragment4 extends Fragment {
                     chatRef.child(All_userAdapter.getChatKey(currentUser,ds.getKey())).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            notifi_nb = 0;
                             for(DataSnapshot dsa : snapshot.getChildren()){
                                 chatMessageModel  model = dsa.getValue(chatMessageModel.class);
                                 if(model.getVu() == false){
                                     Log.d("model",model.getVu()+"");
 //                                    count[0]++;
                                     notifi_nb++;
-//                                    Toast.makeText(getContext(), "nb noti "+notifi_nb, Toast.LENGTH_SHORT).show();
                                 }
-
                             }
                             nonLuTv.setText(notifi_nb +"");
                             //si nb notifica ==0 hide red badge
                             if(nonLuTv.getText().equals("0")) nonLuTv.setVisibility(View.INVISIBLE);
                             else nonLuTv.setVisibility(View.VISIBLE);
+
                         }
 
                         @Override
@@ -373,9 +371,6 @@ public class Fragment4 extends Fragment {
                     });
 
                 }
-
-
-
 
             }
 

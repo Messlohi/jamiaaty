@@ -50,7 +50,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageViewprofile, iv_post;
     TextView tv_name, tv_desc, tv_likes, tv_comment, tv_time, tv_nameprofile,nameSuppot;
-    ImageButton likebtn, menuoptions, commentbtn,dowlnloadSupport,favorie;
+    ImageButton likebtn, menuoptions, commentbtn,dowlnloadSupport,favorie,startVideIb;
     DatabaseReference likesref,Allusers,favouriteref;
     ConstraintLayout mainBody ;
     CardView supportLayout;
@@ -73,6 +73,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
 
             SimpleExoPlayer exoPlayer;
+            startVideIb = itemView.findViewById(R.id.start_btn_video_post);
             favorie = itemView.findViewById(R.id.fvrt_post_item);
             dowlnloadSupport = itemView.findViewById(R.id.ib_dowload_uplodSuport_post);
             mainBody = itemView.findViewById(R.id.cl_main_ShowPostBody);
@@ -158,6 +159,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
 
           if(type.equals("vv")){
+              startVideIb.setVisibility(View.VISIBLE);
               /*
                 try {
                     BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(activity).build();
@@ -176,7 +178,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 }
 */
 
-                try{
+                try {
 
                     // Create a default TrackSelector
                     BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -185,36 +187,45 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                     TrackSelector trackSelector =
                             new DefaultTrackSelector(videoTrackSelectionFactory);
 
-//Initialize the player
+                    //Initialize the player
                     exoPlayer = ExoPlayerFactory.newSimpleInstance(activity.getApplicationContext(), trackSelector);
                     playerView.setPlayer(exoPlayer);
 
-//Initialize simpleExoPlayerView
+                    //Initialize simpleExoPlayerView
 
-// Produces DataSource instances through which media data is loaded.
+                    // Produces DataSource instances through which media data is loaded.
                     DataSource.Factory dataSourceFactory =
                             new DefaultDataSourceFactory(activity.getApplicationContext(), Util.getUserAgent(activity.getApplicationContext(), "CloudinaryExoplayer"));
 
-// Produces Extractor instances for parsing the media data.
+                    // Produces Extractor instances for parsing the media data.
                     ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-// This is the MediaSource representing the media to be played.
+                    // This is the MediaSource representing the media to be played.
                     Uri videoUri = Uri.parse(postUri);
                     MediaSource videoSource = new ExtractorMediaSource(videoUri,
                             dataSourceFactory, extractorsFactory, null, null);
 
-// Prepare the player with the source.
-                    exoPlayer.prepare(videoSource);
-                    playerView.setVisibility(View.VISIBLE);
+                    // Prepare the player with the source.
+
+                        startVideIb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                exoPlayer.prepare(videoSource);
+                                startVideIb.setVisibility(View.GONE);
+                            }
+                        });
+                        playerView.setVisibility(View.VISIBLE);
+
 
                 }catch (Exception e){}
-            }
-
-
-
-
+          }
 
     }
+
+
+
+
+
 
     public  void favouriteCheker(String postKey){
         favouriteref = database.getReference("favourites_in_poste");

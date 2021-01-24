@@ -124,8 +124,21 @@
                 android:visibility="visible"
                 app:show_timeout="1000"
                 app:use_controller="true"
-                tools:ignore="MissingConstraints"
-                 />
+                tools:ignore="MissingConstraints">
+
+                <ImageButton
+                    android:id="@+id/start_btn_video_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_send"
+                    android:clickable="false"
+                    android:visibility="gone" />
+
+
+            </com.google.android.exoplayer2.ui.PlayerView>
+
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
