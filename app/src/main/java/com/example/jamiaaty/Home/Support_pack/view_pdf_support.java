@@ -101,18 +101,5 @@ public class view_pdf_support extends AppCompatActivity {
             return inputStream;
         }
     }
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                } else {
-                    Toast.makeText(this, "Veuillez donner les permissions de stackage pour que l'app puis accéder aux fichiers téléchargé", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
-    }
 }

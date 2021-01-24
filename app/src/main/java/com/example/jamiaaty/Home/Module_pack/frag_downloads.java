@@ -92,18 +92,5 @@ public class frag_downloads extends Fragment {
         getActivity().finish();
     }
 
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                } else {
-                    Toast.makeText(getContext(), "Veuillez donner les permissions de stackage pour que l'app puis accéder aux fichiers téléchargé", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
-    }
 }
