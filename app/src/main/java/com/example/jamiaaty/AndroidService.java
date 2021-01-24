@@ -35,16 +35,7 @@ public class AndroidService extends Service {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            final VibrationEffect vibrationEffect1;
-            // this effect creates the vibration of default amplitude for 1000ms(1 sec)
-            vibrationEffect1 = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE);
 
-            // it is safe to cancel other vibrations currently taking place
-            vibrator.cancel();
-            vibrator.vibrate(vibrationEffect1);
-        }
 
         if(user != null){
             currentUser = user.getUid();

@@ -175,6 +175,49 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
+        chatRef.child(chatKey).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                chatMessageModel model = snapshot.getValue(chatMessageModel.class);
+                try {
+                    if(currentUser.equals(model.getIdSender())){
+                        isSenderList.add(true);
+                    }else {
+                        isSenderList.add(false);
+                    }
+                    listMessages.add(model);
+                    chatAdapter.notifyDataSetChanged();
+                    if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
+                        recyclerView.smoothScrollToPosition(listMessages.size()-1);
+                    }
+
+                }catch (Exception e){}
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+/*
 
         chatRef.child(chatKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -226,6 +269,8 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+         */
         /*
         //--For notifaction code attempt(not working)!
         database.getReference("All Users").child(receiverId).child("chatKeys").addChildEventListener(new ChildEventListener() {
@@ -302,13 +347,66 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        activityRuning = false;
+        activityRuning = true;
     }
-
+    private Boolean startActivity = true;
     @Override
     protected void onStart() {
         super.onStart();
         activityRuning = true;
+        chatRef.child(chatKey).limitToLast(35).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(startActivity){
+                    listMessages.clear();
+                    isSenderList.clear();
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        chatMessageModel model = item.getValue(chatMessageModel.class);
+                        if(currentUser.equals(model.getIdSender())){
+                            isSenderList.add(true);
+                        }else {
+                            isSenderList.add(false);
+                        }
+                        listMessages.add(model);
+                    }
+                    chatAdapter = new messageChatAdapter(getApplicationContext(),listMessages,isSenderList);
+                    chatAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(chatAdapter);
+                    Parcelable recyclerViewState;
+                    recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
+                    // Restore state
+                    recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+                    if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
+                        recyclerView.smoothScrollToPosition(listMessages.size()-1);
+                    }
+                    //For vu state---------------------------------------------
+                    if(listMessages.size()!=0 && !listMessages.get(listMessages.size()-1).getIdSender().equals(currentUser)) {
+                        chatRef.child(chatKey).orderByChild("vu").startAt(false).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    chatRef.child(chatKey).child(ds.getKey()).child("vu").setValue(true);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    startActivity = false;
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
