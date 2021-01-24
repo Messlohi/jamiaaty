@@ -120,7 +120,6 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 chatMessageModel model = new chatMessageModel();
 
-
                 Calendar ctime = Calendar.getInstance();
                 SimpleDateFormat currenttime = new SimpleDateFormat("dd:mm:yyyy 'à' HH:mm:ss");
                 final String savetime = currenttime.format(ctime.getTime());
