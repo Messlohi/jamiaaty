@@ -3,6 +3,7 @@ package com.example.jamiaaty;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +30,13 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
     TextView nameEt, profEt, bioEt, emailEt,webEt;
     ImageButton imageButtonEdit,imageButtonMenu;
+    View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.fragment1,container,false);
+          view = inflater.inflate(R.layout.fragment1,container,false);
         return  view;
     }
 
@@ -118,7 +120,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 String urlResult = task.getResult().getString("url");
                                 if(!urlResult.equals("")){
 //                                    Picasso.get().load(urlResult).into(imageView);
-                                    Glide.with(getActivity()).load(urlResult).into(imageView);
+                                    try {
+                                        Glide.with(view.getContext()).load(urlResult).into(imageView);
+                                    }catch (Exception e){
+                                        Log.i("Errooor","error while getting img frim db :"+e.getMessage());
+                                    }
                                 }
                                 nameEt.setText(nameResult);
                                 bioEt.setText(bioResult);

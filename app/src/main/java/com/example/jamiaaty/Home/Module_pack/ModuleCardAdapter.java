@@ -63,6 +63,7 @@ public class ModuleCardAdapter extends RecyclerView.Adapter<ModuleCardAdapter.Vi
             holder.bookmarkFlag=true;
             holder.BtnBookmark.setImageResource(R.drawable.ic_bookmark_checked);
         }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,10 +99,10 @@ public class ModuleCardAdapter extends RecyclerView.Adapter<ModuleCardAdapter.Vi
                         dbbookmark.addModule(modules.get(position));
 //                        Log.i("debuuug"," _\n_\n_\n"+dbbookmark.getAllModules().get(0).name+"\n_\n_\n_ ");
                     }
+
                 }catch(Exception e){
                     Toast.makeText(contextAdap, "Erreur "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

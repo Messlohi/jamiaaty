@@ -135,6 +135,7 @@ public class frag_ModuleList extends Fragment {
                     }
                     rv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     rv.setHasFixedSize(true);
+                    if(getActivity()==null) return;
                     rv.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), DividerItemDecoration.VERTICAL));
                     adapter = new ModuleCardAdapter(getActivity(),modules );
                     rv.setAdapter(adapter);

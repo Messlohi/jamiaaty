@@ -69,7 +69,7 @@ public class Fragment4 extends Fragment {
     TextView nonLuTv;
     FirebaseRecyclerOptions<PostMember> options;
     FirebaseRecyclerAdapter<PostMember, PostViewHolder> firebaseRecyclerAdapter;
-
+    int nbNotificat;
 
 
     @Nullable
@@ -89,6 +89,10 @@ public class Fragment4 extends Fragment {
         conversationsIb = getActivity().findViewById(R.id.allConversation_iv_posts);
         related_posts_btn   = getActivity().findViewById(R.id.related_posts_ib);
         nonLuTv = getActivity().findViewById(R.id.non_lu_message_tv);
+        nbNotificat=Integer.valueOf(nonLuTv.getText().toString());
+
+
+        if( nbNotificat>99) nonLuTv.setText("99");//si nb de nitification>99 disp 99
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
         searchFeild = getActivity().findViewById(R.id.et_search_post);
         recyclerView = getActivity().findViewById(R.id.rv_posts);
@@ -338,20 +342,28 @@ public class Fragment4 extends Fragment {
 
         AllUsersRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
             final int[] count = {0};
+            int notifi_nb = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     chatRef.child(All_userAdapter.getChatKey(currentUser,ds.getKey())).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            notifi_nb = 0;
                             for(DataSnapshot dsa : snapshot.getChildren()){
                                 chatMessageModel  model = dsa.getValue(chatMessageModel.class);
                                 if(model.getVu() == false){
                                     Log.d("model",model.getVu()+"");
-                                    count[0]++;
+//                                    count[0]++;
+                                    notifi_nb++;
+//                                    Toast.makeText(getContext(), "nb noti "+notifi_nb, Toast.LENGTH_SHORT).show();
                                 }
-                                nonLuTv.setText(count[0] +"");
+
                             }
+                            nonLuTv.setText(notifi_nb +"");
+                            //si nb notifica ==0 hide red badge
+                            if(nonLuTv.getText().equals("0")) nonLuTv.setVisibility(View.INVISIBLE);
+                            else nonLuTv.setVisibility(View.VISIBLE);
                         }
 
                         @Override

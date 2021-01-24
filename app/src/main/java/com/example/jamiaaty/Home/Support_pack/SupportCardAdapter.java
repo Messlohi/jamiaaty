@@ -110,14 +110,11 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
 //                    Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
-
-
                     file_download(supports.get(position).FileLink,supports.get(position).Name);
                 }catch (Exception e){
-                    Toast.makeText(contextAdap, "Erreur telechargement"+e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(contextAdap, "Erreur de telechargement"+e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
-
         });
     }
 
