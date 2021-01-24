@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -121,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
                 chatMessageModel model = new chatMessageModel();
 
                 Calendar ctime = Calendar.getInstance();
-                SimpleDateFormat currenttime = new SimpleDateFormat("dd:mm:yyyy 'à' HH:mm:ss");
+                SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
                 final String savetime = currenttime.format(ctime.getTime());
 
                 final String time =  savetime;
@@ -133,12 +134,14 @@ public class ChatActivity extends AppCompatActivity {
                     chatRef.child(chatKey).push().setValue(model);
                 }
                 sendMessageET.setText("");
+
                 if(currentUser.equals(receiverId)){
                     if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
                         NotificationChannel channel = new NotificationChannel("My Notif","My Notif", NotificationManager.IMPORTANCE_DEFAULT);
                         NotificationManager manager = getSystemService(NotificationManager.class);
                         manager.createNotificationChannel(channel);
                     }
+                    Toast.makeText(ChatActivity.this,"messgae notif",Toast.LENGTH_SHORT).show();
                     String message = sendMessageET.getText().toString().trim().length()>60?sendMessageET.getText().toString().trim().substring(0,60):sendMessageET.getText().toString().trim();
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this,"My Notif")
                             .setSmallIcon(R.drawable.exo_notification_small_icon)
@@ -203,6 +206,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     });
                 }
+
 
 
 

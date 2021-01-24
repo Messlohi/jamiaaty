@@ -59,6 +59,15 @@
         android:text="Show password"
         android:textColor="@android:color/white" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="as geust?"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:clickable="true"
+        android:id="@+id/asgeust_tv"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

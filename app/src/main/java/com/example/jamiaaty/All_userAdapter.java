@@ -127,6 +127,7 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
         }
         return uid1.length()>=uid2.length()?uid1+uid2:uid2+uid1;
     }
+
     public static Boolean getChatKeyMajorKey(String uid1,String uid2){
         int size = uid1.length()>=uid2.length()?uid1.length():uid2.length();
         for(int i=0 ;i<size;i++){

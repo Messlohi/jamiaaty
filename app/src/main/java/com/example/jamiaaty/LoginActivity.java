@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     EditText emailEt, passET;
+    TextView geustTv;
     Button register_btn,login_btn ;
     CheckBox checkBox;
     ProgressBar progressBar;
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progrssbar_login);
         login_btn = findViewById(R.id.button_login);
         mAuth = FirebaseAuth.getInstance();
+        geustTv = findViewById(R.id.asgeust_tv);
 
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -52,6 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     passET.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
+            }
+        });
+
+        geustTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,GeustMainActivity.class);
+                startActivity(intent);
             }
         });
 

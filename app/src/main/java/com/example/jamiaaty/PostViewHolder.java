@@ -47,11 +47,16 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     ConstraintLayout mainBody ;
     CardView supportLayout;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    String uid ="";
 
     int likescount;
 
     public PostViewHolder(@NonNull View itemView) {
         super(itemView);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       if(user!=null){
+           uid = user.getUid();
+       }
     }
 
 
@@ -186,8 +191,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public void likeschecker(final String postkey) {
         likebtn = itemView.findViewById(R.id.likebutton_post);
         likesref = database.getReference("post likes");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String uid = user.getUid();
+
 
         likesref.addValueEventListener(new ValueEventListener() {
             @Override

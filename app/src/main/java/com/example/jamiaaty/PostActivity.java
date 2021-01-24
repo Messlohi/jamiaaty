@@ -331,9 +331,11 @@ public class PostActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String currentuid = user.getUid();
         final String desc = etdesc.getText().toString();
+
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
         final  String savedate = currentdate.format(cdate.getTime());
+
         Calendar ctime = Calendar.getInstance();
         SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
         final String savetime = currenttime.format(ctime.getTime());
@@ -352,6 +354,7 @@ public class PostActivity extends AppCompatActivity {
                 Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
                 return;
             }
+
 
             StorageReference ref =  FirebaseStorage.getInstance().getReference("Support Users");
             final StorageReference reference = ref.child(System.currentTimeMillis() + "." + getFileExtention(supportUri));

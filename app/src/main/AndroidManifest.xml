@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jamiaaty">
-        <activity android:name=".UserAllConversationsActivity"></activity>
+        <activity android:name=".GeustMainActivity"></activity>
+        <activity android:name=".UserAllConversationsActivity" />
         <activity android:name=".Home.Module_pack.bookmarks_Modules" />
         <activity android:name=".Home.Support_pack.view_pdf_support" />
         <activity
