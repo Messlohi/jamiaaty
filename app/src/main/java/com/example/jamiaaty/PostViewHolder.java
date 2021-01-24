@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
@@ -90,6 +91,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             tv_time = itemView.findViewById(R.id.tv_time_post);
             tv_nameprofile = itemView.findViewById(R.id.tv_name_post);
             playerView = itemView.findViewById(R.id.exoplayer_item_post);
+//          playerView.setRepeatToggleModes(Player.REPEAT_MODE_OFF);
+//          playerView.playerView.(true);
             supportLayout.setVisibility(View.GONE);
 
 
