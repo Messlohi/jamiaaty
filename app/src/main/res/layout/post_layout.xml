@@ -135,7 +135,7 @@
                     android:background="@drawable/ic_baseline_play_circle_filled_24"
                     android:clickable="false"
                     android:onClick="playVideo"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
 
             </com.google.android.exoplayer2.ui.PlayerView>
