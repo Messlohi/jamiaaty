@@ -1,7 +1,10 @@
 package com.example.jamiaaty;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,15 +13,27 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.jamiaaty.Home.Module_pack.frag_downloads;
 import com.example.jamiaaty.Home.module_fragments.frag_ModuleList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String currentUser = "";
+    DatabaseReference chatRef;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
     public boolean isNetworkAvailable() {
@@ -34,8 +49,15 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNav);
         //request storage permissions
-
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Fragment4()).commit();
+
+
+        if(user != null) {
+            currentUser = user.getUid();
+        }
+
+
+
     }
     private BottomNavigationView.OnNavigationItemSelectedListener onNav = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override

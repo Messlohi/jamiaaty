@@ -71,6 +71,8 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical|right">
 
+
+
                 <ImageButton
                     android:id="@+id/messageTo_userCard"
                     android:layout_width="wrap_content"
@@ -79,7 +81,7 @@
                     android:background="@android:color/transparent"
                     android:padding="2dp"
                     android:src="@drawable/messager"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,6 +100,8 @@
                     android:id="@+id/addFreind_userCard"
                     android:src="@drawable/ic_baseline_add_24"
                     android:padding="2dp"/>
+
+
             </LinearLayout>
 
         </LinearLayout>

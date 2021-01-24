@@ -3,13 +3,18 @@ package com.example.jamiaaty;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +22,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +55,7 @@ import com.google.firebase.storage.StorageReference;
 public class Fragment4 extends Fragment {
 
     ImageButton btn_createPost,related_posts_btn;
+    ImageView conversationsIb;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef;
@@ -79,6 +88,7 @@ public class Fragment4 extends Fragment {
         if (user != null) {
             currentUser = user.getUid();
         }
+        conversationsIb = getActivity().findViewById(R.id.allConversation_iv_posts);
         related_posts_btn   = getActivity().findViewById(R.id.related_posts_ib);
         nonLuTv = getActivity().findViewById(R.id.non_lu_message_tv);
         btn_createPost = getActivity().findViewById(R.id.createpost_f4);
@@ -254,6 +264,13 @@ public class Fragment4 extends Fragment {
         firebaseRecyclerAdapter.startListening();
 
 
+        conversationsIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),UserAllConversationsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         related_posts_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,12 +303,20 @@ public class Fragment4 extends Fragment {
             }
         });
 
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("My Notif","My Notif", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
 
         btn_createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PostActivity.class);
-                startActivity(intent);
+               startActivity(intent);
+
+
             }
         });
 
@@ -308,7 +333,7 @@ public class Fragment4 extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    chatRef.child(ds.getKey()).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
+                    chatRef.child(All_userAdapter.getChatKey(currentUser,ds.getKey())).orderByChild("idReceivevr").equalTo(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dsa : snapshot.getChildren()){

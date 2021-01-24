@@ -2,9 +2,14 @@ package com.example.jamiaaty;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     messageChatAdapter chatAdapter;
     List<chatMessageModel> listMessages = new ArrayList<>();
     List<Boolean> isSenderList = new ArrayList<>();
+   public static  Boolean activityRuning ;
 
 
     @Override
@@ -126,9 +132,35 @@ public class ChatActivity extends AppCompatActivity {
                     chatRef.child(chatKey).push().setValue(model);
                 }
                 sendMessageET.setText("");
+                if(currentUser.equals(receiverId)){
+                    String message = sendMessageET.getText().toString().trim().length()>60?sendMessageET.getText().toString().trim().substring(0,60):sendMessageET.getText().toString().trim();
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this,"My Notif")
+                            .setSmallIcon(R.drawable.exo_notification_small_icon)
+                            .setContentTitle("Message de:"+senderName)
+                            .setContentText(message+"..")
+                            .setAutoCancel(true);
+
+
+                    Intent intent1 = new Intent(ChatActivity.this,ChatActivity.class);
+                    intent1.putExtra("rName",senderName);
+                    intent1.putExtra("rUrl",senderUrl);
+                    intent1.putExtra("rId",currentUser);
+                    intent1.putExtra("chatKey",chatKey);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    PendingIntent pendingIntent = PendingIntent.getActivity(ChatActivity.this,0,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+                    builder.setContentIntent(pendingIntent);
+
+                    NotificationManager notificationManager =  (NotificationManager)getSystemService(
+                            Context.NOTIFICATION_SERVICE
+                    );
+                    notificationManager.notify(0,builder.build());
+                }
 
             }
         });
+
+
 
         chatRef.child(chatKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -179,8 +211,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        activityRuning = false;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+        activityRuning = true;
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -191,9 +230,9 @@ public class ChatActivity extends AppCompatActivity {
                         AllUserRef.child(currentUser).child("chatKeys").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(!snapshot.hasChild(chatKey)){
-                                    AllUserRef.child(currentUser).child("chatKeys").child(chatKey).setValue(true);
-                                    AllUserRef.child(receiverId).child("chatKeys").child(chatKey).setValue(true);
+                                if(!snapshot.hasChild(receiverId)){
+                                    AllUserRef.child(currentUser).child("chatKeys").child(receiverId).child(chatKey).setValue(true);
+                                    AllUserRef.child(receiverId).child("chatKeys").child(currentUser).child(chatKey).setValue(true);
                                 }
                             }
                             @Override

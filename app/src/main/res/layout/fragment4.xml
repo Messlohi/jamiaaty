@@ -41,6 +41,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:layout_marginRight="15dp"
                 >
 
@@ -74,7 +75,7 @@
                         android:layout_marginTop="0dp"
                         android:elevation="7dp"
                         android:textAlignment="textEnd"
-                        android:text="10"
+                        android:text="0"
                         android:textColor="@android:color/holo_red_light" />
 
                     <ImageView
@@ -88,6 +89,7 @@
                         android:adjustViewBounds="true"
                         android:background="@drawable/ic_baseline_email_24"
                         android:clickable="true"
+                        android:id="@+id/allConversation_iv_posts"
                         android:scaleType="fitXY"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

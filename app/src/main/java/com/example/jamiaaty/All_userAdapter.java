@@ -1,5 +1,6 @@
 package com.example.jamiaaty;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -28,25 +29,30 @@ import java.util.List;
 
 public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_userViewHolder> {
 
-    Context context;
+    Context context= null;
     List<All_UserMemeber> listUser;
+    Application application=null;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference allUserRef,IFollowRef,FollowMeList,chatRef;
     String currentUserId = "";
     Boolean followCheker = false;
     Boolean FollowMeCheker = false;
+    Boolean isInChatList =false ;
 
 
 
 
-    public All_userAdapter(Context context, List<All_UserMemeber> listUser) {
+
+    public All_userAdapter(Context context, List<All_UserMemeber> listUser,Boolean isInChatList) {
         this.context = context;
         this.listUser = listUser;
+        this.isInChatList = isInChatList;
         if(user != null){
             currentUserId = user.getUid();
         }
         IFollowRef = database.getReference("All Users").child(currentUserId).child("IFollowList");
+
     }
 
     @NonNull
@@ -104,12 +110,15 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                 intent.putExtra("rUrl",model.getUrl());
                 intent.putExtra("rId",model.getUid());
                 intent.putExtra("chatKey",getChatKey(currentUserId,model.getUid()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+
+
             }
         });
     }
 
-    private static String getChatKey(String uid1,String uid2){
+    public static String getChatKey(String uid1,String uid2){
         int size = uid1.length()>=uid2.length()?uid1.length():uid2.length();
         for(int i=0 ;i<size;i++){
             if(uid1.charAt(i) == uid2.charAt(i)) continue;
@@ -117,6 +126,15 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
             if(uid2.charAt(i)>uid1.charAt(i)) return uid2+uid1;
         }
         return uid1.length()>=uid2.length()?uid1+uid2:uid2+uid1;
+    }
+    public static Boolean getChatKeyMajorKey(String uid1,String uid2){
+        int size = uid1.length()>=uid2.length()?uid1.length():uid2.length();
+        for(int i=0 ;i<size;i++){
+            if(uid1.charAt(i) == uid2.charAt(i)) continue;
+            if(uid1.charAt(i)>uid2.charAt(i)) return true;
+            if(uid2.charAt(i)>uid1.charAt(i)) return false;
+        }
+        return uid1.length()>=uid2.length()?true:false;
     }
 
     @Override
@@ -133,7 +151,6 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                     if(snapshot.hasChild(uid)){
                         IFollowRef.child(uid).removeValue();
                         followCheker = false;
-
                     }else {
                         IFollowRef.child(uid).setValue(true);
                         followCheker = false;
@@ -201,9 +218,17 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 //                Picasso.get().load(url).into(imageViewProfile);
                 Glide.with(context).load(url).into(imageViewProfile);
             }
+            tv_prof.setText(prof.trim());
+            tv_name.setText(name.trim());
 
-            tv_prof.setText(prof);
-            tv_name.setText(name);
+            if(isInChatList){
+                requestString.setVisibility(View.GONE);
+                addUser.setVisibility(View.GONE);
+            }else{
+                requestString.setVisibility(View.VISIBLE);
+                addUser.setVisibility(View.VISIBLE);
+            }
+
         }
 
 
@@ -213,11 +238,9 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.hasChild(uid)){
                         requestString.setText("Suivi");
-                        messageButton.setVisibility(View.VISIBLE);
                         addUser.setImageResource(R.drawable.ic_baseline_close_red);
                     }else{
                         requestString.setText("Suivre");
-                        messageButton.setVisibility(View.GONE);
                         addUser.setImageResource(R.drawable.ic_baseline_add_24);
 
                     }

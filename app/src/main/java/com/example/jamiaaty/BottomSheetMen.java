@@ -73,7 +73,7 @@ public class BottomSheetMen extends BottomSheetDialogFragment implements  View.O
                                     url = task.getResult().getString("url");
                                 }
                             }catch (Exception e){
-                                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), e.getMessage(),Toast.LENGTH_SHORT).show();
                             }
 
                         }

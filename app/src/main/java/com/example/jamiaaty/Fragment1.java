@@ -118,7 +118,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 String urlResult = task.getResult().getString("url");
                                 if(!urlResult.equals("")){
 //                                    Picasso.get().load(urlResult).into(imageView);
-                                    Glide.with(getContext()).load(urlResult).into(imageView);
+                                    Glide.with(getActivity()).load(urlResult).into(imageView);
                                 }
                                 nameEt.setText(nameResult);
                                 bioEt.setText(bioResult);

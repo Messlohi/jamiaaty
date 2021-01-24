@@ -1,19 +1,14 @@
 package com.example.jamiaaty;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.SearchView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,48 +22,59 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment3 extends Fragment {
+public class UserAllConversationsActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView ;
+
+    RecyclerView recyclerView;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference allUserRef,addToContactref;
+    DatabaseReference allUserRef,chatRef;
     String currentUserId = "";
     All_userAdapter adapter;
     List<All_UserMemeber> listeUsers = new ArrayList<>();
-    SearchView searchView;
+   // SearchView searchView;
 
 
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_all_conversations2);
 
-
-        View view = inflater.inflate(R.layout.fragment3,container,false);
-
-        searchView = view.findViewById(R.id.et_search_users);
-        recyclerView =view.findViewById(R.id.rv_usercards);
+        //searchView = findViewById(R.id.et_search_users);
+        recyclerView = findViewById(R.id.rv_allConversations);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         if(user != null){
             currentUserId = user.getUid();
         }
         allUserRef = database.getReference("All Users");
-        addToContactref = database.getReference("All Users").child(currentUserId).child("FreindList");
-        allUserRef.addValueEventListener(new ValueEventListener() {
+        chatRef = database.getReference("chat");
+        allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listeUsers.clear();
-                for(DataSnapshot item : snapshot.getChildren()){
-                    All_UserMemeber memeber = item.getValue(All_UserMemeber.class);
-                        if(!currentUserId.equals(memeber.getUid())){
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    allUserRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
                             listeUsers.add(memeber);
+                                Log.d("size",listeUsers.size()+"");
+                            adapter = new All_userAdapter(getApplication().getApplicationContext(),listeUsers,true);
+                            recyclerView.setAdapter(adapter);
+
                         }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+
+                        }
+                    });
+
+                    //adapter = new All_userAdapter(getApplication(),listeUsers,true);
+                    //recyclerView.setAdapter(adapter);
                 }
-                adapter = new All_userAdapter(getContext(),listeUsers,false);
-                recyclerView.setAdapter(adapter);
+
+
             }
 
             @Override
@@ -76,27 +82,7 @@ public class Fragment3 extends Fragment {
 
             }
         });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchUsers(query.toLowerCase());
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.isEmpty()){
-                    fetchAllUsers();
-                }
-                return false;
-            }
-        });
-
-        return  view;
     }
-
-
 
     private  void fetchAllUsers(){
         allUserRef.addValueEventListener(new ValueEventListener() {
@@ -109,7 +95,7 @@ public class Fragment3 extends Fragment {
                         listeUsers.add(memeber);
                     }
                 }
-                adapter = new All_userAdapter(getContext(),listeUsers,false);
+                adapter = new All_userAdapter(getApplication().getApplicationContext(),listeUsers,true);
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
             }
@@ -133,7 +119,7 @@ public class Fragment3 extends Fragment {
                         listeUsers.add(memeber);
                     }
                 }
-                adapter = new All_userAdapter(getContext(),listeUsers,false);
+                adapter = new All_userAdapter(getApplication().getApplicationContext(),listeUsers,true);
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
             }
@@ -144,6 +130,7 @@ public class Fragment3 extends Fragment {
             }
         });
     }
+
 
 
 
