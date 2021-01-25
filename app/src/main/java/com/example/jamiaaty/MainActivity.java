@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     List<String> convKeys = new ArrayList<>();
 
 
+
+
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -66,6 +68,20 @@ public class MainActivity extends AppCompatActivity {
         if(user != null){
             currentUser = user.getUid();
         }
+
+        convKeys.add("a");
+        convKeys.add("b");
+        convKeys.add("c");
+        List<String> list2 = new ArrayList<>();
+        list2.add("aa");
+        list2.add("aa");
+        list2.add("aa");
+
+        convKeys.addAll(0,list2);
+        for (int i=0 ; i<convKeys.size()-1;i++){
+            Log.d("value",convKeys.get(i));
+        }
+        Log.d("value",convKeys.get(5));
 
         database.getReference("All Users").child(currentUser).child("notification").addValueEventListener(new ValueEventListener() {
             @Override

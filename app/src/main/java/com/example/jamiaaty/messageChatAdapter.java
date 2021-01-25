@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -52,7 +55,7 @@ public class messageChatAdapter extends RecyclerView.Adapter<messageChatAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout containerChatMessages;
-        CardView senderCard,receiverCard;
+        RelativeLayout receiverCard,senderCard;
         TextView messageSender,timeSender,messageReceiver,timeReceiver;
 
         public ViewHolder(@NonNull View itemView) {

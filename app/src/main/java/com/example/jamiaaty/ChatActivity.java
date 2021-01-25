@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -62,7 +63,12 @@ public class ChatActivity extends AppCompatActivity {
     messageChatAdapter chatAdapter;
     List<chatMessageModel> listMessages = new ArrayList<>();
     List<Boolean> isSenderList = new ArrayList<>();
-   public static  Boolean activityRuning ;
+    SwipeRefreshLayout swipeContainer;
+    String last_key ="";
+    int fetchCurrentNumber = 30;
+    int countAfter=0,countBefore=-1;
+    private Boolean startActivity = true;
+    public static  Boolean activityRuning ;
 
 
     @Override
@@ -70,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        swipeContainer = findViewById(R.id.swipe_container_chat);
         muteButton = findViewById(R.id.mute_ib);
         sendButton = findViewById(R.id.ib_send_message_chat);
         senderIV = findViewById(R.id.iv_currentUser_chat);
@@ -86,28 +93,24 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-
-        AllUserRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                if (memeber != null) {
-                    senderName = memeber.getName();
-                    senderUrl = memeber.getUrl();
+            public void onRefresh() {
+                if(countAfter == countBefore){
+                    swipeContainer.setRefreshing(false);
                 }
-                if(!senderUrl.equals("")){
-//                    Picasso.get().load(senderUrl).into(senderIV);
-                    Glide.with(getApplicationContext()).load(senderUrl).into(senderIV);
+                if(!startActivity && !(countAfter == countBefore)){
+                   fetchMessages();
                 }
-                nameReceiverrTV.setText(receiverName);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         Bundle extra = getIntent().getExtras();
         if (extra != null){
@@ -124,7 +127,6 @@ public class ChatActivity extends AppCompatActivity {
 //            Picasso.get().load(receiverUrl).into(receiverIV);
             Glide.with(getApplicationContext()).load(receiverUrl).into(receiverIV);
         }
-
 
         muteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +176,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
         chatRef.child(chatKey).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -188,7 +189,7 @@ public class ChatActivity extends AppCompatActivity {
                     listMessages.add(model);
                     chatAdapter.notifyDataSetChanged();
                     if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
-                        recyclerView.smoothScrollToPosition(listMessages.size()-1);
+                        recyclerView.smoothScrollToPosition(listMessages.size());
                     }
 
                 }catch (Exception e){}
@@ -215,7 +216,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
 
 /*
 
@@ -344,17 +344,54 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void fetchMessages() {
+        chatRef.child(chatKey).limitToLast(fetchCurrentNumber).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                  countBefore = listMessages.size();
+                     isSenderList.clear();
+                    listMessages.clear();
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        chatMessageModel model = item.getValue(chatMessageModel.class);
+                        if(currentUser.equals(model.getIdSender())){
+                            isSenderList.add(true);
+                        }else {
+                            isSenderList.add(false);
+                        }
+                        listMessages.add(model);
+                        last_key = item.getKey();
+                    }
+                countAfter = listMessages.size();
+                    if(!(countAfter==countBefore)){
+                        chatAdapter.notifyItemRangeInserted(0,10);
+
+                    }
+                swipeContainer.setRefreshing(false);
+                fetchCurrentNumber += 10;
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                swipeContainer.setRefreshing(false);
+
+            }
+        });
+
+    }
+
+
     @Override
     protected void onStop() {
         super.onStop();
-        activityRuning = true;
+        activityRuning = false;
     }
-    private Boolean startActivity = true;
     @Override
     protected void onStart() {
         super.onStart();
         activityRuning = true;
-        chatRef.child(chatKey).limitToLast(35).addValueEventListener(new ValueEventListener() {
+
+        chatRef.child(chatKey).limitToLast(20).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(startActivity){
@@ -368,6 +405,7 @@ public class ChatActivity extends AppCompatActivity {
                             isSenderList.add(false);
                         }
                         listMessages.add(model);
+                        last_key = item.getKey();
                     }
                     chatAdapter = new messageChatAdapter(getApplicationContext(),listMessages,isSenderList);
                     chatAdapter.notifyDataSetChanged();
@@ -407,6 +445,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -429,6 +468,28 @@ public class ChatActivity extends AppCompatActivity {
                         });
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        AllUserRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                if (memeber != null) {
+                    senderName = memeber.getName();
+                    senderUrl = memeber.getUrl();
+                }
+                if(!senderUrl.equals("")){
+//                    Picasso.get().load(senderUrl).into(senderIV);
+                    Glide.with(getApplicationContext()).load(senderUrl).into(senderIV);
+                }
+                nameReceiverrTV.setText(receiverName);
+
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -458,6 +519,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
         AllUserRef.child(currentUser).child("chatKeys").child(receiverId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
