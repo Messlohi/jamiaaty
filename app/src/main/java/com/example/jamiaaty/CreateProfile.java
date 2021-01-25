@@ -61,46 +61,46 @@ public class CreateProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_profile);
+        setContentView(R.layout.profile_card);
 
-        member = new All_UserMemeber();
-        etBio = findViewById(R.id.et_bio_cp);
-        etEmail = findViewById(R.id.et_email_cp);
-        etname = findViewById(R.id.et_name_cp);
-        etProfession = findViewById(R.id.et_Profession_cp);
-        etWeb = findViewById(R.id.et_website_cp);
-        button = findViewById(R.id.btn_cp);
-        progressBar = findViewById(R.id.progrssbar_cp);
-        imageView = findViewById(R.id.iv_cp);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        currentUserId = user.getUid();
-
-        //For FireStore (Cloud firebase)
-        documentReference = db.collection("user").document(currentUserId);
-        //For Storage
-        storageReference = FirebaseStorage.getInstance().getReference("Profile images");
-
-        //For run time data base
-        databaseReference = database.getReference("All Users");
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadData();
-            }
-        });
-
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,PICK_IMAGE);
-            }
-        });
+//        member = new All_UserMemeber();
+//        etBio = findViewById(R.id.et_bio_cp);
+//        etEmail = findViewById(R.id.et_email_cp);
+//        etname = findViewById(R.id.et_name_cp);
+//        etProfession = findViewById(R.id.et_Profession_cp);
+//        etWeb = findViewById(R.id.et_website_cp);
+//        button = findViewById(R.id.btn_cp);
+//        progressBar = findViewById(R.id.progrssbar_cp);
+//        imageView = findViewById(R.id.iv_cp);
+//
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        currentUserId = user.getUid();
+//
+//        //For FireStore (Cloud firebase)
+//        documentReference = db.collection("user").document(currentUserId);
+//        //For Storage
+//        storageReference = FirebaseStorage.getInstance().getReference("Profile images");
+//
+//        //For run time data base
+//        databaseReference = database.getReference("All Users");
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                uploadData();
+//            }
+//        });
+//
+//
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(intent,PICK_IMAGE);
+//            }
+//        });
 
     }
 
