@@ -133,11 +133,13 @@ public class CreateProfile extends AppCompatActivity {
 
     private void uploadData() {
 
+
         String name = etname.getText().toString();
         String bio = etBio.getText().toString();
         String email = etEmail.getText().toString();
         String prof = etProfession.getText().toString();
         String web = etWeb.getText().toString();
+
 
         if(!TextUtils.isEmpty(name) ||!TextUtils.isEmpty(bio) ||!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(prof) ||!TextUtils.isEmpty(web) ){
             progressBar.setVisibility(View.VISIBLE);
@@ -160,80 +162,27 @@ public class CreateProfile extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Uri dowloadUri = task.getResult();
                             member.setUrl(dowloadUri.toString());
-                            profile.put("url", dowloadUri.toString());
-                            profile.put("name", name);
-                            profile.put("prof", prof);
-                            profile.put("email", email);
-                            profile.put("uid", currentUserId);
-                            profile.put("web", web);
-                            profile.put("bio", bio);
-                            profile.put("privacy", "Public");
-
-
                             member.setName(name.trim());
                             member.setProf(prof.trim());
                             member.setUid(currentUserId);
+                            member.setEmail(email.trim());
+                            member.setWeb(web.trim());
                             member.setNameTolower(name.toLowerCase().trim());
-
-
                             databaseReference.child(currentUserId).setValue(member);
-                            documentReference.set(profile)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            progressBar.setVisibility(View.INVISIBLE);
-                                            Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
-                                            Handler handler = new Handler();
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    finish();
-                                                }
-                                            }, 2000);
-                                        }
-                                    });
 
                         }
                     }
                 });
             }else {
-                profile.put("url", "");
-                profile.put("name", name.trim());
-                profile.put("prof", prof.trim());
-                profile.put("email", email.trim());
-                profile.put("uid", currentUserId);
-                profile.put("web", web);
-                profile.put("bio", bio);
-                profile.put("privacy", "Public");
-
-
                 member.setName(name.trim());
                 member.setProf(prof.trim());
                 member.setUid(currentUserId);
+                member.setEmail(email.trim());
+                member.setWeb(web.trim());
                 member.setNameTolower(name.toLowerCase().trim());
                 member.setUrl("");
-
-
-
                 databaseReference.child(currentUserId).setValue(member);
-                documentReference.set(profile)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(CreateProfile.this, "Profile Created", Toast.LENGTH_SHORT).show();
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        finish();
-                                    }
-                                }, 2000);
-                            }
-                        });
             }
-
-
 
         }else{
             Toast.makeText(getApplicationContext(), "Please fill all Fields", Toast.LENGTH_SHORT).show();

@@ -2,13 +2,34 @@ package com.example.jamiaaty.Model;
 
 public class All_UserMemeber {
     String name  , uid , prof, url,nameTolower;
+    String web ="";
+    String email ="";
 
-    public All_UserMemeber(String name, String uid, String prof, String ur,String nameTolower) {
+
+    public All_UserMemeber(String name, String uid, String prof, String url, String nameTolower, String web, String email) {
         this.name = name;
         this.uid = uid;
         this.prof = prof;
         this.url = url;
         this.nameTolower = nameTolower;
+        this.web = web;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
 
     public All_UserMemeber() {

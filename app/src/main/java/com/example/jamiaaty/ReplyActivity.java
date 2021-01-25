@@ -80,13 +80,12 @@ public class ReplyActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             currentuid = user.getUid();
-            Allquetions = database.getReference("All Questions").child(post_key).child("Answer");
+            Allquetions = database.getReference("All Comments").child(post_key).child("Answer");
             voteRef = database.getReference("votes").child(post_key);
 
 
             reference = db.collection("user").document(uid);
             reference2 = db.collection("user").document(currentuid);
-
 
 
         }

@@ -110,7 +110,6 @@
                 android:layout_height="wrap_content"
                 android:minHeight="250dp"
                 android:adjustViewBounds="true"
-
                 android:background="@android:color/white"
                 android:clickable="true"
                 android:contextClickable="true"
@@ -125,7 +124,6 @@
                 android:visibility="visible"
                 app:show_timeout="1000"
                 app:use_controller="true"
-
                 tools:ignore="MissingConstraints">
 
                 <ImageButton

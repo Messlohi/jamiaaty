@@ -67,7 +67,7 @@ public class PostActivity extends AppCompatActivity {
     String url,name;
     StorageReference storageReference;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference db1,db2,db3,db4,questionsRef,UserQuesion,userSupport;
+    DatabaseReference db1,db2,db3,db4,userSupport,allUserPost;
 
     MediaController mediaController;
     String type="text";
@@ -113,6 +113,7 @@ public class PostActivity extends AppCompatActivity {
         db2 = database.getReference("All videos").child(currentuid);
         db4 = database.getReference("All TextPosts").child(currentuid);
         db3 = database.getReference("All posts");
+        allUserPost = database.getReference("All userPost").child(currentuid);
         userSupport = database.getReference("All support").child(currentuid);
 
 
@@ -382,11 +383,12 @@ public class PostActivity extends AppCompatActivity {
                        postmember.setUserToLower(name.toLowerCase());
                        postmember.setType("support");
 
-                       // for image
-                       String postKey = userSupport.push().getKey();
-                       userSupport.child(postKey).setValue(postmember);
-                       // for both
+
+                       String postKey = allUserPost.push().getKey();
                        postmember.setKey_post(postKey);
+
+                       allUserPost.child(postKey).setValue(postmember);
+                       // for both
                        db3.child(postKey).setValue(postmember);
 
                        progressBar.setVisibility(View.INVISIBLE);
@@ -433,10 +435,11 @@ public class PostActivity extends AppCompatActivity {
                             postmember.setType("iv");
 
                             // for image
-                            String postKey = db1.push().getKey();
-                            db1.child(postKey).setValue(postmember);
-                            // for both
+                            String postKey = allUserPost.push().getKey();
                             postmember.setKey_post(postKey);
+
+                            allUserPost.child(postKey).setValue(postmember);
+                            // for both
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
@@ -456,11 +459,11 @@ public class PostActivity extends AppCompatActivity {
                             postmember.setType("vv");
 
                             // for video
-                            String postKey = db2.push().getKey();
-                            db2.child(postKey).setValue(postmember);
+                            String postKey = allUserPost.push().getKey();
+                            postmember.setKey_post(postKey);
+                            allUserPost.child(postKey).setValue(postmember);
 
                             // for both
-                            postmember.setKey_post(postKey);
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
@@ -498,11 +501,11 @@ public class PostActivity extends AppCompatActivity {
             postmember.setType("text");
 
             // for video
-            String postKey = db4.push().getKey();
-            db4.child(postKey).setValue(postmember);
+            String postKey = allUserPost.push().getKey();
+            postmember.setKey_post(postKey);
+            allUserPost.child(postKey).setValue(postmember);
 
             // for both
-            postmember.setKey_post(postKey);
             db3.child(postKey).setValue(postmember);
 
             progressBar.setVisibility(View.INVISIBLE);

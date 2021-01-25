@@ -2,9 +2,12 @@ package com.example.jamiaaty;
 
 import android.app.Application;
 import android.net.Uri;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -175,7 +179,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 */
 
                 try {
-
                     // Create a default TrackSelector
                     BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
                     TrackSelection.Factory videoTrackSelectionFactory =
@@ -203,14 +206,22 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 
                     // Prepare the player with the source.
 
-                        startVideIb.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                exoPlayer.prepare(videoSource);
-                                startVideIb.setVisibility(View.GONE);
-                            }
-                        });
                         playerView.setVisibility(View.VISIBLE);
+
+                    startVideIb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            exoPlayer.prepare(videoSource);
+                            startVideIb.setVisibility(View.GONE);
+
+                        }
+                    });
+
+
+
+
+
+
 
 
                 }catch (Exception e){}

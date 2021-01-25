@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserAllConversationsActivity extends AppCompatActivity {
+public class UserAllConversationsActivity extends AppCompatActivity  {
 
 
     RecyclerView recyclerView;
@@ -32,6 +32,7 @@ public class UserAllConversationsActivity extends AppCompatActivity {
     String currentUserId = "";
     All_userAdapter adapter;
     List<All_UserMemeber> listeUsers = new ArrayList<>();
+
    // SearchView searchView;
 
 
@@ -59,17 +60,18 @@ public class UserAllConversationsActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
                                 All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                                listeUsers.add(memeber);
+                                if(!listeUsers.contains(memeber)){
+                                    listeUsers.add(memeber);
+                                }
+                                adapter = new All_userAdapter(getApplication(),listeUsers,true);
+                                recyclerView.setAdapter(adapter);
                             }catch (Exception e){
 
                             }
-                            adapter = new All_userAdapter(getApplication().getApplicationContext(),listeUsers,true);
-                            recyclerView.setAdapter(adapter);
 
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
 
                         }
                     });

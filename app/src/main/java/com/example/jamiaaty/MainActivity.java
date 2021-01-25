@@ -80,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             NotificationManager manager = getSystemService(NotificationManager.class);
                             manager.createNotificationChannel(channel);
                         }
-                        String message = model.message.trim().length()>60?model.message.trim().substring(0,60):model.message.trim();
-                        message += "...";
+                        String message = model.message.trim().length()>60?model.message.trim().substring(0,60)+"...":model.message.trim();
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,"My Notif")
                                 .setSmallIcon(R.drawable.ic_baseline_email_24)
                                 .setContentTitle(model.getFromName() +" :")

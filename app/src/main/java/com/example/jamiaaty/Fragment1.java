@@ -24,22 +24,36 @@ import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Home.Module_pack.Module;
 import com.example.jamiaaty.Home.Module_pack.ModuleCardAdapter;
 import com.example.jamiaaty.Home.localdb.localdb;
+import com.example.jamiaaty.Model.All_UserMemeber;
+import com.example.jamiaaty.Model.PostMember;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 //import com.squareup.picasso.Picasso;
 
 public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
-    TextView nameEt, profEt, bioEt, emailEt,webEt;
+    TextView nameEt, profEt, emailEt,webEt;
     ImageButton imageButtonEdit,imageButtonMenu;
     View view;
+    RecyclerView recyclerView;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference postUserRef,reference;
+    List<PostMember> listPost  = new ArrayList<>();
+    PostAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,11 +68,21 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         super.onActivityCreated(savedInstanceState);
 
         imageView = getActivity().findViewById(R.id.iv_profile_pic);
-        nameEt = getActivity().findViewById(R.id.et_name_cp);
-//        profEt = getActivity().findViewById(R.id.tv_prof_f1);
-        bioEt = getActivity().findViewById(R.id.et_bio_cp);
-        emailEt = getActivity().findViewById(R.id.et_email_cp);
-        webEt = getActivity().findViewById(R.id.et_website_cp);
+        nameEt = getActivity().findViewById(R.id.tv_name_profile);
+         profEt = getActivity().findViewById(R.id.tv_prof_profile);
+        emailEt = getActivity().findViewById(R.id.tv_email_profle);
+        webEt = getActivity().findViewById(R.id.tv_website_profile);
+        recyclerView = getActivity().findViewById(R.id.rv_post_profile_fragment);
+
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            postUserRef = database.getReference("All userPost").child(user.getUid());
+            reference = database.getReference("All Users").child(user.getUid());
+        }
 
 
         imageButtonEdit = getActivity().findViewById(R.id.ib_edit_f1);
@@ -70,25 +94,25 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         imageView.setOnClickListener(this);
         webEt.setOnClickListener(this);
 
-//        try {//fill posts in profile just for test
-//            RecyclerView recyclerView = view.findViewById(R.id.posts_RV);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//            recyclerView.setHasFixedSize(true);
-//            ArrayList<com.example.jamiaaty.Home.Module_pack.Module> modulesCherche=new ArrayList<>();
-//            localdb dbbookmark=new localdb(getContext());
-//            ArrayList<Module> mo=dbbookmark.getAllModules();
-//            mo.addAll(dbbookmark.getAllModules());
-//            mo.addAll(dbbookmark.getAllModules());
-//            mo.addAll(dbbookmark.getAllModules());
-//            mo.addAll(dbbookmark.getAllModules());
-//            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-//            ModuleCardAdapter adapter = new ModuleCardAdapter(getContext(),mo );
-//            //adapter.setClickListener(this);
-//            recyclerView.setAdapter(adapter);
-//
-//        }catch (Exception e){
-//            Toast.makeText(getContext(), "error"+e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
+
+        postUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                    for(DataSnapshot ds :snapshot.getChildren()){
+                        PostMember member = ds.getValue(PostMember.class);
+                        listPost.add(member);
+                    }
+                    adapter = new PostAdapter(getActivity(), listPost);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override
@@ -127,47 +151,35 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     @Override
     public void onStart() {
         super.onStart();
-        String cuurentUser="";
-        DocumentReference reference ;
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user !=null){
-             cuurentUser = user.getUid();
-            reference = firestore.collection("user").document(cuurentUser);
-            reference.get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.getResult().exists()) {
-                                String nameResult = task.getResult().getString("name");
-                                String emailResult = task.getResult().getString("email");
-                                String bioResult = task.getResult().getString("bio");
-                                String profResult = task.getResult().getString("prof");
-                                String uidResult = task.getResult().getString("uid");
-                                String webResult = task.getResult().getString("web");
-                                String privacyResult = task.getResult().getString("privacy");
-                                String urlResult = task.getResult().getString("url");
-                                if(!urlResult.equals("")){
-//                                    Picasso.get().load(urlResult).into(imageView);
-                                    try {
-                                        Glide.with(view.getContext()).load(urlResult).into(imageView);
-                                    }catch (Exception e){
-                                        Log.i("Errooor","error while getting img frim db :"+e.getMessage());
-                                    }
-                                }
-                                nameEt.setText(nameResult);
-                                bioEt.setText(bioResult);
-                                emailEt.setText(emailResult);
-                                webEt.setText(webResult);
-                                //profEt.setText(profResult);
-
-
-                            } else {
-                                Intent intent = new Intent(getActivity(), CreateProfile.class);
-                                startActivity(intent);
-                            }
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                    String nameResult = memeber.getName();
+                    String emailResult = memeber.getEmail();
+                    String profResult = memeber.getProf();
+                    String webResult = memeber.getWeb();
+                    String urlResult = memeber.getUrl();
+                    if(!urlResult.equals("")){
+                        try {
+                            Glide.with(view.getContext()).load(urlResult).into(imageView);
+                        }catch (Exception e){
+                            Log.i("Errooor","error while getting img frim db :"+e.getMessage());
                         }
-                    });
-        }
+                    }
+                    nameEt.setText(nameResult);
+                    emailEt.setText(emailResult);
+                    webEt.setText(webResult);
+                    profEt.setText(profResult);
+
+                }catch (Exception e){}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

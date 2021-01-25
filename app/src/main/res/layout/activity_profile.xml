@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:scrollbars="vertical"
     android:id="@+id/scrollProfile"
+    tools:context=".ProfileActivity"
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,63 +15,63 @@
         android:layout_weight="4"
         android:background="@color/white"
         >
-    <RelativeLayout
-        android:id="@+id/profile_pic"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="vertical"
-        android:layout_weight="5"
-        >
-        <androidx.cardview.widget.CardView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:cardPreventCornerOverlap="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="3dp"
-            app:cardCornerRadius="75dp"
-            android:scaleType="centerCrop"
-            >
-
-            <ImageView
-                android:id="@+id/iv_profile_pic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_baseline_person_24"
-                android:clickable="true"
-                android:scaleType="centerCrop"
-                />
-
-        </androidx.cardview.widget.CardView>
-        <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:id="@+id/profile_pic"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:orientation="vertical"
-            android:paddingVertical="2dp"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="2dp"
+            android:layout_weight="5"
             >
+            <androidx.cardview.widget.CardView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                app:cardCornerRadius="75dp"
+                android:scaleType="centerCrop"
+                >
 
-            <TextView
-                android:id="@+id/tv_name_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Nom"
-                android:textColor="@color/black"
-                android:textSize="25sp" />
+                <ImageView
+                    android:id="@+id/iv_profile_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_baseline_person_24"
+                    android:clickable="true"
+                    android:scaleType="centerCrop"
+                    />
 
-            <TextView
-                android:id="@+id/tv_prof_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Profession"
-                android:paddingStart="4dp"
-                android:layout_marginTop="1dp"
-                android:textColor="@color/grey"
-                android:layout_weight="3"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingVertical="2dp"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="2dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_name_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Nom"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/tv_prof_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Profession"
+                    android:paddingStart="4dp"
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="3"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/user_details"
@@ -92,7 +93,7 @@
                 android:drawablePadding="4dp"
                 android:hint="Email"
                 android:paddingStart="8dp"
-                android:textColor="@color/grey"
+                android:textColor="#131313"
                 android:textSize="15sp" />
 
             <TextView
@@ -106,7 +107,7 @@
                 android:drawablePadding="4dp"
                 android:hint="website.com"
                 android:paddingStart="8dp"
-                android:textColor="@color/grey"
+                android:textColor="#131313"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -255,10 +256,10 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_post_profile_fragment"
+            android:id="@+id/rv_post_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#16241241"
             android:paddingTop="10dp" >
 
         </androidx.recyclerview.widget.RecyclerView>

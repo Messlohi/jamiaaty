@@ -36,17 +36,7 @@
         android:layout_margin="4dp"
         android:textColor="@android:color/darker_gray"
         />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Bio"
-        android:paddingStart="4dp"
-        android:drawablePadding="7dp"
-        android:drawableStart="@drawable/ic_bio"
-        android:id="@+id/et_bio_up"
-        android:layout_margin="4dp"
-        android:textColor="@android:color/darker_gray"
-        />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

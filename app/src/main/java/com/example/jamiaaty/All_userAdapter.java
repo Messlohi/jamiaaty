@@ -3,6 +3,7 @@ package com.example.jamiaaty;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.jamiaaty.Model.All_UserMemeber;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 //import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,6 +45,10 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
     Boolean followCheker = false;
     Boolean FollowMeCheker = false;
     Boolean isInChatList =false ;
+    String cuurentUser="";
+    DocumentReference reference ;
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    FirebaseUser userInst = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -116,6 +126,44 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 
             }
         });
+        
+        holder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user != null){
+                    cuurentUser = user.getUid();
+                    reference = firestore.collection("user").document(model.getUid());
+                    Intent intent  = new Intent(context,ProfileActivity.class);
+                    reference.get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.getResult().exists()) {
+                                        String nameResult = task.getResult().getString("name");
+                                        String emailResult = task.getResult().getString("email");
+                                        String profResult = task.getResult().getString("prof");
+                                        String uidResult = task.getResult().getString("uid");
+                                        String webResult = task.getResult().getString("web");
+                                        String urlResult = task.getResult().getString("url");
+
+
+
+                                        intent.putExtra("name",model.getName());
+                                        intent.putExtra("email",emailResult);
+                                        intent.putExtra("prof",model.getProf());
+                                        intent.putExtra("url",model.getUrl());
+                                        intent.putExtra("web",webResult);
+                                        intent.putExtra("uid",model.getUid());
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+
+
+                                    }
+                            }});
+
+                }
+
+        }});
     }
 
     public static String getChatKey(String uid1,String uid2){

@@ -17,15 +17,19 @@
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
 
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jamiaaty">
-        <service android:enabled="true" android:name="com.example.jamiaaty.AndroidService"></service>
-        <activity android:name=".GeustMainActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+
+        <service
+            android:name=".AndroidService"
+            android:enabled="true" />
+
+        <activity android:name=".GeustMainActivity" />
         <activity android:name=".UserAllConversationsActivity" />
         <activity android:name=".Home.Module_pack.bookmarks_Modules" />
         <activity android:name=".Home.Support_pack.view_pdf_support" />
@@ -86,6 +90,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>
