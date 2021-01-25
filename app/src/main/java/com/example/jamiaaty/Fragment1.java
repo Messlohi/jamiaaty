@@ -44,12 +44,12 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        imageView = getActivity().findViewById(R.id.iv_f1);
-        nameEt = getActivity().findViewById(R.id.tv_name_f1);
-        profEt = getActivity().findViewById(R.id.tv_prof_f1);
-        bioEt = getActivity().findViewById(R.id.tv_bio_f1);
-        emailEt = getActivity().findViewById(R.id.tv_email_f1);
-        webEt = getActivity().findViewById(R.id.tv_web_f1);
+        imageView = getActivity().findViewById(R.id.iv_profile_pic);
+        nameEt = getActivity().findViewById(R.id.et_name_cp);
+//        profEt = getActivity().findViewById(R.id.tv_prof_f1);
+        bioEt = getActivity().findViewById(R.id.et_bio_cp);
+        emailEt = getActivity().findViewById(R.id.et_email_cp);
+        webEt = getActivity().findViewById(R.id.et_website_cp);
 
 
         imageButtonEdit = getActivity().findViewById(R.id.ib_edit_f1);
@@ -74,11 +74,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 BottomSheetMen bottomSheetMen = new BottomSheetMen();
                 bottomSheetMen.show(getFragmentManager(),"bottomsheet");
                 break;
-            case R.id.iv_f1 :
+            case R.id.profile_pic :
                 Intent intent1 = new Intent(getActivity(),ImageActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.tv_web_f1 :
+            case R.id.et_website_cp :
                 try {
                     String url = webEt.getText().toString();
                     Intent intent2 = new Intent(Intent.ACTION_VIEW);
@@ -130,7 +130,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 bioEt.setText(bioResult);
                                 emailEt.setText(emailResult);
                                 webEt.setText(webResult);
-                                profEt.setText(profResult);
+                                //profEt.setText(profResult);
 
 
                             } else {
