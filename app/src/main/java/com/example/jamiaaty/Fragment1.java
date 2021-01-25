@@ -3,6 +3,7 @@ package com.example.jamiaaty;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.jamiaaty.Home.Module_pack.Module;
+import com.example.jamiaaty.Home.Module_pack.ModuleCardAdapter;
+import com.example.jamiaaty.Home.localdb.localdb;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 //import com.squareup.picasso.Picasso;
 
 public class Fragment1 extends Fragment implements  View.OnClickListener{
@@ -60,6 +69,26 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         imageButtonEdit.setOnClickListener(this);
         imageView.setOnClickListener(this);
         webEt.setOnClickListener(this);
+
+//        try {//fill posts in profile just for test
+//            RecyclerView recyclerView = view.findViewById(R.id.posts_RV);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//            recyclerView.setHasFixedSize(true);
+//            ArrayList<com.example.jamiaaty.Home.Module_pack.Module> modulesCherche=new ArrayList<>();
+//            localdb dbbookmark=new localdb(getContext());
+//            ArrayList<Module> mo=dbbookmark.getAllModules();
+//            mo.addAll(dbbookmark.getAllModules());
+//            mo.addAll(dbbookmark.getAllModules());
+//            mo.addAll(dbbookmark.getAllModules());
+//            mo.addAll(dbbookmark.getAllModules());
+//            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//            ModuleCardAdapter adapter = new ModuleCardAdapter(getContext(),mo );
+//            //adapter.setClickListener(this);
+//            recyclerView.setAdapter(adapter);
+//
+//        }catch (Exception e){
+//            Toast.makeText(getContext(), "error"+e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
