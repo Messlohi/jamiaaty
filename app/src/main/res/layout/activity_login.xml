@@ -49,7 +49,6 @@
         android:paddingLeft="10dp"
         android:background="@drawable/custom_input"
         />
-
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
