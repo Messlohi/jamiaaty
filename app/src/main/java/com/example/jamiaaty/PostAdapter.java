@@ -806,11 +806,11 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
                     if (snapshot.child(postkey).hasChild(uid)) {
                         likebtn.setImageResource(R.drawable.ic_like);
                         likescount = (int) snapshot.child(postkey).getChildrenCount();
-                        tv_likes.setText(Integer.toString(likescount) + "likes");
+                        tv_likes.setText(Integer.toString(likescount).trim());
                     } else {
                         likebtn.setImageResource(R.drawable.ic_dislike);
                         likescount = (int) snapshot.child(postkey).getChildrenCount();
-                        tv_likes.setText(Integer.toString(likescount) + "likes");
+                        tv_likes.setText( String.valueOf( likescount).trim() );
                     }
                 }
                 @Override
