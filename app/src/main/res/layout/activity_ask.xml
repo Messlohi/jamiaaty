@@ -10,14 +10,16 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:gravity="start"
         android:paddingStart="20dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:padding="10dp"
         android:id="@+id/ask_et_question"
         android:background="@drawable/custom_input_question"
         android:textStyle="bold"
         android:hint="Ask Anything"
-        android:textColorHint="@color/red"
+        android:textColorHint="@color/grey"
         android:textColor="@android:color/black"
         android:layout_margin="20dp"
         android:paddingLeft="20dp" />
