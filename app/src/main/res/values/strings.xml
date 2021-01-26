@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jamiaaty</string>
+    <string name="app_name">UNIVERSité</string>
     <string name="poste_image">Poste Image</string>
     <string name="delete">Delete</string>
     <string name="time">time</string>
@@ -13,7 +13,6 @@
     <string name="tab_text_2">TD</string>
     <string name="tab_text_3">TP</string>
     <string name="tab_text_4">Examens</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_module_elements">module_elements</string>
 
     <string name="action_settings">Settings</string>

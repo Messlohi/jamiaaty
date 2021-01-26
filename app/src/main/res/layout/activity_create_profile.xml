@@ -11,12 +11,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Profile"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="20sp"
-        android:textAlignment="center"
         android:layout_gravity="center_horizontal"
-        />
+        android:text="Créer Profile"
+        android:paddingBottom="30dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="28sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_cp"
-        android:text="Save Profile"
+        android:text="Valider"
         android:layout_margin="10dp"
         android:background="@android:color/holo_orange_light"
         android:layout_marginTop="20dp"
