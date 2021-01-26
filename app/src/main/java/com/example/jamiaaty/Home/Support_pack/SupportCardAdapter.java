@@ -109,7 +109,7 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
                     ActivityCompat.requestPermissions((Activity) contextAdap,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
-//                    Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
                     file_download(supports.get(position).FileLink,supports.get(position).Name);
                 }catch (Exception e){
                     Toast.makeText(contextAdap, "Erreur de telechargement"+e.getMessage(), Toast.LENGTH_LONG).show();
@@ -120,13 +120,14 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
 
     public void file_download(String uRl,String fileName) {
         //https://www.codota.com/code/java/methods/android.app.DownloadManager/enqueue
-        File isAlreadyDownloaded = new File(Environment.DIRECTORY_DOWNLOADS + "/jami3aty/"+ModuleName+"/"+supportType+"/"+fileName+".pdf");
-        if(isAlreadyDownloaded.exists()) {
+        File isAlreadyDownloaded = new File(Environment.getExternalStorageDirectory() + "/Download/jami3aty/"+ModuleName+"/"+supportType+"/"+fileName+".pdf");
+        if(isAlreadyDownloaded.canRead() && !isAlreadyDownloaded.isDirectory() ) {
             Toast.makeText(contextAdap, "Support déja Téléchargé (Voir Download/jami3aty/" + supportType + "/" + ModuleName + "/" + fileName + ".pdf )", Toast.LENGTH_LONG).show();
             return;
         }
         File direct = new File(Environment.DIRECTORY_DOWNLOADS + "/jami3aty/"+ModuleName+"/"+supportType);
         if (!direct.exists()) {
+//            Toast.makeText(contextAdap, "direct not exist", Toast.LENGTH_SHORT).show();
             direct.mkdirs();
         }
         DownloadManager mgr = (DownloadManager) contextAdap.getSystemService(Context.DOWNLOAD_SERVICE);
