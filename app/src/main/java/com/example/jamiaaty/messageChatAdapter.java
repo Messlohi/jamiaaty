@@ -47,6 +47,14 @@ public class messageChatAdapter extends RecyclerView.Adapter<messageChatAdapter.
 
     }
 
+
+    public void addAll(List<chatMessageModel> newMesag,List<Boolean> newIsender)
+    {
+        listMessages.addAll(0,newMesag);
+        isSenderList.addAll(0,newIsender);
+        notifyItemRangeChanged(0,newMesag.size());
+    }
+
     @Override
     public int getItemCount() {
         return listMessages.size();

@@ -187,10 +187,26 @@ public class ChatActivity extends AppCompatActivity {
                         isSenderList.add(false);
                     }
                     listMessages.add(model);
-                    chatAdapter.notifyDataSetChanged();
-                    if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
-                        recyclerView.smoothScrollToPosition(listMessages.size());
-                    }
+                    chatAdapter.notifyItemInserted(chatAdapter.getItemCount());
+
+//                    if(listMessages.size() != 0 && (listMessages.size()-1>=0)){
+//                        recyclerView.smoothScrollToPosition(listMessages.size());
+//                    }
+
+                    chatRef.child(chatKey).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if((int)snapshot.getChildrenCount()<listMessages.size()){
+                                listMessages.remove(listMessages.size()-1);
+                                chatAdapter.notifyItemRemoved(listMessages.size());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                 }catch (Exception e){}
 
@@ -216,6 +232,8 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 /*
 
@@ -349,8 +367,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                   countBefore = listMessages.size();
-                     isSenderList.clear();
+                    isSenderList.clear();
                     listMessages.clear();
+                    int i=0;
                     for(DataSnapshot item : snapshot.getChildren()){
                         chatMessageModel model = item.getValue(chatMessageModel.class);
                         if(currentUser.equals(model.getIdSender())){
@@ -359,12 +378,10 @@ public class ChatActivity extends AppCompatActivity {
                             isSenderList.add(false);
                         }
                         listMessages.add(model);
-                        last_key = item.getKey();
                     }
-                countAfter = listMessages.size();
+                     countAfter = listMessages.size();
                     if(!(countAfter==countBefore)){
-                        chatAdapter.notifyItemRangeInserted(0,10);
-
+                        chatAdapter.notifyDataSetChanged();
                     }
                 swipeContainer.setRefreshing(false);
                 fetchCurrentNumber += 10;
