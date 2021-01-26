@@ -141,19 +141,20 @@
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="12"
+                    android:hint="0"
+                    android:textColorHint="@color/black"
                     android:paddingStart="2dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_tssimdee_pozst"
+                    android:id="@+id/tv_nbPub_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="Abonné"
+                    android:hint="Publication"
                     android:paddingStart="2dp"
                     android:textColor="@color/grey"
                     android:textSize="15sp" />
@@ -172,25 +173,25 @@
                 android:paddingHorizontal="5dp">
 
                 <TextView
-                    android:id="@+id/tv_tssimeed_post"
+                    android:id="@+id/tv_nbAbon_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="12"
+                    android:hint="0"
+                    android:textColorHint="@color/black"
                     android:paddingStart="2dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_tssimdeeze_post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="Abonné"
+                    android:hint="Abonnés"
                     android:paddingStart="2dp"
                     android:textColor="@color/grey"
                     android:textSize="15sp" />
@@ -209,13 +210,14 @@
                 android:paddingHorizontal="5dp">
 
                 <TextView
-                    android:id="@+id/tv_tssime_post"
+                    android:id="@+id/tv_nbAbonm_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="12"
+                    android:hint="0"
+                    android:textColorHint="@color/black"
                     android:paddingStart="2dp"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -227,7 +229,7 @@
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="Abonné"
+                    android:hint="Abonnemments"
                     android:paddingStart="2dp"
                     android:textColor="@color/grey"
                     android:textSize="15sp" />
@@ -259,7 +261,7 @@
             android:id="@+id/rv_post_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#16241241"
+            android:background="@color/white"
             android:paddingTop="10dp" >
 
         </androidx.recyclerview.widget.RecyclerView>

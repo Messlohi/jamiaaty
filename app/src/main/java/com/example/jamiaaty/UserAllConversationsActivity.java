@@ -50,6 +50,8 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
         }
         allUserRef = database.getReference("All Users");
         chatRef = database.getReference("chat");
+        adapter = new All_userAdapter(getApplication(),listeUsers,true);
+        recyclerView.setAdapter(adapter);
         allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -63,8 +65,22 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
                                 if(!listeUsers.contains(memeber)){
                                     listeUsers.add(memeber);
                                 }
-                                adapter = new All_userAdapter(getApplication(),listeUsers,true);
-                                recyclerView.setAdapter(adapter);
+                                allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if((int)snapshot.getChildrenCount()<listeUsers.size()){
+                                            listeUsers.remove(listeUsers.size()-1);
+                                        }
+                                        adapter.notifyDataSetChanged();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
                             }catch (Exception e){
 
                             }
@@ -79,6 +95,7 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
                     //adapter = new All_userAdapter(getApplication(),listeUsers,true);
                     //recyclerView.setAdapter(adapter);
                 }
+
 
 
             }

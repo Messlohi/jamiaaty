@@ -22,12 +22,14 @@ public class messageChatAdapter extends RecyclerView.Adapter<messageChatAdapter.
     Context context;
     List<chatMessageModel> listMessages ;
     List<Boolean> isSenderList;
+    RecyclerView.Adapter adapter;
 
 
     public messageChatAdapter(Context context, List<chatMessageModel> listMessages,List<Boolean> isSenderList) {
         this.context = context;
         this.listMessages = listMessages;
         this.isSenderList = isSenderList;
+        this.adapter = this;
     }
 
     @NonNull

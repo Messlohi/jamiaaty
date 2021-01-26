@@ -18,7 +18,7 @@
         android:textColor="@android:color/white"
         android:textSize="45sp" />
 
-    <EditTe
+    <EditText
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:layout_height="52dp"

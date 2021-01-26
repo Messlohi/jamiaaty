@@ -26,12 +26,12 @@ public class ProfileActivity extends AppCompatActivity {
 
 String name,website,email,urlProfile,uid,prof;
 
-TextView nameTv,webTv,emailTv,profTV;
+TextView nameTv,webTv,emailTv,profTV,nbPubTv,nbAbonTv,nbAbonmTv;
 ImageView userIv;
 RecyclerView recyclerView ;
 
 FirebaseDatabase database = FirebaseDatabase.getInstance();
-DatabaseReference postUserRef;
+DatabaseReference postUserRef,userRef;
 List<PostMember> listPost  = new ArrayList<>();
 PostAdapter adapter;
 
@@ -42,6 +42,10 @@ PostAdapter adapter;
         setContentView(R.layout.activity_profile);
 
 
+
+        nbPubTv = findViewById(R.id.tv_nbPub_profile);
+        nbAbonTv = findViewById(R.id.tv_nbAbon_profile);
+        nbAbonmTv = findViewById(R.id.tv_nbAbonm_profile);
         nameTv = findViewById(R.id.tv_name_profile);
         webTv = findViewById(R.id.tv_website_profile);
         emailTv = findViewById(R.id.tv_email_profle);
@@ -65,6 +69,7 @@ PostAdapter adapter;
             prof = extras.getString("prof");
             email = extras.getString("email");
             postUserRef = database.getReference("All userPost").child(uid);
+            userRef = database.getReference("All Users").child(uid);
 
             nameTv.setText(name);
             webTv.setText(website);
@@ -79,6 +84,7 @@ PostAdapter adapter;
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                        nbPubTv.setText((int)snapshot.getChildrenCount()+"");
                         for(DataSnapshot ds :snapshot.getChildren()){
                             PostMember member = ds.getValue(PostMember.class);
                             listPost.add(member);
@@ -100,6 +106,30 @@ PostAdapter adapter;
     @Override
     protected void onStart() {
         super.onStart();
+
+        userRef.child("IFollowList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                nbAbonmTv.setText((int)snapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        userRef.child("FollowMeList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                nbAbonTv.setText((int)snapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 }

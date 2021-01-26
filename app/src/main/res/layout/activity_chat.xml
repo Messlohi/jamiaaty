@@ -18,15 +18,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:layout_height="39dp"
+                android:orientation="horizontal">
 
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="40dp"
@@ -42,9 +40,9 @@
                             android:id="@+id/iv_receiver_chat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="@drawable/ic_baseline_person_24"
                             android:clickable="true"
-                            android:adjustViewBounds="true"
                             android:scaleType="fitXY" />
 
                     </androidx.cardview.widget.CardView>
@@ -66,19 +64,20 @@
                         android:paddingStart="2dp"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="300dp"
                         android:layout_height="match_parent"
                         android:gravity="right"
                         android:orientation="horizontal">
+
                         <ImageButton
+                            android:id="@+id/mute_ib"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:id="@+id/mute_ib"
-                            android:background="@drawable/ic_baseline_notifications"/>
-                    </LinearLayout>
 
+                            android:background="@drawable/ic_baseline_notifications" />
+                    </LinearLayout>
 
 
                 </LinearLayout>

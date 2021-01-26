@@ -87,6 +87,7 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
     @Override
     public void onBindViewHolder(@NonNull All_userViewHolder holder, int position) {
 
+
         All_UserMemeber model = listUser.get(position);
         holder.checkFollow(model.getUid());
         holder.setUser(model.getName(),model.getProf(),model.getUid(),model.getUrl());
@@ -126,42 +127,20 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 
             }
         });
-        
+
         holder.tv_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user != null){
-                    cuurentUser = user.getUid();
-                    reference = firestore.collection("user").document(model.getUid());
-                    Intent intent  = new Intent(context,ProfileActivity.class);
-                    reference.get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.getResult().exists()) {
-                                        String nameResult = task.getResult().getString("name");
-                                        String emailResult = task.getResult().getString("email");
-                                        String profResult = task.getResult().getString("prof");
-                                        String uidResult = task.getResult().getString("uid");
-                                        String webResult = task.getResult().getString("web");
-                                        String urlResult = task.getResult().getString("url");
 
-
-
-                                        intent.putExtra("name",model.getName());
-                                        intent.putExtra("email",emailResult);
-                                        intent.putExtra("prof",model.getProf());
-                                        intent.putExtra("url",model.getUrl());
-                                        intent.putExtra("web",webResult);
-                                        intent.putExtra("uid",model.getUid());
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-
-
-                                    }
-                            }});
-
-                }
+                Intent intent  = new Intent(context,ProfileActivity.class);
+                intent.putExtra("name",model.getName());
+                intent.putExtra("email",model.getEmail());
+                intent.putExtra("prof",model.getProf());
+                intent.putExtra("url",model.getUrl());
+                intent.putExtra("web",model.getWeb());
+                intent.putExtra("uid",model.getUid());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
 
         }});
     }

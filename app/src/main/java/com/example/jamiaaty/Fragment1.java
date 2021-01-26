@@ -1,5 +1,7 @@
 package com.example.jamiaaty;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,8 +49,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
     TextView nameEt, profEt, emailEt,webEt;
     ImageButton imageButtonEdit,imageButtonMenu;
+    TextView nbPubTv,nbAbonTv,nbAbonmTv;
     View view;
     RecyclerView recyclerView;
+    FirebaseAuth auth;
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postUserRef,reference;
@@ -67,6 +72,9 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        nbPubTv = getActivity().findViewById(R.id.tv_nbPub_profile);
+        nbAbonTv = getActivity().findViewById(R.id.tv_nbAbon_profile);
+        nbAbonmTv = getActivity().findViewById(R.id.tv_nbAbonm_profile);
         imageView = getActivity().findViewById(R.id.iv_profile_pic);
         nameEt = getActivity().findViewById(R.id.tv_name_profile);
          profEt = getActivity().findViewById(R.id.tv_prof_profile);
@@ -84,6 +92,8 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
             reference = database.getReference("All Users").child(user.getUid());
         }
 
+        auth = FirebaseAuth.getInstance();
+
 
         imageButtonEdit = getActivity().findViewById(R.id.ib_edit_f1);
         imageButtonMenu = getActivity().findViewById(R.id.ib_menu_f1);
@@ -99,6 +109,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                    nbPubTv.setText((int)snapshot.getChildrenCount()+"");
                     for(DataSnapshot ds :snapshot.getChildren()){
                         PostMember member = ds.getValue(PostMember.class);
                         listPost.add(member);
@@ -124,8 +135,10 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.ib_menu_f1 :
-                BottomSheetMen bottomSheetMen = new BottomSheetMen();
-                bottomSheetMen.show(getFragmentManager(),"bottomsheet");
+//                BottomSheetMen bottomSheetMen = new BottomSheetMen();
+//                bottomSheetMen.show(getFragmentManager(),"bottomsheet");
+
+                logout();
                 break;
             case R.id.profile_pic :
                 Intent intent1 = new Intent(getActivity(),ImageActivity.class);
@@ -148,6 +161,28 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
 
     }
 
+
+    private  void logout(){
+        AlertDialog.Builder   builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Déconnection").setMessage("Vous voulez sortir !")
+                .setPositiveButton("Se déconnecter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        auth.signOut();
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
+                }).setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create();
+        builder.show();
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -165,7 +200,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                         try {
                             Glide.with(view.getContext()).load(urlResult).into(imageView);
                         }catch (Exception e){
-                            Log.i("Errooor","error while getting img frim db :"+e.getMessage());
+                            Log.i("Erreur","Erreur Base de Donnée :"+e.getMessage());
                         }
                     }
                     nameEt.setText(nameResult);
@@ -181,5 +216,31 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
 
             }
         });
+
+        reference.child("IFollowList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    nbAbonmTv.setText((int)snapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference.child("FollowMeList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                nbAbonTv.setText((int)snapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 }

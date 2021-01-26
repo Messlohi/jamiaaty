@@ -70,6 +70,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
     DatabaseReference fvrt_listRef,fvrtref,likeRef,allUserPost,reference;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUser ="";
+    RecyclerView.Adapter adapter;
 
 
     public PostAdapter(Context context, List<PostMember> listPost) {
@@ -81,6 +82,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
         if(user != null){
             currentUser = user.getUid();
         }
+        this.adapter = this;
         //Stocking the actual featured question
     }
 
@@ -155,7 +157,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
         holder.menuoptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(name, url, time, userid, type, postUri, postKey,description);
+                showDialog(name, url, time, userid, type, postUri, postKey,description,position);
             }
         });
 
@@ -263,7 +265,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
         });
     }
 
-    private void showDialog(String name, String url, String time, String userid,String type,String postUri,String postKey,String description) {
+    private void showDialog(String name, String url, String time, String userid,String type,String postUri,String postKey,String description,int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.post_options,null);
         TextView download = view.findViewById(R.id.dowload_tv_post);
@@ -292,6 +294,8 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    listPost.remove(position);
+                    adapter.notifyItemRemoved(position);
                     Query query = allUserPost;
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
