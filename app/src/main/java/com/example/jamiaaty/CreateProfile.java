@@ -47,7 +47,6 @@ public class CreateProfile extends AppCompatActivity {
     ImageView imageView;
     ProgressBar progressBar;
 
-    Uri imageUri = null;
     UploadTask uploadTask;
     StorageReference storageReference;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -56,6 +55,8 @@ public class CreateProfile extends AppCompatActivity {
     DocumentReference documentReference;
     String currentUserId;
     private  static final int PICK_IMAGE = 1;
+    Uri imageUri = null;
+
     All_UserMemeber member;
 
     @Override

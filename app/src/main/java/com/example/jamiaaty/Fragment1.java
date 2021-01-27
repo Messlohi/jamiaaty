@@ -53,7 +53,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     View view;
     RecyclerView recyclerView;
     FirebaseAuth auth;
-
+    String webResult="";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postUserRef,reference;
@@ -105,6 +105,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         webEt.setOnClickListener(this);
 
 
+
         postUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -131,24 +132,28 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
 
         switch(v.getId()){
             case R.id.ib_edit_f1:
+                imageButtonEdit.setEnabled(false);
                 Intent intent = new Intent(getActivity(),UpdateProfile.class);
                 startActivity(intent);
                 break;
             case R.id.ib_menu_f1 :
 //                BottomSheetMen bottomSheetMen = new BottomSheetMen();
 //                bottomSheetMen.show(getFragmentManager(),"bottomsheet");
-
+                imageButtonMenu.setEnabled(false);
                 logout();
                 break;
-            case R.id.profile_pic :
+            case R.id.iv_profile_pic :
+                imageView.setEnabled(false);
                 Intent intent1 = new Intent(getActivity(),ImageActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent1);
+
                 break;
             case R.id.et_website_cp :
                 try {
-                    String url = webEt.getText().toString();
+
                     Intent intent2 = new Intent(Intent.ACTION_VIEW);
-                    intent2.setData(Uri.parse(url));
+                    intent2.setData(Uri.parse(webResult));
                     startActivity(intent2);
 
                 }catch(Exception e){
@@ -186,6 +191,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     @Override
     public void onStart() {
         super.onStart();
+        imageView.setEnabled(true);
+        imageButtonMenu.setEnabled(true);
+        imageButtonEdit.setEnabled(true);
+
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -194,7 +204,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                     String nameResult = memeber.getName();
                     String emailResult = memeber.getEmail();
                     String profResult = memeber.getProf();
-                    String webResult = memeber.getWeb();
+                     webResult = memeber.getWeb();
                     String urlResult = memeber.getUrl();
                     if(!urlResult.equals("")){
                         try {

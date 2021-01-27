@@ -14,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardBackgroundColor="@color/very_light_blue">
+            app:cardBackgroundColor="@color/light_blue">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,9 +64,8 @@
                         android:paddingStart="2dp"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
-
                     <LinearLayout
-                        android:layout_width="300dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right"
                         android:orientation="horizontal">
@@ -75,7 +74,7 @@
                             android:id="@+id/mute_ib"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/ic_baseline_notifications" />
                     </LinearLayout>
 

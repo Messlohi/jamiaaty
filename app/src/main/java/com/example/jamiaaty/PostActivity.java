@@ -72,8 +72,6 @@ public class PostActivity extends AppCompatActivity {
     MediaController mediaController;
     String type="text";
     PostMember postmember;
-    String typePoste ="Post";
-    String [] genre = {"Post","Question"};
 
 
 
@@ -405,7 +403,6 @@ public class PostActivity extends AppCompatActivity {
             btnuploadfile.setEnabled(false);
             final StorageReference reference = storageReference.child(System.currentTimeMillis()+ "."+getFileExtention(selectedUri));
             uploadTask = reference.putFile(selectedUri);
-
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

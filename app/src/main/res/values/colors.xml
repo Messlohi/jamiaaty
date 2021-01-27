@@ -16,7 +16,8 @@
     <color name="light_grey">#D7D7D7</color>
     <color name="light_blue">#4fafff</color>
     <color name="light_green">#80fff2</color>
-    <color name="very_light_blue">#92E3A9</color>
+    <color name="very_light_green">#92E3A9</color>
+    <color name="black_10Transp">#1A000000</color>
     <!--    <color name="red">#ff061E</color>
  -->
 

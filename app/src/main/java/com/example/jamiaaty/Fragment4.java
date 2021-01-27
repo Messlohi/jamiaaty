@@ -59,7 +59,7 @@ public class Fragment4 extends Fragment {
     ImageView conversationsIb;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef;
+    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef,AllUserPost;
     SearchView searchFeild;
     String textToSearch ="";
     Boolean likecheker = false;
@@ -331,6 +331,7 @@ public class Fragment4 extends Fragment {
         db4 = database.getReference("All TextPosts").child(currentUser);
         fvrtref = database.getReference("favourites_in_poste");
         AllUsersRef = database.getReference("All Users");
+        AllUserPost = database.getReference("All userPost").child(currentUser);
         chatRef = database.getReference("chat");
         //Stocking the actual featured question
         fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
@@ -448,13 +449,12 @@ public class Fragment4 extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type.equals("iv")){
-                    Query query = db1;
+                    Query query = AllUserPost;
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.hasChild(postKey)){
-                                db1.child(postKey).removeValue();
+                                AllUserPost.child(postKey).removeValue();
                             }
                         }
 
@@ -463,40 +463,6 @@ public class Fragment4 extends Fragment {
 
                         }
                     });
-                }
-                if(type.equals("vv")){
-                    Query query1 = db2;
-                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild(postKey)){
-                                db2.child(postKey).removeValue();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-
-                if(type.equals("text")){
-                    Query query4 = db4;
-                    query4.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild(postKey)){
-                                db4.child(postKey).removeValue();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
 
                 Query query2 = reference;
                 query2.addListenerForSingleValueEvent(new ValueEventListener() {
