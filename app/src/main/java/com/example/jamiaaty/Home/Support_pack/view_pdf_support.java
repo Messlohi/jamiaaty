@@ -75,12 +75,17 @@ public class view_pdf_support extends AppCompatActivity {
         protected void onPostExecute(InputStream inputStream) {
             //super.onPostExecute(b);
             loading.dismiss();
-            if(inputStream!=null){
-                pdfviewer.fromStream(inputStream).load();
-                Log.i("debuuug","pdf is loading");
-            }else{
-                Log.i("debuuug","pdf is null");
-                msg.setText("Erreur de chargement de fichier");
+            try {
+                if(inputStream!=null){
+                    pdfviewer.fromStream(inputStream).load();
+                    Log.i("debuuug","pdf is loading");
+                }else{
+                    Log.i("debuuug","pdf is null");
+                    msg.setText("Erreur de chargement de fichier");
+                    return;
+                }
+            }catch(Exception e){
+                Toast.makeText(view_pdf_support.this, "error reading pdf "+e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
         @Override
@@ -88,12 +93,18 @@ public class view_pdf_support extends AppCompatActivity {
             InputStream inputStream=null;
             try {
                 //URL pdflink=new URL("https://firebasestorage.googleapis.com/v0/b/jami3aty-dfe94.appspot.com/o/Modules%2Fmodule1%2Fsupports%2Ftp%2Ftp3.pdf?alt=media&token=c905e3a5-b3b8-475b-a762-2c2679ea397d");
-                URL pdflink=new URL(support_link);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)pdflink.openConnection();
-                if (httpURLConnection.getResponseCode()==200){
-                    inputStream=new BufferedInputStream(httpURLConnection.getInputStream());
-
-                }else Toast.makeText(view_pdf_support.this, "Error fichier introuvable ", Toast.LENGTH_LONG).show();
+                try {
+                    URL pdflink=new URL(support_link);
+                    HttpURLConnection httpURLConnection=(HttpURLConnection)pdflink.openConnection();
+                    if (httpURLConnection.getResponseCode()==200 && httpURLConnection.getInputStream()!=null){
+                        inputStream=new BufferedInputStream(httpURLConnection.getInputStream());
+                    }else{
+                        Toast.makeText(view_pdf_support.this, "Error fichier introuvable ", Toast.LENGTH_LONG).show();
+                        return null;
+                    }
+                }catch(Exception e){
+                Toast.makeText(view_pdf_support.this, "error reading pdf "+e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }catch(Exception e){
                 Toast.makeText(view_pdf_support.this, "error reading pdf "+e.getMessage(), Toast.LENGTH_LONG).show();
                 msg.setText("Erreur de chargement de fichier "+e.getMessage());
