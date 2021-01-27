@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.6"
+                android:layout_weight="2.4"
                 android:padding="2dp"
                 >
                 <androidx.cardview.widget.CardView
@@ -53,7 +53,7 @@
                 android:id="@+id/tv_name_ans"
                 android:textColor="@android:color/black"
                 android:text="Name"
-                android:paddingStart="3dp"
+                android:paddingStart="0dp"
                 android:layout_weight="1"
                 android:layout_marginTop="0dp"
                 android:textSize="14sp"/>

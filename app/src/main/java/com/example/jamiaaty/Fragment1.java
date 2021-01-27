@@ -96,6 +96,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         recyclerViewAbon = getActivity().findViewById(R.id.rv_abon_profile_fragment);
         recyclerViewAbonm = getActivity().findViewById(R.id.rv_abonm_profile_fragment);
 
+        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
