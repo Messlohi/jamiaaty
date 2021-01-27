@@ -33,7 +33,7 @@
                     android:background="@drawable/ic_baseline_person_24"
                     android:clickable="true"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:contentDescription="@string/poste_image" />
 
             </androidx.cardview.widget.CardView>

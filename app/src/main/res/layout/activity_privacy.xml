@@ -63,6 +63,5 @@
         android:layout_margin="20dp"
         android:background="@drawable/button_back"
         android:text="Save Status"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textColor="@color/white"  />
 </LinearLayout>

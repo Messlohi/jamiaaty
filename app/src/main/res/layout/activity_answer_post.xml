@@ -16,7 +16,6 @@
         android:padding="10dp"
         android:id="@+id/answer_et"
         android:background="@drawable/custom_input_question"
-        android:textStyle="bold"
         android:hint="Answer..."
         android:textColorHint="@color/grey"
         android:textColor="@android:color/black"
@@ -32,8 +31,7 @@
         android:background="@drawable/button_back"
         android:layout_gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textSize="20sp" />
 
 </LinearLayout>
 

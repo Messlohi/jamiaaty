@@ -67,13 +67,13 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.child(answerKey).hasChild(currentUser)){
-                        upvoteTv.setImageResource(R.drawable.ic_like_comment);
+                        upvoteTv.setImageResource(R.drawable.ic_like_blue);
                         votesCountes = (int)snapshot.child(answerKey).getChildrenCount();
-                        votesNoTv.setText(votesCountes+"-J'AIMES");
+                        votesNoTv.setText(votesCountes+"");
                     }else {
-                        upvoteTv.setImageResource(R.drawable.ic_dislike_comment);
+                        upvoteTv.setImageResource(R.drawable.ic_like);
                         votesCountes = (int)snapshot.child(answerKey).getChildrenCount();
-                        votesNoTv.setText(votesCountes+"-J'AIMES");
+                        votesNoTv.setText(votesCountes+"");
                     }
                 }
 

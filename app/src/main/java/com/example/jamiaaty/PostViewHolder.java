@@ -263,7 +263,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if (snapshot.child(postkey).hasChild(uid)) {
-                    likebtn.setImageResource(R.drawable.ic_like);
+                    likebtn.setImageResource(R.drawable.ic_like_post);
                     likescount = (int) snapshot.child(postkey).getChildrenCount();
                     tv_likes.setText(Integer.toString(likescount).trim());
                 } else {

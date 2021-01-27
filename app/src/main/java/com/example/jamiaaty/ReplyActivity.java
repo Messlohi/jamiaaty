@@ -64,6 +64,8 @@ public class ReplyActivity extends AppCompatActivity {
         tvreply = findViewById(R.id.answer_tv);
 
         recyclerView = findViewById(R.id.rv_ans);
+
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(ReplyActivity.this, LinearLayoutManager.VERTICAL,false));
 
         Bundle extra = getIntent().getExtras();
