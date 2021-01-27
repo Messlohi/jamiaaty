@@ -147,7 +147,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_tssimdee_pozst"
+                    android:id="@+id/tv_publication_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -185,7 +185,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_tssimdeeze_post"
+                    android:id="@+id/tv_abon_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -223,7 +223,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_tssimdee_post"
+                    android:id="@+id/tv_abonm_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -248,8 +248,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Posts"
-
+            android:text="Publication"
+            android:id="@+id/tv_showingInrv"
             android:textSize="18sp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
@@ -262,8 +262,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingTop="10dp" >
+            android:paddingTop="10dp" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_abon_profile_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="10dp"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_abonm_profile_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="10dp"
+            android:visibility="gone"/>
+
+
+
     </LinearLayout>
 </LinearLayout>
