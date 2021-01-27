@@ -242,20 +242,23 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
 
 
         public  void  setUser(String name, String prof, String uid, String url){
-            if(!url.equals("")){
+            try {
+                if(!url.equals("")){
 //                Picasso.get().load(url).into(imageViewProfile);
-                Glide.with(context).load(url).into(imageViewProfile);
-            }
-            tv_prof.setText(prof.trim());
-            tv_name.setText(name.trim());
+                    Glide.with(context).load(url).into(imageViewProfile);
+                }
+                tv_prof.setText(prof.trim());
+                tv_name.setText(name.trim());
 
-            if(isInChatList){
-                requestString.setVisibility(View.GONE);
-                addUser.setVisibility(View.GONE);
-            }else{
-                requestString.setVisibility(View.VISIBLE);
-                addUser.setVisibility(View.VISIBLE);
-            }
+                if(isInChatList){
+                    requestString.setVisibility(View.GONE);
+                    addUser.setVisibility(View.GONE);
+                }else{
+                    requestString.setVisibility(View.VISIBLE);
+                    addUser.setVisibility(View.VISIBLE);
+                }
+
+            }catch (Exception e){}
 
         }
 

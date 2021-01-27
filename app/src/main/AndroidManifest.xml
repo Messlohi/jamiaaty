@@ -53,9 +53,6 @@
             android:name=".RelatedPostsActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:name=".AskActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity
             android:name=".ImageActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
