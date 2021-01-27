@@ -56,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="name"
+                    android:textIsSelectable="true"
                     android:paddingStart="5dp"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -93,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
+            android:textIsSelectable="true"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

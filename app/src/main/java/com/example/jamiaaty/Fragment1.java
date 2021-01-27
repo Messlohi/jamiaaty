@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.jamiaaty.Home.Module_pack.Module;
+import com.example.jamiaaty.Home.Module_pack.ModuleCardAdapter;
+import com.example.jamiaaty.Home.localdb.localdb;
 import com.example.jamiaaty.Model.All_UserMemeber;
 import com.example.jamiaaty.Model.PostMember;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -30,10 +37,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+//import com.squareup.picasso.Picasso;
 
 public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
@@ -46,11 +60,12 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     String webResult="";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference postUserRef,reference;
+    DatabaseReference postUserRef,reference,Allusers;
     List<PostMember> listPost  = new ArrayList<>();
     List<All_UserMemeber> listFollowMe  = new ArrayList<>();
     List<All_UserMemeber> listIFollow  = new ArrayList<>();
-    RecyclerView.Adapter adapter;RecyclerView.Adapter adapter2;RecyclerView.Adapter adapter3;
+    RecyclerView.Adapter adapter;RecyclerView.Adapter adapter3;
+    All_userAdapter adapter2;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,13 +89,13 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         nbAbonmTv = getActivity().findViewById(R.id.tv_nbAbonm_profile);
         imageView = getActivity().findViewById(R.id.iv_profile_pic);
         nameEt = getActivity().findViewById(R.id.tv_name_profile);
-        profEt = getActivity().findViewById(R.id.tv_prof_profile);
+         profEt = getActivity().findViewById(R.id.tv_prof_profile);
         emailEt = getActivity().findViewById(R.id.tv_email_profle);
         webEt = getActivity().findViewById(R.id.tv_website_profile);
         recyclerView = getActivity().findViewById(R.id.rv_post_profile_fragment);
         recyclerViewAbon = getActivity().findViewById(R.id.rv_abon_profile_fragment);
         recyclerViewAbonm = getActivity().findViewById(R.id.rv_abonm_profile_fragment);
-        recyclerView.setNestedScrollingEnabled(false);
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
@@ -95,6 +110,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         if(user != null){
             postUserRef = database.getReference("All userPost").child(user.getUid());
             reference = database.getReference("All Users").child(user.getUid());
+            Allusers = database.getReference("All Users");
         }
 
         auth = FirebaseAuth.getInstance();
@@ -125,8 +141,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.ib_menu_f1 :
-//                BottomSheetMen bottomSheetMen = new BottomSheetMen();
-//                bottomSheetMen.show(getFragmentManager(),"bottomsheet");
                 imageButtonMenu.setEnabled(false);
                 logout();
                 break;
@@ -137,13 +151,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 startActivity(intent1);
 
                 break;
-            case R.id.et_website_cp :
+            case R.id.tv_website_profile :
                 try {
 
-                    Intent intent2 = new Intent(Intent.ACTION_VIEW);
-                    intent2.setData(Uri.parse(webResult));
-                    startActivity(intent2);
-
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webResult));
+                    startActivity(browserIntent);
                 }catch(Exception e){
                     Toast.makeText(getActivity(),"Ivalid Url",Toast.LENGTH_SHORT).show();
                 }
@@ -184,17 +196,37 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                         recyclerViewAbon.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
                         recyclerViewAbonm.setVisibility(View.GONE);
-                        listFollowMe.clear();
+                        String userId = "";
                         try {
-                            if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
-                                for(DataSnapshot ds :snapshot.getChildren()){
-                                    All_UserMemeber member = ds.getValue(All_UserMemeber.class);
-                                    listFollowMe.add(member);
-                                }
-                                adapter3 = new All_userAdapter(getActivity(), listFollowMe,false);
-                                recyclerViewAbon.setAdapter(adapter3);
+                            GenericTypeIndicator<HashMap<String, Boolean>> to = new
+                                    GenericTypeIndicator<HashMap<String, Boolean>>() {};
+                            HashMap<String, Boolean> model = snapshot.getValue(to);
+                            for(Map.Entry<String, Boolean> entry: model.entrySet()) {
+                                userId = entry.getKey();
+                                break;
                             }
+                            if(!userId.isEmpty()){
+                                Allusers.child(userId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        listFollowMe.clear();
+                                        try {
+                                            All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
+                                            listFollowMe.add(member);
+                                            adapter3 = new All_userAdapter(getActivity().getApplicationContext(), listFollowMe,false);
+                                            recyclerViewAbonm.setAdapter(adapter3);
+                                        }catch (Exception e){}
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+                            }
+
                         }catch (Exception e){}
+
+
                     }
 
                     @Override
@@ -203,25 +235,53 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                     }
                 });
                 break;
+
             case R.id.tv_abonm_profile :
+
                 reference.child("IFollowList").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        infoRvTV.setText("Abonnements");
+                        infoRvTV.setText("Abonnemments");
                         recyclerViewAbon.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         recyclerViewAbonm.setVisibility(View.VISIBLE);
-                        listIFollow.clear();
+                        String userId = "";
                         try {
-                            if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
-                                for(DataSnapshot ds :snapshot.getChildren()){
-                                    All_UserMemeber member = ds.getValue(All_UserMemeber.class);
-                                    listIFollow.add(member);
-                                }
-                                adapter2 = new All_userAdapter(getActivity(), listIFollow,false);
-                                recyclerViewAbonm.setAdapter(adapter2);
+                            GenericTypeIndicator<HashMap<String, Boolean>> to = new
+                                    GenericTypeIndicator<HashMap<String, Boolean>>() {};
+                            HashMap<String, Boolean> model = snapshot.getValue(to);
+                            for(Map.Entry<String, Boolean> entry: model.entrySet()) {
+                                userId = entry.getKey();
+                                break;
                             }
+                            if(!userId.isEmpty()){
+                                Allusers.child(userId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        listIFollow.clear();
+                                        try {
+                                            All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
+
+                                            listIFollow.add(member);
+                                            adapter2 = new All_userAdapter(getActivity().getApplicationContext(), listIFollow,false);
+                                            recyclerViewAbonm.setAdapter(adapter2);
+
+
+                                        }catch (Exception e){}
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+
                         }catch (Exception e){}
+
+
+
                     }
 
                     @Override
