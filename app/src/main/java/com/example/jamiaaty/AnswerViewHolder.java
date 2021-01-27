@@ -2,6 +2,7 @@ package com.example.jamiaaty;
 
 import android.app.Application;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,8 @@ import java.net.URL;
 public class AnswerViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageProfile;
-    TextView nameTv, timeTv, ansTv,upvoteTv,votesNoTv;
+    TextView nameTv, timeTv, ansTv,votesNoTv;
+    ImageButton upvoteTv;
     Application application;
     int votesCountes;
     DatabaseReference reference;
@@ -65,13 +67,13 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.child(answerKey).hasChild(currentUser)){
-                        upvoteTv.setText("VOTES");
+                        upvoteTv.setImageResource(R.drawable.ic_like_comment);
                         votesCountes = (int)snapshot.child(answerKey).getChildrenCount();
-                        votesNoTv.setText(votesCountes+"-VOTES");
+                        votesNoTv.setText(votesCountes+"-J'AIMES");
                     }else {
-                        upvoteTv.setText("UPVOTE");
+                        upvoteTv.setImageResource(R.drawable.ic_dislike_comment);
                         votesCountes = (int)snapshot.child(answerKey).getChildrenCount();
-                        votesNoTv.setText(votesCountes+"-VOTES");
+                        votesNoTv.setText(votesCountes+"-J'AIMES");
                     }
                 }
 

@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -66,6 +68,7 @@ public class ImageActivity extends AppCompatActivity {
                     url = memeber.getUrl();
                     if(!url.isEmpty()){
                         Glide.with(getApplication()).load(url).into(imageView);
+                        delete.setVisibility(View.VISIBLE);
                     }
                     if(url.isEmpty()) delete.setVisibility(View.INVISIBLE);
                     textView.setText(memeber.getName());
@@ -103,8 +106,6 @@ public class ImageActivity extends AppCompatActivity {
 
         if(user != null){
              cuurentUserId = user.getUid();
-
-
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,7 +121,6 @@ public class ImageActivity extends AppCompatActivity {
             btnAppliquer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if(imageUri != null) {
                         progressBar.setVisibility(View.VISIBLE);
                         final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(imageUri));
@@ -160,7 +160,6 @@ public class ImageActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     try {
                         memeber.setUrl("");
-
                         database.getReference("All Users").child(cuurentUserId).setValue(memeber);
                         if(!url.isEmpty()){
                             StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
@@ -178,9 +177,6 @@ public class ImageActivity extends AppCompatActivity {
 
                 }
             });
-
-
-
         }
 
     }
@@ -196,13 +192,16 @@ public class ImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if(requestCode == PICK_IMAGE || requestCode == RESULT_OK || data !=null || data.getData() != null) {
-                imageUri = data.getData();
                 delete.setVisibility(View.VISIBLE);
-//                Picasso.get().load(imageUri).into(imageView);
-                Glide.with(getApplicationContext()).load(imageUri).into(imageView);
+                Toast.makeText(ImageActivity.this,"pick is done",Toast.LENGTH_LONG).show();
+                imageUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                imageView.setImageBitmap(bitmap);
+               // Glide.with(getApplicationContext()).load(imageUri).into(imageView);
 
             }
         }catch (Exception e){
+
             Toast.makeText(getApplicationContext(),"Error" +e.getMessage(),Toast.LENGTH_LONG).show();
             delete.setVisibility(View.INVISIBLE);
 

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
     Boolean fvrtChekcker = false;
     Boolean likecheker = false;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference fvrt_listRef,fvrtref,likeRef,allUserPost,reference;
+    DatabaseReference fvrt_listRef,fvrtref,likeRef,allUserPost,reference,commentRef;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUser ="";
     RecyclerView.Adapter adapter;
@@ -101,7 +102,6 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
             PostMember member = listPost.get(position);
-          holder.setPost(context,member.getName(),member.getUrl(),member.getPostUri(),member.getTime(),member.getUid(),member.getType(),member.getDescription(),member.getTitre());
 
         String description = listPost.get(position).getDescription();
         String type = listPost.get(position).getType();
@@ -112,8 +112,15 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
         String userid = listPost.get(position).getUid();
         String postKey = listPost.get(position).getKey_post();
 
+
+        commentRef = database.getReference("All Comments").child(member.getKey_post());
+
         fvrt_listRef = database.getReference("favouriteList_user").child(member.getUid());
         allUserPost = database.getReference("All userPost").child(member.getUid());
+
+        holder.setPost(context,member.getName(),member.getUrl(),member.getPostUri(),member.getTime(),member.getUid(),member.getType(),member.getDescription(),member.getTitre());
+
+
 
 
         holder.dowlnloadSupport.setOnClickListener(new View.OnClickListener() {
@@ -141,15 +148,18 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
             }
         });
 
+
+
+
         holder.commentbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(context,ReplyActivity.class);
                 intent.putExtra("uid",userid);
                 intent.putExtra("q",description);
                 intent.putExtra("postkey",member.getKey_post());
                 // intent.putExtra("key",privacy);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -200,7 +210,6 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
                 fvrtChekcker = true;
                 fvrtref.addValueEventListener(new ValueEventListener() {
                     PostMember postMember = new PostMember();
-
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (fvrtChekcker.equals(true)) {
@@ -444,7 +453,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewprofile, iv_post;
-        TextView tv_name, tv_desc, tv_likes, tv_comment, tv_time, tv_nameprofile,nameSuppot;
+        TextView tv_name, tv_desc, tv_likes, tv_comment, tv_time, tv_nameprofile,nameSuppot,nbcomment;
         ImageButton likebtn, menuoptions, commentbtn,dowlnloadSupport,favorie,startVideIb;
         DatabaseReference likesref,Allusers,favouriteref;
         ConstraintLayout mainBody ;
@@ -641,8 +650,24 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
             tv_nameprofile = itemView.findViewById(R.id.tv_name_post);
             playerView = itemView.findViewById(R.id.exoplayer_item_post);
             supportLayout.setVisibility(View.GONE);
+            nbcomment = itemView.findViewById(R.id.tv_comment_post);
 
 
+
+            //nombre de  Commentaire
+            commentRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try{
+                        nbcomment.setText((int)snapshot.getChildrenCount()+"");
+                    }catch (Exception e){}
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
             //If the user delete the profile the name will appear is that
             tv_nameprofile.setText(name);

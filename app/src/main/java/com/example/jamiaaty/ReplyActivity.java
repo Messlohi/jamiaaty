@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.jamiaaty.Model.All_UserMemeber;
 import com.example.jamiaaty.Model.AnswerMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -42,13 +43,11 @@ public class ReplyActivity extends AppCompatActivity {
 
 
     String uid,question,post_key,privacy;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference reference ,reference2;
     TextView nametv,questiontv,tvreply;
     RecyclerView recyclerView;
     ImageView imageViewQue,imageViewUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference Allquetions,voteRef;
+    DatabaseReference Allquetions,voteRef,reference,reference2;
     String currentuid="";
     Boolean voted = false;
     String url, name;
@@ -80,12 +79,13 @@ public class ReplyActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             currentuid = user.getUid();
-            Allquetions = database.getReference("All Comments").child(post_key).child("Answer");
+            Allquetions = database.getReference("All Comments").child(post_key);
             voteRef = database.getReference("votes").child(post_key);
 
 
-            reference = db.collection("user").document(uid);
-            reference2 = db.collection("user").document(currentuid);
+
+            reference = database.getReference("All Users").child(uid);
+            reference2 = database.getReference("All Users").child(currentuid);
 
 
         }
@@ -104,6 +104,7 @@ public class ReplyActivity extends AppCompatActivity {
                 submitMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        submitMessage.setEnabled(false);
                         AnswerMember member = new AnswerMember();
                         if(comment.getText().toString().trim().equals("")){
                             return;
@@ -125,14 +126,11 @@ public class ReplyActivity extends AppCompatActivity {
                             member.setUrl(url);
 
 
-                            String id = Allquetions.push().getKey();
-                            Allquetions.child(id).setValue(member);
-                            submitMessage.setEnabled(false);
-                            Toast.makeText(ReplyActivity.this, "Submitted !" , Toast.LENGTH_SHORT).show();
+                            Allquetions.push().setValue(member);
                             bottomSheetDialog.dismiss();
 
                         }else {
-                            Toast.makeText(ReplyActivity.this, "Write an answer First !" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReplyActivity.this, "Commenter!" , Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -154,49 +152,46 @@ public class ReplyActivity extends AppCompatActivity {
 
         //question user reference
         if(!currentuid.equals("")){
-            reference.get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            try {
-                                if(task.getResult().exists()){
-                                  String   url = task.getResult().getString("url");
-                                  String  name = task.getResult().getString("name");
-//                                    Picasso.get().load(url).into(imageViewQue);
-                                    Glide.with(getApplicationContext()).load(url).into(imageViewQue);
-                                    questiontv.setText(question);
-                                    nametv.setText(name);
+          reference.addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                  try {
+                      All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                      String   url = memeber.getUrl();
+                      String  name = memeber.getName();
+                      Glide.with(getApplicationContext()).load(url).into(imageViewQue);
+                      questiontv.setText(question);
+                      nametv.setText(name);
 
+                  }catch (Exception e){}
+              }
 
-                                }
-                            }
-                            catch (Exception e){
-                                Toast.makeText(ReplyActivity.this,"Error Data not found !"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+              @Override
+              public void onCancelled(@NonNull DatabaseError error) {
+
+              }
+          });
+
+            //refrence for the replying user
+            reference2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                         url = memeber.getUrl();
+                         name = memeber.getName();
+                        Glide.with(getApplicationContext()).load(url).into(imageViewUser);
+
+                    }catch (Exception e){}
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
-
-        //refrence for the replying user
-        reference2.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        try {
-                            if(task.getResult().exists()){
-                                url = task.getResult().getString("url");
-                                name = task.getResult().getString("name");
-//                                Picasso.get().load(url).into(imageViewUser);
-                                Glide.with(getApplicationContext()).load(url).into(imageViewUser);
-                            }
-                        }
-                        catch (Exception e){
-                            Toast.makeText(ReplyActivity.this,"Error Data not found !"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
 
         if(!currentuid.equals("")){
             FirebaseRecyclerOptions<AnswerMember> options = new FirebaseRecyclerOptions.Builder<AnswerMember>()
@@ -248,7 +243,6 @@ public class ReplyActivity extends AppCompatActivity {
 
 
                     };
-
 
             recyclerView.setAdapter(firebaseRecyclerAdapter);
             firebaseRecyclerAdapter.startListening();

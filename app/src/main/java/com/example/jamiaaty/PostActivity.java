@@ -28,6 +28,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.jamiaaty.Model.All_UserMemeber;
 import com.example.jamiaaty.Model.PostMember;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,8 +36,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,7 +71,7 @@ public class PostActivity extends AppCompatActivity {
     String url,name;
     StorageReference storageReference;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference db1,db2,db3,db4,userSupport,allUserPost;
+    DatabaseReference db1,db2,db3,db4,userSupport,allUserPost,userRef;
 
     MediaController mediaController;
     String type="text";
@@ -107,12 +111,9 @@ public class PostActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String currentuid = user.getUid();
 
-        db1 = database.getReference("All images").child(currentuid);
-        db2 = database.getReference("All videos").child(currentuid);
-        db4 = database.getReference("All TextPosts").child(currentuid);
         db3 = database.getReference("All posts");
         allUserPost = database.getReference("All userPost").child(currentuid);
-        userSupport = database.getReference("All support").child(currentuid);
+        userRef = database.getReference("All Users").child(currentuid);
 
 
 
@@ -283,31 +284,26 @@ public class PostActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String currentuid = user.getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("user").document(currentuid);
-        documentReference.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                        if (task.getResult().exists()) {
-                            name = task.getResult().getString("name");
-                            url = task.getResult().getString("url");
-                            tv_nameUser.setText(name);
-                            if(!url.equals("")){
-//                                Picasso.get().load(url).into(iv_userProfile);
-                                Glide.with(getApplicationContext()).load(url).into(iv_userProfile);
-                            }
-
-                        } else {
-                            Toast.makeText(PostActivity.this, "Information personnel erreur !", Toast.LENGTH_SHORT).show();
-
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                        name = memeber.getName();
+                        url = memeber.getUrl();
+                        tv_nameUser.setText(name);
+                        if(!url.isEmpty()){
+                            Glide.with(getApplicationContext()).load(url).into(iv_userProfile);
                         }
+                    }catch (Exception e){ Toast.makeText(PostActivity.this, "Information personnel erreur !"+e.getMessage(), Toast.LENGTH_SHORT).show();finish();}
+            }
 
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PostActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
 
     }

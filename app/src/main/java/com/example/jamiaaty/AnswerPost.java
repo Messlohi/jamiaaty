@@ -53,7 +53,7 @@ public class AnswerPost extends AppCompatActivity {
         }else {
             Toast.makeText(getApplicationContext(), "Error",Toast.LENGTH_SHORT).show();
         }
-        AllQuestions = database.getReference("All Questions").child(postKey).child("Answer");
+        AllQuestions = database.getReference("All Comments").child(postKey).child("Answer");
 
         submitAnswer.setOnClickListener(new View.OnClickListener() {
             @Override

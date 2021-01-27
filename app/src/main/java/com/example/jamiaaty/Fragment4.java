@@ -59,7 +59,7 @@ public class Fragment4 extends Fragment {
     ImageView conversationsIb;
     RecyclerView recyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference,likeRef,db1,db2,db4,fvrtref,fvrt_listRef,chatRef,AllUsersRef,AllUserPost;
+    DatabaseReference reference,likeRef,fvrtref,fvrt_listRef,chatRef,AllUsersRef,AllUserPost,commentRef;
     SearchView searchFeild;
     String textToSearch ="";
     Boolean likecheker = false;
@@ -123,6 +123,7 @@ public class Fragment4 extends Fragment {
                     protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull PostMember model) {
 
                         final String postKey = getRef(position).getKey();
+                        commentRef = database.getReference("All Comments").child(postKey);
                         String description = getItem(position).getDescription();
                         String type = getItem(position).getType();
                         String name = getItem(position).getName();
@@ -137,7 +138,21 @@ public class Fragment4 extends Fragment {
 
 
 
+                        //nombre Commentaire
+                        commentRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                try{
 
+                                    holder.nbCommentsTv.setText((int)snapshot.getChildrenCount()+"");
+                                }catch (Exception e){}
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
 
 
                         holder.dowlnloadSupport.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +198,6 @@ public class Fragment4 extends Fragment {
                         });
 
                         holder.likeschecker(postKey);
-
                         holder.likebtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -326,9 +340,6 @@ public class Fragment4 extends Fragment {
         }
         reference = database.getReference("All posts");
         likeRef = database.getReference("post likes");
-        db1 = database.getReference("All images").child(currentUser);
-        db2 = database.getReference("All videos").child(currentUser);
-        db4 = database.getReference("All TextPosts").child(currentUser);
         fvrtref = database.getReference("favourites_in_poste");
         AllUsersRef = database.getReference("All Users");
         AllUserPost = database.getReference("All userPost").child(currentUser);

@@ -54,7 +54,7 @@ import java.util.Locale;
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageViewprofile, iv_post;
-    TextView tv_name, tv_desc, tv_likes, tv_comment, tv_time, tv_nameprofile,nameSuppot;
+    TextView tv_name, tv_desc, tv_likes, tv_comment, tv_time, tv_nameprofile,nameSuppot,nbCommentsTv;
     ImageButton likebtn, menuoptions, commentbtn,dowlnloadSupport,favorie,startVideIb;
     DatabaseReference likesref,Allusers,favouriteref;
     ConstraintLayout mainBody ;
@@ -95,6 +95,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
             tv_time = itemView.findViewById(R.id.tv_time_post);
             tv_nameprofile = itemView.findViewById(R.id.tv_name_post);
             playerView = itemView.findViewById(R.id.exoplayer_item_post);
+             nbCommentsTv = itemView.findViewById(R.id.tv_comment_post);
             supportLayout.setVisibility(View.GONE);
 
 

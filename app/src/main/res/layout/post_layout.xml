@@ -241,12 +241,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="visible">
+
             <TextView
                 android:id="@+id/tv_lkes_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:hint="2"
+                android:hint="0"
                 android:paddingHorizontal="0dp"
                 android:paddingTop="02dp"
                 android:textColor="@color/grey"
@@ -261,12 +262,13 @@
                 android:paddingVertical="5dp"
                 android:paddingLeft="0dp"
                 android:src="@drawable/ic_dislike" />
+
             <TextView
                 android:id="@+id/tv_comment_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:hint="5"
+                android:hint="0"
                 android:textColor="@color/grey"
                 android:textSize="20sp" />
             <ImageButton

@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,16 +50,18 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     ImageView imageView;
     TextView nameEt, profEt, emailEt,webEt;
     ImageButton imageButtonEdit,imageButtonMenu;
-    TextView nbPubTv,nbAbonTv,nbAbonmTv;
+    TextView nbPubTv,nbAbonTv,nbAbonmTv,pubTv,abonTv,abonmTv,infoRvTV;
     View view;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,recyclerViewAbon,recyclerViewAbonm;
     FirebaseAuth auth;
     String webResult="";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postUserRef,reference;
     List<PostMember> listPost  = new ArrayList<>();
-    PostAdapter adapter;
+    List<All_UserMemeber> listFollowMe  = new ArrayList<>();
+    List<All_UserMemeber> listIFollow  = new ArrayList<>();
+    RecyclerView.Adapter adapter;RecyclerView.Adapter adapter2;RecyclerView.Adapter adapter3;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +75,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+        infoRvTV =getActivity().findViewById(R.id.tv_showingInrv);
+        abonmTv = getActivity().findViewById(R.id.tv_abonm_profile);
+        abonTv = getActivity().findViewById(R.id.tv_abon_profile);
+        pubTv = getActivity().findViewById(R.id.tv_publication_profile);
         nbPubTv = getActivity().findViewById(R.id.tv_nbPub_profile);
         nbAbonTv = getActivity().findViewById(R.id.tv_nbAbon_profile);
         nbAbonmTv = getActivity().findViewById(R.id.tv_nbAbonm_profile);
@@ -81,10 +89,18 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         emailEt = getActivity().findViewById(R.id.tv_email_profle);
         webEt = getActivity().findViewById(R.id.tv_website_profile);
         recyclerView = getActivity().findViewById(R.id.rv_post_profile_fragment);
+        recyclerViewAbon = getActivity().findViewById(R.id.rv_abon_profile_fragment);
+        recyclerViewAbonm = getActivity().findViewById(R.id.rv_abonm_profile_fragment);
 
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        recyclerViewAbon.setHasFixedSize(true);
+        recyclerViewAbon.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        recyclerViewAbonm.setHasFixedSize(true);
+        recyclerViewAbonm.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
@@ -103,27 +119,10 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         imageButtonEdit.setOnClickListener(this);
         imageView.setOnClickListener(this);
         webEt.setOnClickListener(this);
+        pubTv.setOnClickListener(this);
+        abonTv.setOnClickListener(this);
+        abonmTv.setOnClickListener(this);
 
-
-
-        postUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
-                    nbPubTv.setText((int)snapshot.getChildrenCount()+"");
-                    for(DataSnapshot ds :snapshot.getChildren()){
-                        PostMember member = ds.getValue(PostMember.class);
-                        listPost.add(member);
-                    }
-                    adapter = new PostAdapter(getActivity(), listPost);
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
 
@@ -161,6 +160,87 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 }
 
                 break;
+            case R.id.tv_publication_profile :
+                postUserRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        infoRvTV.setText("Publication");
+                        recyclerViewAbon.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerViewAbonm.setVisibility(View.GONE);
+                        listPost.clear();
+                        try {
+                            if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                                for(DataSnapshot ds :snapshot.getChildren()){
+                                    PostMember member = ds.getValue(PostMember.class);
+                                    listPost.add(member);
+                                }
+                                adapter = new PostAdapter(getActivity(), listPost);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        }catch (Exception e){}
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+            case R.id.tv_abon_profile :
+                reference.child("FollowMeList").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        infoRvTV.setText("Abonnés");
+                        recyclerViewAbon.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        recyclerViewAbonm.setVisibility(View.GONE);
+                        listFollowMe.clear();
+                        try {
+                            if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                                for(DataSnapshot ds :snapshot.getChildren()){
+                                    All_UserMemeber member = ds.getValue(All_UserMemeber.class);
+                                    listFollowMe.add(member);
+                                }
+                                adapter3 = new All_userAdapter(getActivity(), listFollowMe,false);
+                                recyclerViewAbon.setAdapter(adapter3);
+                            }
+                        }catch (Exception e){}
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+            case R.id.tv_abonm_profile :
+                reference.child("IFollowList").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        infoRvTV.setText("Abonnements");
+                        recyclerViewAbon.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                        recyclerViewAbonm.setVisibility(View.VISIBLE);
+                        listIFollow.clear();
+                        try {
+                            if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                                for(DataSnapshot ds :snapshot.getChildren()){
+                                    All_UserMemeber member = ds.getValue(All_UserMemeber.class);
+                                    listIFollow.add(member);
+                                }
+                                adapter2 = new All_userAdapter(getActivity(), listIFollow,false);
+                                recyclerViewAbonm.setAdapter(adapter2);
+                            }
+                        }catch (Exception e){}
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
 
         }
 
@@ -194,7 +274,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         imageView.setEnabled(true);
         imageButtonMenu.setEnabled(true);
         imageButtonEdit.setEnabled(true);
-
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -250,6 +329,31 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
 
             }
         });
+
+
+        postUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listPost.clear();
+                nbPubTv.setText((int)snapshot.getChildrenCount()+"");
+                try {
+                    if(snapshot.getValue()!=null && snapshot.hasChildren() !=false){
+                        for(DataSnapshot ds :snapshot.getChildren()){
+                            PostMember member = ds.getValue(PostMember.class);
+                            listPost.add(member);
+                        }
+                        adapter = new PostAdapter(getActivity(), listPost);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }catch (Exception e){}
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
     }
