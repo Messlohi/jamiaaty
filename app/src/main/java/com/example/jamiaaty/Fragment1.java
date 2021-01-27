@@ -141,8 +141,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.ib_menu_f1 :
-//                BottomSheetMen bottomSheetMen = new BottomSheetMen();
-//                bottomSheetMen.show(getFragmentManager(),"bottomsheet");
                 imageButtonMenu.setEnabled(false);
                 logout();
                 break;
@@ -153,13 +151,11 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 startActivity(intent1);
 
                 break;
-            case R.id.et_website_cp :
+            case R.id.tv_website_profile :
                 try {
 
-                    Intent intent2 = new Intent(Intent.ACTION_VIEW);
-                    intent2.setData(Uri.parse(webResult));
-                    startActivity(intent2);
-
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webResult));
+                    startActivity(browserIntent);
                 }catch(Exception e){
                     Toast.makeText(getActivity(),"Ivalid Url",Toast.LENGTH_SHORT).show();
                 }
@@ -216,7 +212,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                         listFollowMe.clear();
                                         try {
                                             All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
-                                            Log.d("size",snapshot.toString()+"");
                                             listFollowMe.add(member);
                                             adapter3 = new All_userAdapter(getActivity().getApplicationContext(), listFollowMe,false);
                                             recyclerViewAbonm.setAdapter(adapter3);
@@ -266,7 +261,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                         listIFollow.clear();
                                         try {
                                             All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
-                                            Log.d("size",snapshot.toString()+"");
 
                                             listIFollow.add(member);
                                             adapter2 = new All_userAdapter(getActivity().getApplicationContext(), listIFollow,false);
