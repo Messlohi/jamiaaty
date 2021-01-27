@@ -76,7 +76,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:text="J'AIME"
+                android:textSize="12sp"
+                android:textColor="@color/light_blue"
+                android:clickable="true"
+                android:id="@+id/tv_vote_no"
+                android:padding="4dp"
+                />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,17 +98,7 @@
                 android:padding="4dp"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:text="J'AIME"
-                android:textSize="12sp"
-                android:textColor="@color/light_blue"
-                android:clickable="true"
-                android:id="@+id/tv_vote_no"
-                android:padding="4dp"
-                />
+
 
         </LinearLayout>
 

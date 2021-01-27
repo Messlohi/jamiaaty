@@ -112,7 +112,7 @@ public class SupportCardAdapter extends RecyclerView.Adapter<SupportCardAdapter.
                     Toast.makeText(view.getContext(),  "Téléchargement...", Toast.LENGTH_LONG).show();
                     file_download(supports.get(position).FileLink,supports.get(position).Name);
                 }catch (Exception e){
-                    Toast.makeText(contextAdap, "Erreur de telechargement"+e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(contextAdap, "Erreur de telechargement, le lien est invalide.", Toast.LENGTH_LONG).show();
                 }
             }
         });
