@@ -137,7 +137,36 @@ public class Fragment4 extends Fragment {
 
 
 
+                        Intent intent  = new Intent(getActivity(),ProfileActivity.class);
+                        AllUsersRef.child(userid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        try {
+                                            All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
+                                            intent.putExtra("email",memeber.getEmail());
+                                            intent.putExtra("prof",memeber.getProf());
+                                            intent.putExtra("web",memeber.getWeb());
 
+
+                                        }catch (Exception e){}
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        holder.tv_nameprofile.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                intent.putExtra("name",model.getName());
+                                intent.putExtra("url",model.getUrl());
+                                intent.putExtra("uid",model.getUid());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
                         //nombre Commentaire
                         commentRef.addValueEventListener(new ValueEventListener() {
                             @Override

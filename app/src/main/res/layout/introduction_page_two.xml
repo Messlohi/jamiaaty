@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="Partager vos cours et vos connaissance avec la communauté de UNIVERSité"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,22 +100,6 @@
             android:layout_height="50dp"
 
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tv_skip_page1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Skip"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:clickable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.071"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.957" />
 
 
             <LinearLayout
@@ -124,7 +108,7 @@
                 android:gravity="right"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/tv_suivant_page1"
+                    android:id="@+id/tv_suivant_page2"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="Suivant"

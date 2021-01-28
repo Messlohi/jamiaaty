@@ -1,7 +1,7 @@
 package com.example.jamiaaty.Model;
 
 public class All_UserMemeber {
-    String name  , uid , prof, url,nameTolower;
+    String name=""  , uid="" , prof="", url="",nameTolower="";
     String web ="";
     String email ="";
 

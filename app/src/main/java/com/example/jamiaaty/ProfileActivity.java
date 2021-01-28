@@ -3,6 +3,7 @@ package com.example.jamiaaty;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,7 @@ PostAdapter adapter;
         recyclerView = findViewById(R.id.rv_post_profile);
 //        recyclerView.setNestedScrollingEnabled(false);
 
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -91,6 +93,7 @@ PostAdapter adapter;
                         }
                         adapter = new PostAdapter(ProfileActivity.this, listPost);
                         recyclerView.setAdapter(adapter);
+                        ViewCompat.setNestedScrollingEnabled(recyclerView,false);
                     }
                 }
                 @Override

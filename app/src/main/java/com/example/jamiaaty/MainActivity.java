@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jamiaaty.Home.Module_pack.frag_downloads;
 import com.example.jamiaaty.Home.module_fragments.frag_ModuleList;
+import com.example.jamiaaty.Model.All_UserMemeber;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
         if(user != null){
             currentUser = user.getUid();
+        }
+        Bundle extras = getIntent().getExtras();
+        if(extras !=null){
+            String name = extras.getString("name");
+            All_UserMemeber memeber = new All_UserMemeber();
+            memeber.setName(name.trim());
+            memeber.setNameTolower(name.trim().toLowerCase());
+            memeber.setUid(currentUser);
+            database.getReference("All Users").child(currentUser).setValue(memeber);
         }
 
 

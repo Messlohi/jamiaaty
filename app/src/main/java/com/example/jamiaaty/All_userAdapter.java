@@ -93,13 +93,8 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
         holder.setUser(model.getName(),model.getProf(),model.getUid(),model.getUrl());
 
         String chatKey ="";
-        holder.tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         FollowMeList = database.getReference("All Users").child(model.getUid()).child("FollowMeList");
+
         holder.addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +196,6 @@ public class All_userAdapter extends RecyclerView.Adapter<All_userAdapter.All_us
                     if(snapshot.hasChild(currentUserId)){
                         FollowMeList.child(currentUserId).removeValue();
                         FollowMeCheker = false;
-
                     }else {
                         FollowMeList.child(currentUserId).setValue(true);
                         FollowMeCheker = false;
