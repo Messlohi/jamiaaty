@@ -101,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                         passET.setVisibility(View.VISIBLE);
                         mdpFogotenTv.setVisibility(View.VISIBLE);
                         geustTv.setVisibility(View.VISIBLE);
+                        forgetenTest = false;
+
                     }
 
                 }
@@ -159,6 +161,8 @@ public class LoginActivity extends AppCompatActivity {
                                             passET.setVisibility(View.VISIBLE);
                                             mdpFogotenTv.setVisibility(View.VISIBLE);
                                             geustTv.setVisibility(View.VISIBLE);
+                                            forgetenTest = false;
+
                                         }else {
                                             Toast.makeText(LoginActivity.this,"Erreur parvient!",Toast.LENGTH_LONG).show();
 
