@@ -123,7 +123,7 @@ public class Fragment3 extends Fragment {
     }
 
     private  void searchUsers(String name){
-        allUserRef.orderByChild("nameTolower").startAt(name).endAt(name).addValueEventListener(new ValueEventListener() {
+        allUserRef.orderByChild("nameTolower").startAt(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listeUsers.clear();

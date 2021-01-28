@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -12,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,8 +48,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 //import com.squareup.picasso.Picasso;
 
 public class Fragment1 extends Fragment implements  View.OnClickListener{
@@ -58,14 +63,14 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
     RecyclerView recyclerView,recyclerViewAbon,recyclerViewAbonm;
     FirebaseAuth auth;
     String webResult="";
-
+    ScrollView scrollView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postUserRef,reference,Allusers;
     List<PostMember> listPost  = new ArrayList<>();
     List<All_UserMemeber> listFollowMe  = new ArrayList<>();
     List<All_UserMemeber> listIFollow  = new ArrayList<>();
-    RecyclerView.Adapter adapter;RecyclerView.Adapter adapter3;
-    All_userAdapter adapter2;
+    RecyclerView.Adapter adapter;
+    All_userAdapter adapter2,adapter3;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,11 +106,16 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
+
+
         recyclerViewAbon.setHasFixedSize(true);
         recyclerViewAbon.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
+
+
         recyclerViewAbonm.setHasFixedSize(true);
         recyclerViewAbonm.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
@@ -154,7 +164,6 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 break;
             case R.id.tv_website_profile :
                 try {
-
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webResult));
                     startActivity(browserIntent);
                 }catch(Exception e){
@@ -166,7 +175,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                 postUserRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        infoRvTV.setText("Publication");
+                        infoRvTV.setText("Publications");
                         recyclerViewAbon.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         recyclerViewAbonm.setVisibility(View.GONE);
@@ -202,27 +211,30 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             GenericTypeIndicator<HashMap<String, Boolean>> to = new
                                     GenericTypeIndicator<HashMap<String, Boolean>>() {};
                             HashMap<String, Boolean> model = snapshot.getValue(to);
+                            listFollowMe.clear();
+                            adapter3 = new All_userAdapter(getActivity().getApplicationContext(), listFollowMe,false);
+                            recyclerViewAbon.setAdapter(adapter3);
                             for(Map.Entry<String, Boolean> entry: model.entrySet()) {
                                 userId = entry.getKey();
-                                break;
-                            }
-                            if(!userId.isEmpty()){
-                                Allusers.child(userId).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        listFollowMe.clear();
-                                        try {
-                                            All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
-                                            listFollowMe.add(member);
-                                            adapter3 = new All_userAdapter(getActivity().getApplicationContext(), listFollowMe,false);
-                                            recyclerViewAbonm.setAdapter(adapter3);
-                                        }catch (Exception e){}
-                                    }
+                                if(!userId.isEmpty()){
+                                    Allusers.child(userId).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            try {
+                                                All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
+                                                listFollowMe.add(member);
+                                                listFollowMe = new ArrayList<>(new HashSet<>(listFollowMe));
+                                                adapter3.notifyDataSetChanged();
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                    }
-                                });
+                                            }catch (Exception e){}
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
+                                }
+
                             }
 
                         }catch (Exception e){}
@@ -251,33 +263,32 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             GenericTypeIndicator<HashMap<String, Boolean>> to = new
                                     GenericTypeIndicator<HashMap<String, Boolean>>() {};
                             HashMap<String, Boolean> model = snapshot.getValue(to);
+                            listIFollow.clear();
+                            adapter2 = new All_userAdapter(getActivity().getApplicationContext(), listIFollow,false);
+                            recyclerViewAbonm.setAdapter(adapter2);
                             for(Map.Entry<String, Boolean> entry: model.entrySet()) {
                                 userId = entry.getKey();
-                                break;
+                                if(!userId.isEmpty()){
+                                    Allusers.child(userId).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            try {
+                                                All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
+                                                listIFollow.add(member);
+                                                listIFollow = new ArrayList<>(new HashSet<>(listIFollow));
+                                                adapter2.notifyDataSetChanged();
+                                            }catch (Exception e){}
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                }
                             }
-                            if(!userId.isEmpty()){
-                                Allusers.child(userId).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        listIFollow.clear();
-                                        try {
-                                            All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
 
-                                            listIFollow.add(member);
-                                            adapter2 = new All_userAdapter(getActivity().getApplicationContext(), listIFollow,false);
-                                            recyclerViewAbonm.setAdapter(adapter2);
-
-
-                                        }catch (Exception e){}
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            }
 
                         }catch (Exception e){}
 

@@ -43,7 +43,7 @@
                             android:adjustViewBounds="true"
                             android:background="@drawable/ic_baseline_person_24"
                             android:clickable="true"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitXY" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -144,7 +144,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/ic_baseline_person_24"
                     android:clickable="true"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitXY" />
 
             </androidx.cardview.widget.CardView>
 

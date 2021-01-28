@@ -114,8 +114,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
 
 
         commentRef = database.getReference("All Comments").child(member.getKey_post());
-
-        fvrt_listRef = database.getReference("favouriteList_user").child(member.getUid());
+        fvrt_listRef = database.getReference("favouriteList_user").child(currentUser);
         allUserPost = database.getReference("All userPost").child(member.getUid());
 
         holder.setPost(context,member.getName(),member.getUrl(),member.getPostUri(),member.getTime(),member.getUid(),member.getType(),member.getDescription(),member.getTitre());
@@ -803,11 +802,10 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
             favouriteref = database.getReference("favourites_in_poste");
             FirebaseUser user   = FirebaseAuth.getInstance().getCurrentUser();
             if(user != null){
-                String uid = user.getUid();
                 favouriteref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.child(postKey).hasChild(uid)){
+                        if(snapshot.child(postKey).hasChild(user.getUid())){
                             favorie.setImageResource(R.drawable.ic_baseline_turned_in_24);
                         }else {
                             favorie.setImageResource(R.drawable.ic_baseline_turned_in_not_24);

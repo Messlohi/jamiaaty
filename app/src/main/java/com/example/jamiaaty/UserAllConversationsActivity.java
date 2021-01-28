@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class UserAllConversationsActivity extends AppCompatActivity  {
@@ -62,9 +63,10 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
                                 All_UserMemeber memeber = snapshot.getValue(All_UserMemeber.class);
-                                if(!listeUsers.contains(memeber)){
                                     listeUsers.add(memeber);
-                                }
+                                    listeUsers = new ArrayList<>(new HashSet<>(listeUsers));
+                                    adapter.notifyDataSetChanged();
+                                /*
                                 allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -80,6 +82,7 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
 
                                     }
                                 });
+                                */
 
                             }catch (Exception e){
 

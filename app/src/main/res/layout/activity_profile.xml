@@ -7,9 +7,8 @@
     android:fillViewport="true"
     tools:context=".ProfileActivity"
     >
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:scrollbars="vertical"
@@ -143,7 +142,7 @@
                 android:paddingHorizontal="5dp">
 
                 <TextView
-                    android:id="@+id/tv_tssimee_post"
+                    android:id="@+id/tv_nbPub_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -156,13 +155,12 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_nbPub_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:hint="Publication"
+                    android:hint="Publications"
                     android:paddingStart="2dp"
                     android:textColor="@color/grey"
                     android:textSize="15sp" />
@@ -256,7 +254,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Posts"
+            android:text="Publications"
 
             android:textSize="18sp"
             android:layout_marginLeft="5dp"

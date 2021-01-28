@@ -316,6 +316,10 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void Dopost(){
+        if(type.equals("text") && postBody.getText().toString().trim().equals("")) {
+            Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
+            return;
+        }
         btnuploadfile.setEnabled(false);
         postmember = new PostMember();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -336,12 +340,6 @@ public class PostActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 return;
             }
-            if(type.equals("text") && postBody.getText().toString().trim().equals("")) {
-                Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
             StorageReference ref =  FirebaseStorage.getInstance().getReference("Support Users");
             final StorageReference reference = ref.child(System.currentTimeMillis() + "." + getFileExtention(supportUri));
             UploadTask uploadTask2 = reference.putFile(supportUri);
@@ -358,6 +356,8 @@ public class PostActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    btnuploadfile.setEnabled(true);
                     return;
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -386,7 +386,7 @@ public class PostActivity extends AppCompatActivity {
                        db3.child(postKey).setValue(postmember);
 
                        progressBar.setVisibility(View.INVISIBLE);
-                       Toast.makeText(PostActivity.this, "Post uploaded", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
                        finish();
                    }
                 }
@@ -436,7 +436,7 @@ public class PostActivity extends AppCompatActivity {
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(PostActivity.this, "Post uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
                             finish();
                         }else if (type.equals("vv")){
 
@@ -460,7 +460,7 @@ public class PostActivity extends AppCompatActivity {
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(PostActivity.this, "Post Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
                             finish();
 
                         }else {
@@ -502,7 +502,7 @@ public class PostActivity extends AppCompatActivity {
             db3.child(postKey).setValue(postmember);
 
             progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(PostActivity.this, "Post téléversé", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
             finish();
 
         }
