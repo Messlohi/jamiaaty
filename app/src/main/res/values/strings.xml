@@ -25,4 +25,15 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_module">activity_module</string>
+
+
+    <string name="ob_header1">Cours en ligne</string>
+    <string name="ob_header2">Partager vos connaissances</string>
+    <string name="ob_header3">Réseau social</string>
+
+    <string name="ob_get_started">Rejoins nous</string>
+
+    <string name="ob_desc1">Profitez d\'une base données énorme des cours, TDs, Examens.. Et totalment gratuite.</string>
+    <string name="ob_desc2">Partagez vos cours et vos connaissance avec la communauté UNIVERSité.</string>
+    <string name="ob_desc3">Rejoignez un réseau social qui rassemble les apprenants et les enseignants.</string>
 </resources>

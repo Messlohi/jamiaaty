@@ -52,7 +52,7 @@ PostAdapter adapter;
         profTV = findViewById(R.id.tv_prof_profile);
         userIv = findViewById(R.id.iv_profile_user);
         recyclerView = findViewById(R.id.rv_post_profile);
-        recyclerView.setNestedScrollingEnabled(false);
+//        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
