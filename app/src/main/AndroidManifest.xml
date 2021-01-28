@@ -20,9 +20,7 @@
         android:roundIcon="@drawable/graduate_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jamiaaty">
-        <activity android:name=".onboarding.ac_onboarding_screen">
-
-        </activity>
+        <activity android:name=".onboarding.ac_onboarding_screen" > </activity>
         <activity android:name=".ProfileActivity" />
 
         <service
@@ -36,38 +34,38 @@
         <activity
             android:name=".Home.Module_pack.module_supports"
             android:label="@string/title_activity_module"
-            android:theme="@style/Theme.MyApplication.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty"/>
         <activity
             android:name=".ChatActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".PostActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".ReplyActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".RelatedPostsActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".ImageActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".UpdateProfile"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty"/>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.Jamiaaty"/>
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.Jamiaaty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/purple_200"
+    android:background="@drawable/login_background"
     tools:context=".LoginActivity">
 
     <TextView
@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:layout_height="52dp"
+        android:layout_height="47dp"
         android:hint="Email"
         android:textColorHint="@color/grey"
         android:drawableStart="@drawable/ic_email_grey"
@@ -37,7 +37,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:layout_height="52dp"
+        android:layout_height="47dp"
         android:hint="Mot de passe"
         android:textColorHint="@color/grey"
         android:drawableStart="@drawable/custom_password_input"
@@ -62,24 +62,24 @@
     <Button
         android:id="@+id/button_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_margin="10dp"
         android:background="@drawable/custom_input"
         android:text="se connecter"
         android:textAllCaps="false"
         android:textColor="@color/purple_500"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/login_to_signup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_margin="10dp"
         android:background="@drawable/custom_input"
         android:text="s'inscrire"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

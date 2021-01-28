@@ -1,12 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <EditText
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+    <TextView
+        android:id="@+id/err_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="require Login"
-        android:textSize="75dp" />
-        android:textSize="75dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:paddingLeft="@dimen/ob_desc_padding"
+        android:paddingRight="@dimen/ob_desc_padding"
+        android:text="Vous êtes pas connecté !"
+        android:textAllCaps="true"
+        android:textColor="#009688"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="22sp"
+        />
+    <ImageView
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:id="@+id/iv_onboard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ob_banner_height"
+        android:gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_not_connected" />
+
+    <RelativeLayout
+        android:layout_below="@+id/iv_onboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_marginLeft="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/ob_desc_padding"
+                android:paddingRight="@dimen/ob_desc_padding"
+                android:text="Veuillez se connecter"
+                android:textAllCaps="false"
+                android:textColor="@color/ob_header"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_connect"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/ob_desc_padding"
+                android:paddingRight="@dimen/ob_desc_padding"
+                android:text="Se connecter"
+                android:textColor="@color/appcolor"
+                android:background="@drawable/back_tabs"
+                android:textSize="@dimen/ob_desc_text_size" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

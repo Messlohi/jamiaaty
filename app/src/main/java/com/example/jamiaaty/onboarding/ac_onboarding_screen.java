@@ -3,49 +3,32 @@ package com.example.jamiaaty.onboarding;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.example.jamiaaty.LoginActivity;
 import com.example.jamiaaty.R;
-import com.example.jamiaaty.SplashScreen;
-
 import java.util.ArrayList;
 
 public class ac_onboarding_screen extends AppCompatActivity {
-
-
-
     private LinearLayout pager_indicator;
     private int dotsCount;
     private ImageView[] dots;
-
-
-
     private ViewPager onboard_pager;
-
     private OnBoard_Adapter mAdapter;
-
     private Button btn_get_started;
-
     int previous_pos=0;
-
-
     ArrayList<OnBoardItem> onBoardItems=new ArrayList<>();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_onboarding_screen);
 
 

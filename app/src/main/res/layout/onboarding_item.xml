@@ -15,7 +15,7 @@
         android:layout_height="@dimen/ob_banner_height"
         android:gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/no_internet" />
+        android:src="@drawable/ic_knowledge_bro" />
 
     <RelativeLayout
         android:layout_below="@+id/iv_onboard"

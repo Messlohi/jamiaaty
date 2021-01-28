@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.4"
+                android:layout_weight="2"
                 android:padding="2dp"
                 >
                 <androidx.cardview.widget.CardView
@@ -54,7 +54,7 @@
                 android:textColor="@android:color/black"
                 android:text="Name"
                 android:paddingStart="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:layout_marginTop="0dp"
                 android:textSize="14sp"/>
 
@@ -64,8 +64,8 @@
                 android:id="@+id/tv_time_ans"
                 android:textColor="@color/light_grey"
                 android:textAlignment="viewEnd"
-                android:text="Time"
-                android:layout_weight="1.5"
+                android:text="12-12-2021 à 20:12:14"
+                android:layout_weight="1.4"
                 android:paddingStart="10dp"
                 android:textSize="8sp"/>
         </LinearLayout>
