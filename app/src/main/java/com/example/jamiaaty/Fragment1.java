@@ -81,10 +81,10 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         return  view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
 
 
         infoRvTV =getActivity().findViewById(R.id.tv_showingInrv);
@@ -104,24 +104,10 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         recyclerViewAbonm = getActivity().findViewById(R.id.rv_abonm_profile_fragment);
 
 
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.d("status","X"+oldScrollX+" Y:"+oldScrollY);
-            }
-        });
 
-
-//        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                Log.d("status","X"+oldScrollX+" Y:"+oldScrollY);
-//
-//            }
-//        });
-//
 
 
         recyclerViewAbon.setHasFixedSize(true);

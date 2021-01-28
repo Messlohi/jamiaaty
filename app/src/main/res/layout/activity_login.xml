@@ -12,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Connexion"
+        android:id="@+id/tv_mainLabel"
         android:fontFamily="@font/roboto"
         android:layout_marginBottom="40dp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="45sp" />
+        android:textSize="40sp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -49,15 +50,24 @@
         android:paddingLeft="10dp"
         android:background="@drawable/custom_input"
         />
-    <CheckBox
-        android:layout_width="match_parent"
+
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_margin="10dp"
+            android:id="@+id/login_checkbox"
+            android:buttonTint="@android:color/white"
+            android:text="Afficher mot de passe"
+            android:textColor="@android:color/white" />
+     <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_margin="10dp"
-        android:id="@+id/login_checkbox"
-        android:buttonTint="@android:color/white"
-        android:text="Afficher mot de passe"
-        android:textColor="@android:color/white" />
+         android:id="@+id/tv_mdpForgoten_login"
+        android:text="Mot de passe oublier?"/>
+
+
 
     <Button
         android:id="@+id/button_login"
