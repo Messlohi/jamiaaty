@@ -295,7 +295,11 @@ public class PostActivity extends AppCompatActivity {
                         if(!url.isEmpty()){
                             Glide.with(getApplicationContext()).load(url).into(iv_userProfile);
                         }
-                    }catch (Exception e){ Toast.makeText(PostActivity.this, "Information personnel erreur !"+e.getMessage(), Toast.LENGTH_SHORT).show();finish();}
+                    }catch (Exception e){
+                        Toast.makeText(PostActivity.this, "Informations personnelles incompletes !"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+
+                    }
             }
 
             @Override
@@ -317,7 +321,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void Dopost(){
         if(type.equals("text") && postBody.getText().toString().trim().equals("")) {
-            Toast.makeText(getApplication(),"Remplire le champ !",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(),"Remplir le champ !",Toast.LENGTH_SHORT).show();
             return;
         }
         btnuploadfile.setEnabled(false);
@@ -335,7 +339,7 @@ public class PostActivity extends AppCompatActivity {
         if(type.equals("support")){
             progressBar.setVisibility(View.VISIBLE);
             if(titreSupport.getText().toString().equals("")){
-                Toast.makeText(PostActivity.this, "Sasie un titre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostActivity.this, "Veuillez saisir un titre", Toast.LENGTH_SHORT).show();
                 btnuploadfile.setEnabled(true);
                 progressBar.setVisibility(View.GONE);
                 return;
@@ -386,7 +390,7 @@ public class PostActivity extends AppCompatActivity {
                        db3.child(postKey).setValue(postmember);
 
                        progressBar.setVisibility(View.INVISIBLE);
-                       Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(PostActivity.this, "Post Publié !", Toast.LENGTH_SHORT).show();
                        finish();
                    }
                 }
@@ -436,7 +440,7 @@ public class PostActivity extends AppCompatActivity {
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostActivity.this, "Post Publié !", Toast.LENGTH_SHORT).show();
                             finish();
                         }else if (type.equals("vv")){
 
@@ -460,7 +464,7 @@ public class PostActivity extends AppCompatActivity {
                             db3.child(postKey).setValue(postmember);
 
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostActivity.this, "Post Publié !", Toast.LENGTH_SHORT).show();
                             finish();
 
                         }else {
@@ -502,7 +506,7 @@ public class PostActivity extends AppCompatActivity {
             db3.child(postKey).setValue(postmember);
 
             progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(PostActivity.this, "Bien Publier !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostActivity.this, "Post Publié !", Toast.LENGTH_SHORT).show();
             finish();
 
         }

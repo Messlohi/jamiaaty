@@ -193,7 +193,7 @@ public class ImageActivity extends AppCompatActivity {
         try {
             if(requestCode == PICK_IMAGE || requestCode == RESULT_OK || data !=null || data.getData() != null) {
                 delete.setVisibility(View.VISIBLE);
-                Toast.makeText(ImageActivity.this,"pick is done",Toast.LENGTH_LONG).show();
+//                Toast.makeText(ImageActivity.this,"pick is done",Toast.LENGTH_LONG).show();
                 imageUri = data.getData();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 imageView.setImageBitmap(bitmap);

@@ -33,8 +33,7 @@
         <activity android:name=".Home.Support_pack.view_pdf_support" />
         <activity
             android:name=".Home.Module_pack.module_supports"
-            android:label="@string/title_activity_module"
-            android:theme="@style/Theme.Jamiaaty"/>
+            android:label="@string/title_activity_module" />
         <activity
             android:name=".ChatActivity"
             android:theme="@style/Theme.Jamiaaty" />

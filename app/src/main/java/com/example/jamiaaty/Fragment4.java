@@ -539,7 +539,7 @@ public class Fragment4 extends Fragment {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getActivity(),"Post Supprimer",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"Post Supprimé",Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

@@ -339,7 +339,7 @@ public class RelatedPostsActivity extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(),"Post Supprimer",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"Post Supprimé",Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

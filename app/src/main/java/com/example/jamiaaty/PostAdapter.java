@@ -353,7 +353,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.PostViewHolde
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(context,"Post Supprimer",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"Post Supprimé",Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
