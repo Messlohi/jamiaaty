@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailEt, passET,confirm_pass;
+    EditText emailEt, passET,confirm_pass,fullName;
     Button register_btn,login_btn ;
     CheckBox checkBox;
     ProgressBar progressBar;
@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.register_checkbox);
         progressBar = findViewById(R.id.progrssbar_register);
         login_btn = findViewById(R.id.signup_to_login);
+        fullName = findViewById(R.id.full_name_register);
         mAuth = FirebaseAuth.getInstance();
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -60,10 +61,13 @@ public class RegisterActivity extends AppCompatActivity {
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(fullName.getText().toString().isEmpty()){
+                    Toast.makeText(RegisterActivity.this,"Sasie Votre Nom!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String email = emailEt.getText().toString();
                 String pass = passET.getText().toString();
                 String confirm_password = confirm_pass.getText().toString();
-
                 if(!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(confirm_password) ||!TextUtils.isEmpty(pass) ){
                     if(pass.equals(confirm_password)){
 
@@ -84,12 +88,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }else {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(RegisterActivity.this,"Passwords are not matched !",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this,"Mot de passe ne correspond pas!",Toast.LENGTH_SHORT).show();
 
                     }
 
                 }else {
-                    Toast.makeText(RegisterActivity.this,"Please Fill all the blanks",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Veuillez remplir tous les champs !",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -110,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void sendToMain() {
         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        intent.putExtra("name",fullName.getText().toString().trim());
         startActivity(intent);
         finish();
     }

@@ -1,6 +1,7 @@
 package com.example.jamiaaty;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +36,50 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("intialConfig",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String value = sharedPreferences.getString("firstTime",null);
+        if(value == null){
+            editor.putString("firstTime","true");
+            editor.commit();
+        }
+        if(sharedPreferences.getString("firstTime","false").equals("true")){
+            mAuth = FirebaseAuth.getInstance();
+            setContentView(R.layout.introduction_page_one);
+            TextView suivant1 = findViewById(R.id.tv_suivant_page1);
+            suivant1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setContentView(R.layout.introduction_page_two);
+                    TextView suivant2 = findViewById(R.id.tv_suivant_page2);
+                    suivant2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setContentView(R.layout.introduction_page_tree);
+                            TextView suivant3 = findViewById(R.id.tv_suivant_page3);
+                            suivant3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    loginIntial();
+                                    editor.putString("firstTime","false");
+                                    editor.commit();
+                                }
+                            });
+
+                        }
+                    });
+                }
+            });
+
+        }else{
+            loginIntial();
+        }
+
+    }
+
+    private  void loginIntial(){
         setContentView(R.layout.activity_login);
-
-
         emailEt = findViewById(R.id.login_email_et);
         passET = findViewById(R.id.login_password_et);
         register_btn = findViewById(R.id.login_to_signup);
@@ -83,27 +126,30 @@ public class LoginActivity extends AppCompatActivity {
                 String pass = passET.getText().toString();
 
                 if(!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(pass) ){
-                        progressBar.setVisibility(View.VISIBLE);
-                        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    sendToMain();
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                }else {
-                                    String error = task.getException().getMessage();
-                                    Toast.makeText(LoginActivity.this, "Error "+error, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.VISIBLE);
+                    mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                sendToMain();
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }else {
+                                String error = task.getException().getMessage();
+                                Toast.makeText(LoginActivity.this, "Error "+error, Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
 
-                                }
+
                             }
-                        });
+                        }
+                    });
 
                 }else {
                     Toast.makeText(LoginActivity.this,"Please Fill all the blanks",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
-
 
     }
 

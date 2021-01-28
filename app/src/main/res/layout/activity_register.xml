@@ -24,7 +24,7 @@
         android:textColorHint="@color/grey"
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="5dp"
-        android:id="@+id/full_name"
+        android:id="@+id/full_name_register"
         android:inputType="textEmailAddress"
         android:paddingStart="10dp"
         android:textColor="@color/grey"

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -80,6 +81,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         return  view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -101,11 +103,25 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
         recyclerViewAbon = getActivity().findViewById(R.id.rv_abon_profile_fragment);
         recyclerViewAbonm = getActivity().findViewById(R.id.rv_abonm_profile_fragment);
 
-        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                Log.d("status","X"+oldScrollX+" Y:"+oldScrollY);
+            }
+        });
 
+
+//        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.d("status","X"+oldScrollX+" Y:"+oldScrollY);
+//
+//            }
+//        });
+//
 
 
         recyclerViewAbon.setHasFixedSize(true);
@@ -188,6 +204,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                 }
                                 adapter = new PostAdapter(getActivity(), listPost);
                                 recyclerView.setAdapter(adapter);
+                                ViewCompat.setNestedScrollingEnabled(recyclerView,false);
                             }
                         }catch (Exception e){}
 
@@ -214,6 +231,8 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             listFollowMe.clear();
                             adapter3 = new All_userAdapter(getActivity().getApplicationContext(), listFollowMe,false);
                             recyclerViewAbon.setAdapter(adapter3);
+                            ViewCompat.setNestedScrollingEnabled(recyclerViewAbon,false);
+
                             for(Map.Entry<String, Boolean> entry: model.entrySet()) {
                                 userId = entry.getKey();
                                 if(!userId.isEmpty()){
@@ -266,6 +285,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                             listIFollow.clear();
                             adapter2 = new All_userAdapter(getActivity().getApplicationContext(), listIFollow,false);
                             recyclerViewAbonm.setAdapter(adapter2);
+                            ViewCompat.setNestedScrollingEnabled(recyclerViewAbonm,false);
                             for(Map.Entry<String, Boolean> entry: model.entrySet()) {
                                 userId = entry.getKey();
                                 if(!userId.isEmpty()){
