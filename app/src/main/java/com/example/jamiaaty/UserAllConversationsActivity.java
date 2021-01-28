@@ -66,7 +66,7 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
                                     listeUsers.add(memeber);
                                     listeUsers = new ArrayList<>(new HashSet<>(listeUsers));
                                     adapter.notifyDataSetChanged();
-                                /*
+
                                 allUserRef.child(currentUserId).child("chatKeys").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -82,7 +82,6 @@ public class UserAllConversationsActivity extends AppCompatActivity  {
 
                                     }
                                 });
-                                */
 
                             }catch (Exception e){
 
