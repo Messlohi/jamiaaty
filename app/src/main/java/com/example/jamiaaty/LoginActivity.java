@@ -37,119 +37,77 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("intialConfig",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String value = sharedPreferences.getString("firstTime",null);
-        if(value == null){
-            editor.putString("firstTime","true");
-            editor.commit();
-        }
-        if(sharedPreferences.getString("firstTime","false").equals("true")){
+            setContentView(R.layout.activity_login);
+            emailEt = findViewById(R.id.login_email_et);
+            passET = findViewById(R.id.login_password_et);
+            register_btn = findViewById(R.id.login_to_signup);
+            checkBox = findViewById(R.id.login_checkbox);
+            progressBar = findViewById(R.id.progrssbar_login);
+            login_btn = findViewById(R.id.button_login);
             mAuth = FirebaseAuth.getInstance();
-            setContentView(R.layout.introduction_page_one);
-            TextView suivant1 = findViewById(R.id.tv_suivant_page1);
-            suivant1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setContentView(R.layout.introduction_page_two);
-                    TextView suivant2 = findViewById(R.id.tv_suivant_page2);
-                    suivant2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            setContentView(R.layout.introduction_page_tree);
-                            TextView suivant3 = findViewById(R.id.tv_suivant_page3);
-                            suivant3.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    loginIntial();
-                                    editor.putString("firstTime","false");
-                                    editor.commit();
-                                }
-                            });
+            geustTv = findViewById(R.id.asgeust_tv);
 
-                        }
-                    });
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        passET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    }else {
+                        passET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    }
                 }
             });
 
-        }else{
-            loginIntial();
-        }
+            geustTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoginActivity.this,GeustMainActivity.class);
+                    startActivity(intent);
 
-    }
-
-    private  void loginIntial(){
-        setContentView(R.layout.activity_login);
-        emailEt = findViewById(R.id.login_email_et);
-        passET = findViewById(R.id.login_password_et);
-        register_btn = findViewById(R.id.login_to_signup);
-        checkBox = findViewById(R.id.login_checkbox);
-        progressBar = findViewById(R.id.progrssbar_login);
-        login_btn = findViewById(R.id.button_login);
-        mAuth = FirebaseAuth.getInstance();
-        geustTv = findViewById(R.id.asgeust_tv);
-
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    passET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else {
-                    passET.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
-            }
-        });
+            });
 
-        geustTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,GeustMainActivity.class);
-                startActivity(intent);
+            register_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
 
-            }
-        });
+            login_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String email = emailEt.getText().toString();
+                    String pass = passET.getText().toString();
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailEt.getText().toString();
-                String pass = passET.getText().toString();
-
-                if(!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(pass) ){
-                    progressBar.setVisibility(View.VISIBLE);
-                    mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                sendToMain();
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }else {
-                                String error = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this, "Error "+error, Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.INVISIBLE);
+                    if(!TextUtils.isEmpty(email) ||!TextUtils.isEmpty(pass) ){
+                        progressBar.setVisibility(View.VISIBLE);
+                        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    sendToMain();
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                }else {
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(LoginActivity.this, "Error "+error, Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
 
 
+                                }
                             }
-                        }
-                    });
+                        });
 
-                }else {
-                    Toast.makeText(LoginActivity.this,"Please Fill all the blanks",Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    }else {
+                        Toast.makeText(LoginActivity.this,"Please Fill all the blanks",Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
 
+                    }
                 }
-            }
-        });
+            });
+
 
     }
 
