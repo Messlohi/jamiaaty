@@ -3,14 +3,17 @@ package com.example.jamiaaty;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jamiaaty.onboarding.ac_onboarding_screen;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -52,9 +55,25 @@ public class SplashScreen extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else {
-                        Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                            SharedPreferences sharedPreferences = getSharedPreferences("intialConfig",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            String value = sharedPreferences.getString("firstTime",null);
+                            if(value == null) {
+                                editor.putString("firstTime","true");
+                                editor.commit();
+//                                Toast.makeText(this, "editor.putString(\"firstTime\",\"true\"); "+value, Toast.LENGTH_SHORT).show();
+                            }
+                            if(!sharedPreferences.getString("firstTime","false").equals("true")) {
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                finish();
+                            }else {
+                                editor.putString("firstTime","false");
+                                editor.commit();
+                                Intent intent = new Intent(SplashScreen.this, ac_onboarding_screen.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
                     }
 
                 }

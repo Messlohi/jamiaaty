@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -46,20 +47,6 @@ public class ac_onboarding_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_screen);
-
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
-
-        if (isFirstRun) {
-            //show start activity
-            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            Toast.makeText(getApplicationContext(), "First Run "+isFirstRun, Toast.LENGTH_LONG)   .show();
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
-            finish();
-        }else  Toast.makeText(getApplicationContext(), "second Run"+isFirstRun, Toast.LENGTH_LONG)   .show();
-
-
-
 
 
         btn_get_started = (Button) findViewById(R.id.btn_get_started);
@@ -126,7 +113,7 @@ public class ac_onboarding_screen extends AppCompatActivity {
 
         int[] header = {R.string.ob_header1, R.string.ob_header2, R.string.ob_header3};
         int[] desc = {R.string.ob_desc1, R.string.ob_desc2, R.string.ob_desc3};
-        int[] imageId = {R.drawable.ic_knowledge_bro, R.drawable.ic_files_sent_intro, R.drawable.no_internet};
+        int[] imageId = {R.drawable.ic_knowledge_bro, R.drawable.ic_files_sent_intro, R.drawable.ic_online_world_pana};
 
         for(int i=0;i<imageId.length;i++)
         {
