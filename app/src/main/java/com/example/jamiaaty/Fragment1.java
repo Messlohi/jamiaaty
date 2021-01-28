@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 //import com.squareup.picasso.Picasso;
 
@@ -228,8 +229,21 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                             try {
                                                 All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
                                                 listFollowMe.add(member);
-                                                listFollowMe = new ArrayList<>(new HashSet<>(listFollowMe));
                                                 adapter3.notifyDataSetChanged();
+                                                reference.child("FollowMeList").addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        if((int)snapshot.getChildrenCount()<listFollowMe.size()){
+                                                            listFollowMe.remove(listFollowMe.size()-1);
+                                                        }
+                                                        adapter3.notifyDataSetChanged();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
 
                                             }catch (Exception e){}
                                         }
@@ -281,8 +295,22 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                             try {
                                                 All_UserMemeber member = snapshot.getValue(All_UserMemeber.class);
                                                 listIFollow.add(member);
-                                                listIFollow = new ArrayList<>(new HashSet<>(listIFollow));
                                                 adapter2.notifyDataSetChanged();
+                                                reference.child("IFollowList").addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        if((int)snapshot.getChildrenCount()<listIFollow.size()){
+                                                            listIFollow.remove(listIFollow.size()-1);
+                                                        }
+                                                        adapter2.notifyDataSetChanged();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
                                             }catch (Exception e){}
                                         }
 
@@ -293,6 +321,7 @@ public class Fragment1 extends Fragment implements  View.OnClickListener{
                                     });
 
                                 }
+
                             }
 
 
